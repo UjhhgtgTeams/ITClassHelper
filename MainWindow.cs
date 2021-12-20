@@ -241,13 +241,16 @@ pass {get / set} :
                 IntPtr studentWindow = FindWindow(null, "屏幕演播室窗口");
                 if (MousePosition == new Point(0, 0))
                 {
-                    CloseApp();
+                    if (MouseActionCloseRadio.Checked == true) CloseApp();
+                    else
+                    {
+                        MoveWindow(studentWindow, 0, 0, 0, 0, true);
+                        Thread.Sleep(int.Parse(ProgramHideTextBox.Text) * 1000);
+                        MoveWindow(studentWindow, 0, 0, ScreenX, ScreenY, true);
+                    }
                 }
                 if (MousePosition == new Point(0, ScreenY))
                 {
-                    MoveWindow(studentWindow, 0, 0, 0, 0, true);
-                    Thread.Sleep(int.Parse(ProgramHideTextBox.Text)*1000);
-                    MoveWindow(studentWindow, 0, 0, ScreenX, ScreenY, true);
                 }
                 if (studentWindow != IntPtr.Zero)
                 {
@@ -257,11 +260,13 @@ pass {get / set} :
                 Process[] studentProc = Process.GetProcessesByName("StudentMain");
                 if (studentProc.Length == 0)
                 {
-                    AppStatusButton.Text = "未在运行";
+                    AppStatusLabel.Text = "未在运行";
+                    AppStatusLabel.ForeColor = Color.Green;
                 }
                 else
                 {
-                    AppStatusButton.Text = "正在运行";
+                    AppStatusLabel.Text = "正在运行";
+                    AppStatusLabel.ForeColor = Color.Red;
                 }
                 Thread.Sleep(1000);
             }
