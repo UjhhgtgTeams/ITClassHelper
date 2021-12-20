@@ -39,9 +39,13 @@
             this.TabControl = new System.Windows.Forms.TabControl();
             this.MainTab = new System.Windows.Forms.TabPage();
             this.AppStatusGroup = new System.Windows.Forms.GroupBox();
+            this.AppStatusLabel = new System.Windows.Forms.Label();
             this.AppStatusButton = new System.Windows.Forms.Button();
             this.HideProgramButton = new System.Windows.Forms.Button();
             this.SettingsTab = new System.Windows.Forms.TabPage();
+            this.MouseActionHideRadio = new System.Windows.Forms.RadioButton();
+            this.MouseActionCloseRadio = new System.Windows.Forms.RadioButton();
+            this.MouseActionLabel = new System.Windows.Forms.Label();
             this.UpdateAppButton = new System.Windows.Forms.Button();
             this.ProgramHideLabel2 = new System.Windows.Forms.Label();
             this.ProgramHideTextBox = new System.Windows.Forms.TextBox();
@@ -55,6 +59,7 @@
             this.AppPathLabel = new System.Windows.Forms.Label();
             this.AttackTab = new System.Windows.Forms.TabPage();
             this.ProgramUsingGroup = new System.Windows.Forms.GroupBox();
+            this.InstallPythonLinkLabel = new System.Windows.Forms.LinkLabel();
             this.AttackLabel = new System.Windows.Forms.Label();
             this.IPButton = new System.Windows.Forms.Button();
             this.AttackButton = new System.Windows.Forms.Button();
@@ -80,10 +85,6 @@
             this.CloseAppMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RecoverAppMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ExitProgramMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.MouseActionLabel = new System.Windows.Forms.Label();
-            this.MouseActionCloseRadio = new System.Windows.Forms.RadioButton();
-            this.MouseActionHideRadio = new System.Windows.Forms.RadioButton();
-            this.AppStatusLabel = new System.Windows.Forms.Label();
             this.AppControlGroup.SuspendLayout();
             this.TabControl.SuspendLayout();
             this.MainTab.SuspendLayout();
@@ -213,6 +214,16 @@
             this.AppStatusGroup.TabStop = false;
             this.AppStatusGroup.Text = "程序状态";
             // 
+            // AppStatusLabel
+            // 
+            this.AppStatusLabel.AutoSize = true;
+            this.AppStatusLabel.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.AppStatusLabel.Location = new System.Drawing.Point(150, 41);
+            this.AppStatusLabel.Name = "AppStatusLabel";
+            this.AppStatusLabel.Size = new System.Drawing.Size(78, 23);
+            this.AppStatusLabel.TabIndex = 7;
+            this.AppStatusLabel.Text = "状态未知";
+            // 
             // AppStatusButton
             // 
             this.AppStatusButton.Enabled = false;
@@ -259,6 +270,42 @@
             this.SettingsTab.Size = new System.Drawing.Size(389, 480);
             this.SettingsTab.TabIndex = 1;
             this.SettingsTab.Text = "程序设置";
+            // 
+            // MouseActionHideRadio
+            // 
+            this.MouseActionHideRadio.AutoSize = true;
+            this.MouseActionHideRadio.Checked = true;
+            this.MouseActionHideRadio.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.MouseActionHideRadio.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.MouseActionHideRadio.Location = new System.Drawing.Point(148, 196);
+            this.MouseActionHideRadio.Name = "MouseActionHideRadio";
+            this.MouseActionHideRadio.Size = new System.Drawing.Size(108, 28);
+            this.MouseActionHideRadio.TabIndex = 22;
+            this.MouseActionHideRadio.TabStop = true;
+            this.MouseActionHideRadio.Text = "隐藏极域";
+            this.MouseActionHideRadio.UseVisualStyleBackColor = true;
+            // 
+            // MouseActionCloseRadio
+            // 
+            this.MouseActionCloseRadio.AutoSize = true;
+            this.MouseActionCloseRadio.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.MouseActionCloseRadio.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.MouseActionCloseRadio.Location = new System.Drawing.Point(271, 196);
+            this.MouseActionCloseRadio.Name = "MouseActionCloseRadio";
+            this.MouseActionCloseRadio.Size = new System.Drawing.Size(108, 28);
+            this.MouseActionCloseRadio.TabIndex = 21;
+            this.MouseActionCloseRadio.Text = "关闭极域";
+            this.MouseActionCloseRadio.UseVisualStyleBackColor = true;
+            // 
+            // MouseActionLabel
+            // 
+            this.MouseActionLabel.AutoSize = true;
+            this.MouseActionLabel.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.MouseActionLabel.Location = new System.Drawing.Point(3, 198);
+            this.MouseActionLabel.Name = "MouseActionLabel";
+            this.MouseActionLabel.Size = new System.Drawing.Size(129, 23);
+            this.MouseActionLabel.TabIndex = 20;
+            this.MouseActionLabel.Text = "鼠标左上角行为";
             // 
             // UpdateAppButton
             // 
@@ -386,6 +433,7 @@
             // 
             // ProgramUsingGroup
             // 
+            this.ProgramUsingGroup.Controls.Add(this.InstallPythonLinkLabel);
             this.ProgramUsingGroup.Controls.Add(this.AttackLabel);
             this.ProgramUsingGroup.Controls.Add(this.IPButton);
             this.ProgramUsingGroup.Controls.Add(this.AttackButton);
@@ -408,15 +456,30 @@
             this.ProgramUsingGroup.TabStop = false;
             this.ProgramUsingGroup.Text = "极域利用";
             // 
+            // InstallPythonLinkLabel
+            // 
+            this.InstallPythonLinkLabel.AutoSize = true;
+            this.InstallPythonLinkLabel.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.InstallPythonLinkLabel.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+            this.InstallPythonLinkLabel.LinkColor = System.Drawing.Color.Blue;
+            this.InstallPythonLinkLabel.Location = new System.Drawing.Point(134, 383);
+            this.InstallPythonLinkLabel.Name = "InstallPythonLinkLabel";
+            this.InstallPythonLinkLabel.Size = new System.Drawing.Size(112, 23);
+            this.InstallPythonLinkLabel.TabIndex = 17;
+            this.InstallPythonLinkLabel.TabStop = true;
+            this.InstallPythonLinkLabel.Text = "点我立即安装";
+            this.InstallPythonLinkLabel.VisitedLinkColor = System.Drawing.Color.Blue;
+            this.InstallPythonLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.InstallPythonLinkLabel_LinkClicked);
+            // 
             // AttackLabel
             // 
             this.AttackLabel.AutoSize = true;
             this.AttackLabel.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.AttackLabel.Location = new System.Drawing.Point(67, 360);
+            this.AttackLabel.Location = new System.Drawing.Point(44, 360);
             this.AttackLabel.Name = "AttackLabel";
-            this.AttackLabel.Size = new System.Drawing.Size(263, 46);
+            this.AttackLabel.Size = new System.Drawing.Size(297, 23);
             this.AttackLabel.TabIndex = 16;
-            this.AttackLabel.Text = "注意：此功能需要 Python 环境，\r\n并且将其添加到环境变量！";
+            this.AttackLabel.Text = "注意：此功能需要安装 Python 环境！";
             // 
             // IPButton
             // 
@@ -665,52 +728,6 @@
             this.ExitProgramMenuItem.Text = "退出程序";
             this.ExitProgramMenuItem.Click += new System.EventHandler(this.ExitProgramMenuItem_Click);
             // 
-            // MouseActionLabel
-            // 
-            this.MouseActionLabel.AutoSize = true;
-            this.MouseActionLabel.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.MouseActionLabel.Location = new System.Drawing.Point(3, 198);
-            this.MouseActionLabel.Name = "MouseActionLabel";
-            this.MouseActionLabel.Size = new System.Drawing.Size(129, 23);
-            this.MouseActionLabel.TabIndex = 20;
-            this.MouseActionLabel.Text = "鼠标左上角行为";
-            // 
-            // MouseActionCloseRadio
-            // 
-            this.MouseActionCloseRadio.AutoSize = true;
-            this.MouseActionCloseRadio.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.MouseActionCloseRadio.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.MouseActionCloseRadio.Location = new System.Drawing.Point(271, 196);
-            this.MouseActionCloseRadio.Name = "MouseActionCloseRadio";
-            this.MouseActionCloseRadio.Size = new System.Drawing.Size(108, 28);
-            this.MouseActionCloseRadio.TabIndex = 21;
-            this.MouseActionCloseRadio.Text = "关闭极域";
-            this.MouseActionCloseRadio.UseVisualStyleBackColor = true;
-            // 
-            // MouseActionHideRadio
-            // 
-            this.MouseActionHideRadio.AutoSize = true;
-            this.MouseActionHideRadio.Checked = true;
-            this.MouseActionHideRadio.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.MouseActionHideRadio.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.MouseActionHideRadio.Location = new System.Drawing.Point(148, 196);
-            this.MouseActionHideRadio.Name = "MouseActionHideRadio";
-            this.MouseActionHideRadio.Size = new System.Drawing.Size(108, 28);
-            this.MouseActionHideRadio.TabIndex = 22;
-            this.MouseActionHideRadio.TabStop = true;
-            this.MouseActionHideRadio.Text = "隐藏极域";
-            this.MouseActionHideRadio.UseVisualStyleBackColor = true;
-            // 
-            // AppStatusLabel
-            // 
-            this.AppStatusLabel.AutoSize = true;
-            this.AppStatusLabel.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.AppStatusLabel.Location = new System.Drawing.Point(150, 41);
-            this.AppStatusLabel.Name = "AppStatusLabel";
-            this.AppStatusLabel.Size = new System.Drawing.Size(78, 23);
-            this.AppStatusLabel.TabIndex = 7;
-            this.AppStatusLabel.Text = "状态未知";
-            // 
             // MainWindow
             // 
             this.AcceptButton = this.CloseAppButton;
@@ -799,5 +816,6 @@
         private System.Windows.Forms.RadioButton MouseActionCloseRadio;
         private System.Windows.Forms.Label MouseActionLabel;
         private System.Windows.Forms.Label AppStatusLabel;
+        private System.Windows.Forms.LinkLabel InstallPythonLinkLabel;
     }
 }

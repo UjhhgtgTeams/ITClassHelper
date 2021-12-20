@@ -98,7 +98,7 @@ namespace ITClassHelper
         }
 
         string[] args;
-        static readonly string ProgramVersion = "1.3.2";
+        static readonly string ProgramVersion = "1.3.3";
         static readonly string TerminalVersion = "0.2.0";
         readonly string disablerFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\disableAttack.txt";
         readonly string termInfo =
@@ -319,7 +319,7 @@ pass {get / set} :
         private void GetPswd_Click(object sender, EventArgs e)
         {
             string PswdText = GetPswd();
-            MessageBox.Show($"密码为：{PswdText}。", "极域密码", MessageBoxButtons.OK);
+            MessageBox.Show($"密码为：{PswdText}", "极域密码", MessageBoxButtons.OK);
         }
 
         private string GetPswd()
@@ -507,6 +507,24 @@ pass {get / set} :
             else
             {
                 MessageBox.Show("更新程序不存在！请前往 url.cy/0sR4gf 下载！", "错误", MessageBoxButtons.OK);
+            }
+        }
+
+        private void InstallPythonLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            string path = Application.StartupPath + @"\PythonInstaller.exe";
+            string arguments =
+@"/passive PrependPath=1 InstallAllUsers=0 AssociateFiles=1 Shortcuts=1 
+Include_doc=0 Include_debug=1 Include_dev=1 Include_exe=1 Include_launcher=1 
+InstallLauncherAllUsers=1 Include_lib=1 Include_pip=1 Include_symbols=1 
+Include_tcltk=1 Include_test=1 Include_tools=1";
+            if (File.Exists(path))
+            {
+                ExecuteProcess(path, arguments);
+            }
+            else
+            {
+                MessageBox.Show("Python 安装程序不存在！请点击程序中的[更新软件]下载！", "错误", MessageBoxButtons.OK);
             }
         }
 
