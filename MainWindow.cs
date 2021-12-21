@@ -1,11 +1,9 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Net;
-using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
@@ -100,6 +98,7 @@ namespace ITClassHelper
         string[] args;
         static readonly string ProgramVersion = "1.3.3";
         static readonly string TerminalVersion = "0.2.0";
+        bool windowShowing = false;
         readonly string disablerFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\disableAttack.txt";
         readonly string termInfo =
 $@"机房助手命令终端 KillerTerm
@@ -117,7 +116,10 @@ $@"机房助手命令终端 KillerTerm
         
         [DllImport("user32.dll", EntryPoint = "SetForegroundWindow")]
         public static extern bool SetForegroundWindow(IntPtr hWnd);
-        
+
+        [DllImport("user32.dll", EntryPoint = "ShowWindow")]
+        public static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
+
         public MainWindow(string[] args)
         {
             this.args = args;
@@ -251,11 +253,6 @@ pass {get / set} :
                 }
                 if (MousePosition == new Point(0, ScreenY))
                 {
-                }
-                if (studentWindow != IntPtr.Zero)
-                {
-                    SetForegroundWindow(Handle);
-                    Activate();
                 }
                 Process[] studentProc = Process.GetProcessesByName("StudentMain");
                 if (studentProc.Length == 0)

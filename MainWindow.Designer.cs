@@ -337,7 +337,7 @@
             this.ProgramHideTextBox.Name = "ProgramHideTextBox";
             this.ProgramHideTextBox.Size = new System.Drawing.Size(211, 29);
             this.ProgramHideTextBox.TabIndex = 17;
-            this.ProgramHideTextBox.Text = "10";
+            this.ProgramHideTextBox.Text = "5";
             // 
             // ProgramHideLabel
             // 
