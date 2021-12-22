@@ -243,12 +243,8 @@ pass {get / set} :
                 IntPtr studentWindow = FindWindow(null, "屏幕演播室窗口");
                 if (MousePosition == new Point(0, 0))
                 {
-                    if (MouseActionCloseRadio.Checked == true) CloseApp();
-                    else
-                    {
-                        MoveWindow(studentWindow, 175, 175, 1000, 500, true);
-                        castControlWindow.Show();
-                    }
+                    MoveWindow(studentWindow, 175, 175, 1000, 500, true);
+                    castControlWindow.Show();
                 }
                 Process[] studentProc = Process.GetProcessesByName("StudentMain");
                 if (studentProc.Length == 0)

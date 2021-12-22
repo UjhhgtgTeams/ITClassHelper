@@ -8,9 +8,6 @@ namespace ITClassHelper
 {
     public partial class CastController : Form
     {
-        int ScreenX;
-        int ScreenY;
-
         [DllImport("user32.dll")]
         public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
@@ -20,8 +17,6 @@ namespace ITClassHelper
         public CastController()
         {
             InitializeComponent();
-            ScreenX = Screen.PrimaryScreen.Bounds.Width;
-            ScreenY = Screen.PrimaryScreen.Bounds.Height;
         }
 
         private void CastController_Load(object sender, EventArgs e)
@@ -35,6 +30,8 @@ namespace ITClassHelper
 
         private void ShowCast()
         {
+            int ScreenX = Screen.PrimaryScreen.Bounds.Width;
+            int ScreenY = Screen.PrimaryScreen.Bounds.Height;
             IntPtr studentWindow = FindWindow(null, "屏幕演播室窗口");
             MoveWindow(studentWindow, 0, 0, ScreenX, ScreenY, true);
             Hide();

@@ -43,13 +43,7 @@
             this.AppStatusButton = new System.Windows.Forms.Button();
             this.HideProgramButton = new System.Windows.Forms.Button();
             this.SettingsTab = new System.Windows.Forms.TabPage();
-            this.MouseActionHideRadio = new System.Windows.Forms.RadioButton();
-            this.MouseActionCloseRadio = new System.Windows.Forms.RadioButton();
-            this.MouseActionLabel = new System.Windows.Forms.Label();
             this.UpdateAppButton = new System.Windows.Forms.Button();
-            this.ProgramHideLabel2 = new System.Windows.Forms.Label();
-            this.ProgramHideTextBox = new System.Windows.Forms.TextBox();
-            this.ProgramHideLabel = new System.Windows.Forms.Label();
             this.DisableAttackButton = new System.Windows.Forms.Button();
             this.CloseMethodComboBox = new System.Windows.Forms.ComboBox();
             this.CloseMethodLabel = new System.Windows.Forms.Label();
@@ -250,13 +244,7 @@
             // SettingsTab
             // 
             this.SettingsTab.BackColor = System.Drawing.Color.Transparent;
-            this.SettingsTab.Controls.Add(this.MouseActionHideRadio);
-            this.SettingsTab.Controls.Add(this.MouseActionCloseRadio);
-            this.SettingsTab.Controls.Add(this.MouseActionLabel);
             this.SettingsTab.Controls.Add(this.UpdateAppButton);
-            this.SettingsTab.Controls.Add(this.ProgramHideLabel2);
-            this.SettingsTab.Controls.Add(this.ProgramHideTextBox);
-            this.SettingsTab.Controls.Add(this.ProgramHideLabel);
             this.SettingsTab.Controls.Add(this.DisableAttackButton);
             this.SettingsTab.Controls.Add(this.CloseMethodComboBox);
             this.SettingsTab.Controls.Add(this.CloseMethodLabel);
@@ -271,92 +259,27 @@
             this.SettingsTab.TabIndex = 1;
             this.SettingsTab.Text = "程序设置";
             // 
-            // MouseActionHideRadio
-            // 
-            this.MouseActionHideRadio.AutoSize = true;
-            this.MouseActionHideRadio.Checked = true;
-            this.MouseActionHideRadio.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.MouseActionHideRadio.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.MouseActionHideRadio.Location = new System.Drawing.Point(148, 196);
-            this.MouseActionHideRadio.Name = "MouseActionHideRadio";
-            this.MouseActionHideRadio.Size = new System.Drawing.Size(108, 28);
-            this.MouseActionHideRadio.TabIndex = 22;
-            this.MouseActionHideRadio.TabStop = true;
-            this.MouseActionHideRadio.Text = "隐藏极域";
-            this.MouseActionHideRadio.UseVisualStyleBackColor = true;
-            // 
-            // MouseActionCloseRadio
-            // 
-            this.MouseActionCloseRadio.AutoSize = true;
-            this.MouseActionCloseRadio.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.MouseActionCloseRadio.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.MouseActionCloseRadio.Location = new System.Drawing.Point(271, 196);
-            this.MouseActionCloseRadio.Name = "MouseActionCloseRadio";
-            this.MouseActionCloseRadio.Size = new System.Drawing.Size(108, 28);
-            this.MouseActionCloseRadio.TabIndex = 21;
-            this.MouseActionCloseRadio.Text = "关闭极域";
-            this.MouseActionCloseRadio.UseVisualStyleBackColor = true;
-            // 
-            // MouseActionLabel
-            // 
-            this.MouseActionLabel.AutoSize = true;
-            this.MouseActionLabel.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.MouseActionLabel.Location = new System.Drawing.Point(3, 198);
-            this.MouseActionLabel.Name = "MouseActionLabel";
-            this.MouseActionLabel.Size = new System.Drawing.Size(129, 23);
-            this.MouseActionLabel.TabIndex = 20;
-            this.MouseActionLabel.Text = "鼠标左上角行为";
-            // 
             // UpdateAppButton
             // 
             this.UpdateAppButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UpdateAppButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.UpdateAppButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.UpdateAppButton.Location = new System.Drawing.Point(7, 271);
+            this.UpdateAppButton.Location = new System.Drawing.Point(8, 194);
             this.UpdateAppButton.Name = "UpdateAppButton";
-            this.UpdateAppButton.Size = new System.Drawing.Size(373, 35);
+            this.UpdateAppButton.Size = new System.Drawing.Size(374, 35);
             this.UpdateAppButton.TabIndex = 19;
             this.UpdateAppButton.Text = "更新软件";
             this.UpdateAppButton.UseVisualStyleBackColor = true;
             this.UpdateAppButton.Click += new System.EventHandler(this.UpdateAppButton_Click);
-            // 
-            // ProgramHideLabel2
-            // 
-            this.ProgramHideLabel2.AutoSize = true;
-            this.ProgramHideLabel2.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ProgramHideLabel2.Location = new System.Drawing.Point(352, 160);
-            this.ProgramHideLabel2.Name = "ProgramHideLabel2";
-            this.ProgramHideLabel2.Size = new System.Drawing.Size(27, 23);
-            this.ProgramHideLabel2.TabIndex = 18;
-            this.ProgramHideLabel2.Text = "秒";
-            // 
-            // ProgramHideTextBox
-            // 
-            this.ProgramHideTextBox.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ProgramHideTextBox.Location = new System.Drawing.Point(133, 157);
-            this.ProgramHideTextBox.Name = "ProgramHideTextBox";
-            this.ProgramHideTextBox.Size = new System.Drawing.Size(211, 29);
-            this.ProgramHideTextBox.TabIndex = 17;
-            this.ProgramHideTextBox.Text = "5";
-            // 
-            // ProgramHideLabel
-            // 
-            this.ProgramHideLabel.AutoSize = true;
-            this.ProgramHideLabel.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ProgramHideLabel.Location = new System.Drawing.Point(3, 160);
-            this.ProgramHideLabel.Name = "ProgramHideLabel";
-            this.ProgramHideLabel.Size = new System.Drawing.Size(112, 23);
-            this.ProgramHideLabel.TabIndex = 16;
-            this.ProgramHideLabel.Text = "极域隐藏时间";
             // 
             // DisableAttackButton
             // 
             this.DisableAttackButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.DisableAttackButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.DisableAttackButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.DisableAttackButton.Location = new System.Drawing.Point(7, 230);
+            this.DisableAttackButton.Location = new System.Drawing.Point(7, 153);
             this.DisableAttackButton.Name = "DisableAttackButton";
-            this.DisableAttackButton.Size = new System.Drawing.Size(373, 35);
+            this.DisableAttackButton.Size = new System.Drawing.Size(374, 35);
             this.DisableAttackButton.TabIndex = 15;
             this.DisableAttackButton.Text = "禁用网络攻击";
             this.DisableAttackButton.UseVisualStyleBackColor = true;
@@ -808,13 +731,7 @@
         private System.Windows.Forms.Button IPButton;
         private System.Windows.Forms.Label AttackLabel;
         private System.Windows.Forms.Button DisableAttackButton;
-        private System.Windows.Forms.Label ProgramHideLabel2;
-        private System.Windows.Forms.TextBox ProgramHideTextBox;
-        private System.Windows.Forms.Label ProgramHideLabel;
         private System.Windows.Forms.Button UpdateAppButton;
-        private System.Windows.Forms.RadioButton MouseActionHideRadio;
-        private System.Windows.Forms.RadioButton MouseActionCloseRadio;
-        private System.Windows.Forms.Label MouseActionLabel;
         private System.Windows.Forms.Label AppStatusLabel;
         private System.Windows.Forms.LinkLabel InstallPythonLinkLabel;
     }
