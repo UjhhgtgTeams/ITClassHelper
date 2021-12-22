@@ -84,5 +84,10 @@ namespace ITClassHelper
             Thread.Sleep(1000);
             ExecuteProcess("taskkill", "/f /im ntsd.exe");
         }
+
+        private void HideControllerButton_Click(object sender, EventArgs e)
+        {
+            Hide();
+        }
     }
 }
