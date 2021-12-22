@@ -42,9 +42,9 @@
             this.CastControllerLabel.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.CastControllerLabel.Location = new System.Drawing.Point(12, 9);
             this.CastControllerLabel.Name = "CastControllerLabel";
-            this.CastControllerLabel.Size = new System.Drawing.Size(95, 23);
+            this.CastControllerLabel.Size = new System.Drawing.Size(129, 23);
             this.CastControllerLabel.TabIndex = 8;
-            this.CastControllerLabel.Text = "广播控制器";
+            this.CastControllerLabel.Text = "极域广播控制器";
             // 
             // HideCastButton
             // 
