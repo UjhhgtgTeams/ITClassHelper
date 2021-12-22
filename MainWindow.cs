@@ -77,55 +77,31 @@ namespace ITClassHelper
                         CloseHandle(hProc);
                 }
             }
-
-            public static void TerminateProcess(int processId)
-            {
-                IntPtr hProc = IntPtr.Zero;
-                try
-                {
-                    hProc = OpenProcess(ProcessAccess.Terminate, false, processId);
-                    if (hProc != IntPtr.Zero)
-                        NtTerminateProcess(hProc);
-                }
-                finally
-                {
-                    if (hProc != IntPtr.Zero)
-                        CloseHandle(hProc);
-                }
-            }
         }
 
-        string[] args;
         CastController castControlWindow = new CastController();
-        static readonly string ProgramVersion = "1.3.3";
-        static readonly string TerminalVersion = "0.2.0";
+        static readonly string ProgramVersion = "1.4.0";
         readonly string disablerFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\disableAttack.txt";
-        readonly string termInfo =
-$@"机房助手命令终端 KillerTerm
-作者：Ujhhgtg
-版本：{TerminalVersion}";
 
         [DllImport("user32.dll")]
         public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
         [DllImport("user32.dll", EntryPoint = "MoveWindow")]
         public static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
-        
+
         [DllImport("user32.dll", ExactSpelling = true)]
         public static extern IntPtr GetForegroundWindow();
-        
+
         [DllImport("user32.dll", EntryPoint = "SetForegroundWindow")]
         public static extern bool SetForegroundWindow(IntPtr hWnd);
 
         [DllImport("user32.dll", EntryPoint = "ShowWindow")]
         public static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
 
-        public MainWindow(string[] args)
+        public MainWindow()
         {
-            this.args = args;
             InitializeComponent();
             ProgramVerLabel.Text += ProgramVersion;
-            TerminalOpTextBox.Text += termInfo;
             castControlWindow.Show();
             castControlWindow.Hide();
         }
@@ -151,89 +127,8 @@ $@"机房助手命令终端 KillerTerm
             FileStream attackerFsObj = new FileStream(scriptPath, FileMode.Create);
             attackerFsObj.Write(RescAttacker, 0, RescAttacker.Length);
             attackerFsObj.Close();
-            if (args.Length > 0)
-            {
-                Hide();
-                ParseTerminal(args);
-                Environment.Exit(0);
-            }
-            else
-            {
-                new Thread(LoopThread)
-                { IsBackground = true }.Start();
-            }
-        }
-
-        private void ParseTerminal(string[] commands)
-        {
-            switch (commands[0])
-            {
-                case "info":
-                    OutputTerminal(termInfo);
-                    break;
-                case "kill":
-                    if (commands.Length >= 2 && commands[1] != "")
-                    {
-                        CloseApp(commands[1]);
-                        OutputTerminal($"信息：已杀死 {commands[1]}。");
-                    }
-                    else
-                    {
-                        OutputTerminal("错误：参数不足！");
-                    }
-                    break;
-                case "pass":
-                    if (commands[1] == "get")
-                    {
-                        if (args.Length == 0)
-                        {
-                            OutputTerminal($"信息：密码为：{GetPswd()}。");
-                        }
-                        else
-                        {
-                            using (StreamWriter sw = new StreamWriter("极域密码.txt"))
-                            {
-                                sw.WriteLine(GetPswd());
-                            }
-                        }
-                    }
-                    else if (commands[1] == "set")
-                    {
-                        if (commands.Length >= 3 && commands[2] != "")
-                        {
-                            SetPswd(commands[2]);
-                            CloseApp();
-                            RecoverApp(true);
-                            OutputTerminal($"信息：密码已设置为：{commands[2]}。");
-                        }
-                        else
-                        {
-                            OutputTerminal("错误：参数不足！");
-                        }
-                    }
-                    break;
-                case "help":
-                    OutputTerminal(
-@"info : 输出终端信息。
-help : 输出帮助信息。
-kill ProcName : 杀死名为 ProcName 的进程。
-pass {get / set} :
-    get:
-        获取极域密码。
-    set Pswd:
-        设置极域密码为 Pswd。"
-                        );
-                    break;
-                default:
-                    OutputTerminal("错误：命令不存在！");
-                    break;
-            }
-
-        }
-
-        private void OutputTerminal(string OpText)
-        {
-            TerminalOpTextBox.Text += Environment.NewLine + OpText;
+            new Thread(LoopThread)
+            { IsBackground = true }.Start();
         }
 
         private void LoopThread()
@@ -290,19 +185,11 @@ pass {get / set} :
             CloseApp();
         }
 
-        private void CloseApp(string killAppName = "StudentMain.exe")
+        private void CloseApp()
         {
-            if (CloseMethodComboBox.SelectedIndex == 0)
-            {
-                string ntsdPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\ntsd.exe";
-                ExecuteProcess(ntsdPath, $"-c q -pn {killAppName}");
-                new Thread(CleanupNtsd).Start();
-            }
-            else
-            {
-                Process studentProc = Process.GetProcessesByName(killAppName.Replace(".exe", ""))[0];
-                ProcessMgr.TerminateProcess(studentProc.Id);
-            }
+            string ntsdPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\ntsd.exe";
+            ExecuteProcess(ntsdPath, "-c q -pn StudentMain.exe");
+            new Thread(CleanupNtsd).Start();
         }
 
         private void GetPswd_Click(object sender, EventArgs e)
@@ -323,11 +210,12 @@ pass {get / set} :
             return longPswd.Replace("Passwd", "");
         }
 
-        private void SetPswd(string pswdText)
+        /* private void SetPswd(string pswdText)
         {
             string keyDir = @"HKEY_LOCAL_MACHINE\SOFTWARE\TopDomain\e-Learning Class Standard\1.00";
             Registry.SetValue(keyDir, "UninstallPasswd", $@"Passwd{pswdText}");
         }
+        */
 
         private void ExecuteProcess(string process, string arguments, bool noHide = false)
         {
@@ -426,13 +314,6 @@ pass {get / set} :
         private void ShowHideProgramMenuItem_Click(object sender, EventArgs e)
         {
             Visible = !Visible;
-        }
-
-        private void TerminalSendButton_Click(object sender, EventArgs e)
-        {
-            string[] commands = TerminalIpTextBox.Text.Split(' ');
-            TerminalIpTextBox.Text = "";
-            ParseTerminal(commands);
         }
 
         private void CmdMsgRadio_CheckedChanged(object sender, EventArgs e)
