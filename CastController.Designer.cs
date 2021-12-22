@@ -90,7 +90,7 @@
             this.CloseAppButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.CloseAppButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.CloseAppButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.CloseAppButton.Location = new System.Drawing.Point(331, 34);
+            this.CloseAppButton.Location = new System.Drawing.Point(331, 36);
             this.CloseAppButton.Name = "CloseAppButton";
             this.CloseAppButton.Size = new System.Drawing.Size(100, 66);
             this.CloseAppButton.TabIndex = 12;
