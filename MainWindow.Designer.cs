@@ -38,6 +38,8 @@
             this.ExitProgramMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AttackTab = new System.Windows.Forms.TabPage();
             this.ProgramUsingGroup = new System.Windows.Forms.GroupBox();
+            this.ChooseScriptButton = new System.Windows.Forms.Button();
+            this.UseScriptRadio = new System.Windows.Forms.RadioButton();
             this.InstallPythonLinkLabel = new System.Windows.Forms.LinkLabel();
             this.AttackLabel = new System.Windows.Forms.Label();
             this.IPButton = new System.Windows.Forms.Button();
@@ -148,6 +150,8 @@
             // 
             // ProgramUsingGroup
             // 
+            this.ProgramUsingGroup.Controls.Add(this.ChooseScriptButton);
+            this.ProgramUsingGroup.Controls.Add(this.UseScriptRadio);
             this.ProgramUsingGroup.Controls.Add(this.InstallPythonLinkLabel);
             this.ProgramUsingGroup.Controls.Add(this.AttackLabel);
             this.ProgramUsingGroup.Controls.Add(this.IPButton);
@@ -170,6 +174,32 @@
             this.ProgramUsingGroup.TabIndex = 0;
             this.ProgramUsingGroup.TabStop = false;
             this.ProgramUsingGroup.Text = "极域利用";
+            // 
+            // ChooseScriptButton
+            // 
+            this.ChooseScriptButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ChooseScriptButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.ChooseScriptButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ChooseScriptButton.Location = new System.Drawing.Point(252, 257);
+            this.ChooseScriptButton.Name = "ChooseScriptButton";
+            this.ChooseScriptButton.Size = new System.Drawing.Size(119, 31);
+            this.ChooseScriptButton.TabIndex = 20;
+            this.ChooseScriptButton.Text = "选择脚本";
+            this.ChooseScriptButton.UseVisualStyleBackColor = true;
+            this.ChooseScriptButton.Click += new System.EventHandler(this.ChooseScriptButton_Click);
+            // 
+            // UseScriptRadio
+            // 
+            this.UseScriptRadio.AutoSize = true;
+            this.UseScriptRadio.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.UseScriptRadio.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.UseScriptRadio.Location = new System.Drawing.Point(11, 257);
+            this.UseScriptRadio.Name = "UseScriptRadio";
+            this.UseScriptRadio.Size = new System.Drawing.Size(74, 28);
+            this.UseScriptRadio.TabIndex = 19;
+            this.UseScriptRadio.Text = "脚本";
+            this.UseScriptRadio.UseVisualStyleBackColor = true;
+            this.UseScriptRadio.CheckedChanged += new System.EventHandler(this.AttackTypeRadio_CheckedChanged);
             // 
             // InstallPythonLinkLabel
             // 
@@ -233,7 +263,7 @@
             this.UseMsgRadio.TabIndex = 13;
             this.UseMsgRadio.Text = "消息";
             this.UseMsgRadio.UseVisualStyleBackColor = true;
-            this.UseMsgRadio.CheckedChanged += new System.EventHandler(this.CmdMsgRadio_CheckedChanged);
+            this.UseMsgRadio.CheckedChanged += new System.EventHandler(this.AttackTypeRadio_CheckedChanged);
             // 
             // MsgTextBox
             // 
@@ -259,7 +289,7 @@
             this.UseCmdRadio.TabStop = true;
             this.UseCmdRadio.Text = "命令";
             this.UseCmdRadio.UseVisualStyleBackColor = true;
-            this.UseCmdRadio.CheckedChanged += new System.EventHandler(this.CmdMsgRadio_CheckedChanged);
+            this.UseCmdRadio.CheckedChanged += new System.EventHandler(this.AttackTypeRadio_CheckedChanged);
             // 
             // CmdTextBox
             // 
@@ -652,5 +682,7 @@
         private System.Windows.Forms.Button PauseAppButton;
         private System.Windows.Forms.Button ExitProgramButton;
         private System.Windows.Forms.TabControl TabControl;
+        private System.Windows.Forms.RadioButton UseScriptRadio;
+        private System.Windows.Forms.Button ChooseScriptButton;
     }
 }
