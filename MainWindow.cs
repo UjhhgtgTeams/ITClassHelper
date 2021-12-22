@@ -96,9 +96,9 @@ namespace ITClassHelper
         }
 
         string[] args;
+        CastController castControlWindow = new CastController();
         static readonly string ProgramVersion = "1.3.3";
         static readonly string TerminalVersion = "0.2.0";
-        bool windowShowing = false;
         readonly string disablerFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\disableAttack.txt";
         readonly string termInfo =
 $@"机房助手命令终端 KillerTerm
@@ -126,6 +126,8 @@ $@"机房助手命令终端 KillerTerm
             InitializeComponent();
             ProgramVerLabel.Text += ProgramVersion;
             TerminalOpTextBox.Text += termInfo;
+            castControlWindow.Show();
+            castControlWindow.Hide();
         }
 
         private void MainWindow_Load(object sender, EventArgs e)
@@ -236,8 +238,6 @@ pass {get / set} :
 
         private void LoopThread()
         {
-            int ScreenX = Screen.PrimaryScreen.Bounds.Width;
-            int ScreenY = Screen.PrimaryScreen.Bounds.Height;
             while (true)
             {
                 IntPtr studentWindow = FindWindow(null, "屏幕演播室窗口");
@@ -246,13 +246,9 @@ pass {get / set} :
                     if (MouseActionCloseRadio.Checked == true) CloseApp();
                     else
                     {
-                        MoveWindow(studentWindow, 0, 0, 0, 0, true);
-                        Thread.Sleep(int.Parse(ProgramHideTextBox.Text) * 1000);
-                        MoveWindow(studentWindow, 0, 0, ScreenX, ScreenY, true);
+                        MoveWindow(studentWindow, 175, 175, 1000, 500, true);
+                        castControlWindow.Show();
                     }
-                }
-                if (MousePosition == new Point(0, ScreenY))
-                {
                 }
                 Process[] studentProc = Process.GetProcessesByName("StudentMain");
                 if (studentProc.Length == 0)
