@@ -79,7 +79,7 @@ namespace ITClassHelper
             }
         }
 
-        CastController castControlWindow = new CastController();
+        MiniController castControlWindow = new MiniController();
         static readonly string ProgramVersion = "1.4.0";
         readonly string disablerFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\disableAttack.txt";
 
@@ -88,15 +88,6 @@ namespace ITClassHelper
 
         [DllImport("user32.dll", EntryPoint = "MoveWindow")]
         public static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
-
-        [DllImport("user32.dll", ExactSpelling = true)]
-        public static extern IntPtr GetForegroundWindow();
-
-        [DllImport("user32.dll", EntryPoint = "SetForegroundWindow")]
-        public static extern bool SetForegroundWindow(IntPtr hWnd);
-
-        [DllImport("user32.dll", EntryPoint = "ShowWindow")]
-        public static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
 
         public MainWindow()
         {
@@ -138,7 +129,7 @@ namespace ITClassHelper
                 IntPtr studentWindow = FindWindow(null, "屏幕演播室窗口");
                 if (MousePosition == new Point(0, 0))
                 {
-                    MoveWindow(studentWindow, 175, 175, 1000, 500, true);
+                    MoveWindow(studentWindow, 337, 186, 1000, 500, true);
                     castControlWindow.Show();
                 }
                 Process[] studentProc = Process.GetProcessesByName("StudentMain");
@@ -255,17 +246,12 @@ namespace ITClassHelper
 
         private void RecoverApp(bool noShowError = false)
         {
-            bool gotError = false;
             try
             {
                 Process studentProc = Process.GetProcessesByName("StudentMain")[0];
                 ProcessMgr.ResumeProcess(studentProc.Id);
             }
             catch
-            {
-                gotError = true;
-            }
-            if (gotError == true)
             {
                 if (AppPathTextBox.Text == "")
                 {
