@@ -437,7 +437,6 @@ Include_tcltk=1 Include_test=1 Include_tools=1";
             {
                 attackScriptPath = fileDialog.FileName;
             }
-            MessageBox.Show("功能制作中......", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         }
 
         /* SendAttackPack()
