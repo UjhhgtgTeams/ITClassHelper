@@ -155,7 +155,7 @@ namespace ITClassHelper
 
         private void ShowExitProgram()
         {
-            if (MessageBox.Show("确定退出极域杀手？", "退出", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            if (MessageBox.Show("确定退出机房助手？", "退出", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
                 Environment.Exit(0);
             }
