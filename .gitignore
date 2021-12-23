@@ -356,3 +356,8 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# User-specific codes
+MiniController.cs
+MiniController.Designer.cs
+MiniController.resx
