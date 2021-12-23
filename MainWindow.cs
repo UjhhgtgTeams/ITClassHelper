@@ -81,6 +81,7 @@ namespace ITClassHelper
 
         MiniController castControlWindow = new MiniController();
         static readonly string ProgramVersion = "1.4.0";
+        string attackScriptPath;
         readonly string disablerFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\disableAttack.txt";
 
         [DllImport("user32.dll")]
@@ -262,7 +263,7 @@ namespace ITClassHelper
                     }
                     else
                     {
-                        if (noShowError == false) { MessageBox.Show("无法找到极域的位置！请在设置里手动设置！", "错误", MessageBoxButtons.OK); }
+                        if (noShowError == false) { MessageBox.Show("无法找到极域的位置！请在设置里手动设置！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                     }
                 }
                 else
@@ -339,6 +340,36 @@ namespace ITClassHelper
                     ExecuteProcess("py", $"{baseArguments} -c \"{CmdTextBox.Text}\"");
                 }
             }
+            else
+            {
+                if (IPTextBox2.Text != IPTextBox3.Text)
+                {
+                    MessageBox.Show("暂不支持向多台设备发送脚本！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    try
+                    {
+                        using (StreamReader sr = new StreamReader(attackScriptPath))
+                        {
+                            string fileLine;
+                            while ((fileLine = sr.ReadLine()) != null)
+                            {
+                                try
+                                {
+                                    ExecuteProcess("python", $"{baseArguments} -c \"{fileLine}\"");
+                                }
+                                catch
+                                {
+                                    ExecuteProcess("py", $"{baseArguments} -c \"{fileLine}\"");
+                                }
+                                Thread.Sleep(2000);
+                            }
+                        }
+                    }
+                    catch { MessageBox.Show("未选择脚本！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                }
+            }
         }
 
         private void IPButton_Click(object sender, EventArgs e)
@@ -374,7 +405,7 @@ namespace ITClassHelper
             }
             else
             {
-                MessageBox.Show("更新程序不存在！请前往 url.cy/0sR4gf 下载！", "错误", MessageBoxButtons.OK);
+                MessageBox.Show("更新程序不存在！请前往 url.cy/0sR4gf 下载！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -392,22 +423,20 @@ Include_tcltk=1 Include_test=1 Include_tools=1";
             }
             else
             {
-                MessageBox.Show("Python 安装程序不存在！请点击程序中的[更新软件]下载！", "错误", MessageBoxButtons.OK);
+                MessageBox.Show("Python 安装程序不存在！请点击程序中的[更新软件]下载！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void ChooseScriptButton_Click(object sender, EventArgs e)
         {
-            /* 
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.Multiselect = false;
             fileDialog.Title = "选择脚本文件";
             fileDialog.Filter = "BAT脚本(*.bat)|*.bat";
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
-                string fileName = fileDialog.FileName;
+                attackScriptPath = fileDialog.FileName;
             }
-            */
             MessageBox.Show("功能制作中......", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         }
 
