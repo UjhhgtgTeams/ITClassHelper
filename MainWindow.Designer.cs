@@ -41,7 +41,6 @@
             this.ChooseScriptButton = new System.Windows.Forms.Button();
             this.UseScriptRadio = new System.Windows.Forms.RadioButton();
             this.InstallPythonLinkLabel = new System.Windows.Forms.LinkLabel();
-            this.AttackLabel = new System.Windows.Forms.Label();
             this.IPButton = new System.Windows.Forms.Button();
             this.AttackButton = new System.Windows.Forms.Button();
             this.UseMsgRadio = new System.Windows.Forms.RadioButton();
@@ -153,7 +152,6 @@
             this.ProgramUsingGroup.Controls.Add(this.ChooseScriptButton);
             this.ProgramUsingGroup.Controls.Add(this.UseScriptRadio);
             this.ProgramUsingGroup.Controls.Add(this.InstallPythonLinkLabel);
-            this.ProgramUsingGroup.Controls.Add(this.AttackLabel);
             this.ProgramUsingGroup.Controls.Add(this.IPButton);
             this.ProgramUsingGroup.Controls.Add(this.AttackButton);
             this.ProgramUsingGroup.Controls.Add(this.UseMsgRadio);
@@ -212,19 +210,9 @@
             this.InstallPythonLinkLabel.Size = new System.Drawing.Size(112, 23);
             this.InstallPythonLinkLabel.TabIndex = 17;
             this.InstallPythonLinkLabel.TabStop = true;
-            this.InstallPythonLinkLabel.Text = "点我立即安装";
+            this.InstallPythonLinkLabel.Text = "安装运行环境";
             this.InstallPythonLinkLabel.VisitedLinkColor = System.Drawing.Color.Blue;
             this.InstallPythonLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.InstallPythonLinkLabel_LinkClicked);
-            // 
-            // AttackLabel
-            // 
-            this.AttackLabel.AutoSize = true;
-            this.AttackLabel.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.AttackLabel.Location = new System.Drawing.Point(44, 360);
-            this.AttackLabel.Name = "AttackLabel";
-            this.AttackLabel.Size = new System.Drawing.Size(297, 23);
-            this.AttackLabel.TabIndex = 16;
-            this.AttackLabel.Text = "注意：此功能需要安装 Python 环境！";
             // 
             // IPButton
             // 
@@ -648,7 +636,6 @@
         private System.Windows.Forms.TabPage AttackTab;
         private System.Windows.Forms.GroupBox ProgramUsingGroup;
         private System.Windows.Forms.LinkLabel InstallPythonLinkLabel;
-        private System.Windows.Forms.Label AttackLabel;
         private System.Windows.Forms.Button IPButton;
         private System.Windows.Forms.Button AttackButton;
         private System.Windows.Forms.RadioButton UseMsgRadio;
