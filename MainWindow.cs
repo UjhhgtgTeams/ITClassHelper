@@ -33,20 +33,26 @@ namespace ITClassHelper
                 QueryLimitedInformation = 0x1000,
                 Synchronize = 0x100000
             }
+
             [DllImport("ntdll.dll")]
             private static extern uint NtResumeProcess([In] IntPtr processHandle);
+
             [DllImport("ntdll.dll")]
             private static extern uint NtSuspendProcess([In] IntPtr processHandle);
+
             [DllImport("ntdll.dll", SetLastError = true)]
             private static extern uint NtTerminateProcess([In] IntPtr processHandle);
+
             [DllImport("kernel32.dll", SetLastError = true)]
             private static extern IntPtr OpenProcess(
              ProcessAccess desiredAccess,
              bool inheritHandle,
              int processId);
+
             [DllImport("kernel32.dll", SetLastError = true)]
             [return: MarshalAs(UnmanagedType.Bool)]
             private static extern bool CloseHandle([In] IntPtr handle);
+
             public static void SuspendProcess(int processId)
             {
                 IntPtr hProc = IntPtr.Zero;
@@ -62,6 +68,7 @@ namespace ITClassHelper
                         CloseHandle(hProc);
                 }
             }
+
             public static void ResumeProcess(int processId)
             {
                 IntPtr hProc = IntPtr.Zero;
@@ -82,7 +89,7 @@ namespace ITClassHelper
         MiniController castControlWindow = new MiniController();
         static readonly string ProgramVersion = "1.4.0";
         string attackScriptPath;
-        readonly string disablerFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\disableAttack.txt";
+        readonly string disableAttackFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\disableAttack.txt";
 
         [DllImport("user32.dll")]
         public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
@@ -100,7 +107,7 @@ namespace ITClassHelper
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
-            if (File.Exists(disablerFilePath))
+            if (File.Exists(disableAttackFilePath))
             {
                 DisableAttackButton.Enabled = false;
                 AttackButton.Enabled = false;
@@ -390,7 +397,7 @@ namespace ITClassHelper
             DisableAttackButton.Enabled = false;
             try
             {
-                File.Create(disablerFilePath); 
+                File.Create(disableAttackFilePath); 
             }
             catch { }
         }
@@ -409,7 +416,7 @@ namespace ITClassHelper
             }
         }
 
-        private void InstallPythonLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void InstallPythonButton_Click(object sender, EventArgs e)
         {
             string path = Application.StartupPath + @"\PythonInstaller.exe";
             string arguments =
@@ -437,6 +444,34 @@ Include_tcltk=1 Include_test=1 Include_tools=1";
             {
                 attackScriptPath = fileDialog.FileName;
             }
+        }
+
+        private void ConvertNameIPButton_Click(object sender, EventArgs e)
+        {
+            PCNameLabel.Visible = !PCNameLabel.Visible;
+            PCNameTextBox.Visible = !PCNameTextBox.Visible;
+            ConvertButton.Visible = !ConvertButton.Visible;
+            InstallPythonButton.Visible = !InstallPythonButton.Visible;
+            if (ConvertNameIPButton.Text == "计算机名 -> IP 地址")
+            {
+                ConvertNameIPButton.Text = "隐藏";
+            }
+            else
+            {
+                ConvertNameIPButton.Text = "计算机名 -> IP 地址";
+            }
+
+        }
+
+        private void ConvertButton_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(
+$@"即将显示一个命令窗口。
+请稍等几秒，然后在其中找寻'WLAN'项，并记下在它下方的 MAC 地址。
+接着，按下回车键，在接下去出现的表格中找到对应的 IP 地址。
+此地址即为该计算机名对应的地址。"
+            , "使用须知", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            ExecuteProcess("cmd", $"/c nbtstat -a {PCNameTextBox.Text} && pause && cls && arp -a && pause", true);
         }
 
         /* SendAttackPack()

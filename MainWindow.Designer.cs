@@ -38,9 +38,9 @@
             this.ExitProgramMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AttackTab = new System.Windows.Forms.TabPage();
             this.ProgramUsingGroup = new System.Windows.Forms.GroupBox();
+            this.InstallPythonButton = new System.Windows.Forms.Button();
             this.ChooseScriptButton = new System.Windows.Forms.Button();
             this.UseScriptRadio = new System.Windows.Forms.RadioButton();
-            this.InstallPythonLinkLabel = new System.Windows.Forms.LinkLabel();
             this.IPButton = new System.Windows.Forms.Button();
             this.AttackButton = new System.Windows.Forms.Button();
             this.UseMsgRadio = new System.Windows.Forms.RadioButton();
@@ -74,6 +74,10 @@
             this.PauseAppButton = new System.Windows.Forms.Button();
             this.ExitProgramButton = new System.Windows.Forms.Button();
             this.TabControl = new System.Windows.Forms.TabControl();
+            this.ConvertNameIPButton = new System.Windows.Forms.Button();
+            this.PCNameTextBox = new System.Windows.Forms.TextBox();
+            this.PCNameLabel = new System.Windows.Forms.Label();
+            this.ConvertButton = new System.Windows.Forms.Button();
             this.NotifyIconMenu.SuspendLayout();
             this.AttackTab.SuspendLayout();
             this.ProgramUsingGroup.SuspendLayout();
@@ -149,9 +153,13 @@
             // 
             // ProgramUsingGroup
             // 
+            this.ProgramUsingGroup.Controls.Add(this.ConvertButton);
+            this.ProgramUsingGroup.Controls.Add(this.PCNameTextBox);
+            this.ProgramUsingGroup.Controls.Add(this.PCNameLabel);
+            this.ProgramUsingGroup.Controls.Add(this.ConvertNameIPButton);
+            this.ProgramUsingGroup.Controls.Add(this.InstallPythonButton);
             this.ProgramUsingGroup.Controls.Add(this.ChooseScriptButton);
             this.ProgramUsingGroup.Controls.Add(this.UseScriptRadio);
-            this.ProgramUsingGroup.Controls.Add(this.InstallPythonLinkLabel);
             this.ProgramUsingGroup.Controls.Add(this.IPButton);
             this.ProgramUsingGroup.Controls.Add(this.AttackButton);
             this.ProgramUsingGroup.Controls.Add(this.UseMsgRadio);
@@ -172,6 +180,19 @@
             this.ProgramUsingGroup.TabIndex = 0;
             this.ProgramUsingGroup.TabStop = false;
             this.ProgramUsingGroup.Text = "极域利用";
+            // 
+            // InstallPythonButton
+            // 
+            this.InstallPythonButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.InstallPythonButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.InstallPythonButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.InstallPythonButton.Location = new System.Drawing.Point(11, 372);
+            this.InstallPythonButton.Name = "InstallPythonButton";
+            this.InstallPythonButton.Size = new System.Drawing.Size(160, 31);
+            this.InstallPythonButton.TabIndex = 21;
+            this.InstallPythonButton.Text = "安装运行环境";
+            this.InstallPythonButton.UseVisualStyleBackColor = true;
+            this.InstallPythonButton.Click += new System.EventHandler(this.InstallPythonButton_Click);
             // 
             // ChooseScriptButton
             // 
@@ -198,21 +219,6 @@
             this.UseScriptRadio.Text = "脚本";
             this.UseScriptRadio.UseVisualStyleBackColor = true;
             this.UseScriptRadio.CheckedChanged += new System.EventHandler(this.AttackTypeRadio_CheckedChanged);
-            // 
-            // InstallPythonLinkLabel
-            // 
-            this.InstallPythonLinkLabel.AutoSize = true;
-            this.InstallPythonLinkLabel.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.InstallPythonLinkLabel.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
-            this.InstallPythonLinkLabel.LinkColor = System.Drawing.Color.Blue;
-            this.InstallPythonLinkLabel.Location = new System.Drawing.Point(134, 383);
-            this.InstallPythonLinkLabel.Name = "InstallPythonLinkLabel";
-            this.InstallPythonLinkLabel.Size = new System.Drawing.Size(112, 23);
-            this.InstallPythonLinkLabel.TabIndex = 17;
-            this.InstallPythonLinkLabel.TabStop = true;
-            this.InstallPythonLinkLabel.Text = "安装运行环境";
-            this.InstallPythonLinkLabel.VisitedLinkColor = System.Drawing.Color.Blue;
-            this.InstallPythonLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.InstallPythonLinkLabel_LinkClicked);
             // 
             // IPButton
             // 
@@ -596,6 +602,54 @@
             this.TabControl.Size = new System.Drawing.Size(397, 513);
             this.TabControl.TabIndex = 2;
             // 
+            // ConvertNameIPButton
+            // 
+            this.ConvertNameIPButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ConvertNameIPButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.ConvertNameIPButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ConvertNameIPButton.Location = new System.Drawing.Point(177, 372);
+            this.ConvertNameIPButton.Name = "ConvertNameIPButton";
+            this.ConvertNameIPButton.Size = new System.Drawing.Size(194, 31);
+            this.ConvertNameIPButton.TabIndex = 22;
+            this.ConvertNameIPButton.Text = "计算机名 -> IP 地址";
+            this.ConvertNameIPButton.UseVisualStyleBackColor = true;
+            this.ConvertNameIPButton.Click += new System.EventHandler(this.ConvertNameIPButton_Click);
+            // 
+            // PCNameTextBox
+            // 
+            this.PCNameTextBox.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.PCNameTextBox.Location = new System.Drawing.Point(101, 294);
+            this.PCNameTextBox.Name = "PCNameTextBox";
+            this.PCNameTextBox.Size = new System.Drawing.Size(270, 29);
+            this.PCNameTextBox.TabIndex = 24;
+            this.PCNameTextBox.Text = "1-1";
+            this.PCNameTextBox.Visible = false;
+            // 
+            // PCNameLabel
+            // 
+            this.PCNameLabel.AutoSize = true;
+            this.PCNameLabel.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.PCNameLabel.Location = new System.Drawing.Point(7, 297);
+            this.PCNameLabel.Name = "PCNameLabel";
+            this.PCNameLabel.Size = new System.Drawing.Size(78, 23);
+            this.PCNameLabel.TabIndex = 23;
+            this.PCNameLabel.Text = "计算机名";
+            this.PCNameLabel.Visible = false;
+            // 
+            // ConvertButton
+            // 
+            this.ConvertButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ConvertButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.ConvertButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ConvertButton.Location = new System.Drawing.Point(11, 372);
+            this.ConvertButton.Name = "ConvertButton";
+            this.ConvertButton.Size = new System.Drawing.Size(160, 31);
+            this.ConvertButton.TabIndex = 25;
+            this.ConvertButton.Text = "立即转换";
+            this.ConvertButton.UseVisualStyleBackColor = true;
+            this.ConvertButton.Visible = false;
+            this.ConvertButton.Click += new System.EventHandler(this.ConvertButton_Click);
+            // 
             // MainWindow
             // 
             this.AcceptButton = this.CloseAppButton;
@@ -635,7 +689,6 @@
         private System.Windows.Forms.ToolStripMenuItem RecoverAppMenuItem;
         private System.Windows.Forms.TabPage AttackTab;
         private System.Windows.Forms.GroupBox ProgramUsingGroup;
-        private System.Windows.Forms.LinkLabel InstallPythonLinkLabel;
         private System.Windows.Forms.Button IPButton;
         private System.Windows.Forms.Button AttackButton;
         private System.Windows.Forms.RadioButton UseMsgRadio;
@@ -671,5 +724,10 @@
         private System.Windows.Forms.TabControl TabControl;
         private System.Windows.Forms.RadioButton UseScriptRadio;
         private System.Windows.Forms.Button ChooseScriptButton;
+        private System.Windows.Forms.Button InstallPythonButton;
+        private System.Windows.Forms.Button ConvertNameIPButton;
+        private System.Windows.Forms.Button ConvertButton;
+        private System.Windows.Forms.TextBox PCNameTextBox;
+        private System.Windows.Forms.Label PCNameLabel;
     }
 }
