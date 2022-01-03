@@ -38,6 +38,10 @@
             this.ExitProgramMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AttackTab = new System.Windows.Forms.TabPage();
             this.ProgramUsingGroup = new System.Windows.Forms.GroupBox();
+            this.ConvertButton = new System.Windows.Forms.Button();
+            this.PCNameTextBox = new System.Windows.Forms.TextBox();
+            this.PCNameLabel = new System.Windows.Forms.Label();
+            this.ConvertNameIPButton = new System.Windows.Forms.Button();
             this.InstallPythonButton = new System.Windows.Forms.Button();
             this.ChooseScriptButton = new System.Windows.Forms.Button();
             this.UseScriptRadio = new System.Windows.Forms.RadioButton();
@@ -49,12 +53,8 @@
             this.CmdTextBox = new System.Windows.Forms.TextBox();
             this.PortTextBox = new System.Windows.Forms.TextBox();
             this.PortLabel = new System.Windows.Forms.Label();
-            this.IPTextBox3 = new System.Windows.Forms.TextBox();
+            this.IPRangeTextBox = new System.Windows.Forms.TextBox();
             this.IPLabel3 = new System.Windows.Forms.Label();
-            this.IPTextBox2 = new System.Windows.Forms.TextBox();
-            this.IPLabel2 = new System.Windows.Forms.Label();
-            this.IPTextBox1 = new System.Windows.Forms.TextBox();
-            this.IPLabel1 = new System.Windows.Forms.Label();
             this.SettingsTab = new System.Windows.Forms.TabPage();
             this.UpdateAppButton = new System.Windows.Forms.Button();
             this.DisableAttackButton = new System.Windows.Forms.Button();
@@ -74,10 +74,7 @@
             this.PauseAppButton = new System.Windows.Forms.Button();
             this.ExitProgramButton = new System.Windows.Forms.Button();
             this.TabControl = new System.Windows.Forms.TabControl();
-            this.ConvertNameIPButton = new System.Windows.Forms.Button();
-            this.PCNameTextBox = new System.Windows.Forms.TextBox();
-            this.PCNameLabel = new System.Windows.Forms.Label();
-            this.ConvertButton = new System.Windows.Forms.Button();
+            this.IPTextBox = new System.Windows.Forms.TextBox();
             this.NotifyIconMenu.SuspendLayout();
             this.AttackTab.SuspendLayout();
             this.ProgramUsingGroup.SuspendLayout();
@@ -168,18 +165,63 @@
             this.ProgramUsingGroup.Controls.Add(this.CmdTextBox);
             this.ProgramUsingGroup.Controls.Add(this.PortTextBox);
             this.ProgramUsingGroup.Controls.Add(this.PortLabel);
-            this.ProgramUsingGroup.Controls.Add(this.IPTextBox3);
+            this.ProgramUsingGroup.Controls.Add(this.IPRangeTextBox);
             this.ProgramUsingGroup.Controls.Add(this.IPLabel3);
-            this.ProgramUsingGroup.Controls.Add(this.IPTextBox2);
-            this.ProgramUsingGroup.Controls.Add(this.IPLabel2);
-            this.ProgramUsingGroup.Controls.Add(this.IPTextBox1);
-            this.ProgramUsingGroup.Controls.Add(this.IPLabel1);
+            this.ProgramUsingGroup.Controls.Add(this.IPTextBox);
             this.ProgramUsingGroup.Location = new System.Drawing.Point(4, 4);
             this.ProgramUsingGroup.Name = "ProgramUsingGroup";
             this.ProgramUsingGroup.Size = new System.Drawing.Size(381, 470);
             this.ProgramUsingGroup.TabIndex = 0;
             this.ProgramUsingGroup.TabStop = false;
             this.ProgramUsingGroup.Text = "极域利用";
+            // 
+            // ConvertButton
+            // 
+            this.ConvertButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ConvertButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.ConvertButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ConvertButton.Location = new System.Drawing.Point(11, 372);
+            this.ConvertButton.Name = "ConvertButton";
+            this.ConvertButton.Size = new System.Drawing.Size(160, 31);
+            this.ConvertButton.TabIndex = 25;
+            this.ConvertButton.Text = "立即转换";
+            this.ConvertButton.UseVisualStyleBackColor = true;
+            this.ConvertButton.Visible = false;
+            this.ConvertButton.Click += new System.EventHandler(this.ConvertButton_Click);
+            // 
+            // PCNameTextBox
+            // 
+            this.PCNameTextBox.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.PCNameTextBox.Location = new System.Drawing.Point(101, 294);
+            this.PCNameTextBox.Name = "PCNameTextBox";
+            this.PCNameTextBox.Size = new System.Drawing.Size(270, 29);
+            this.PCNameTextBox.TabIndex = 24;
+            this.PCNameTextBox.Text = "1-1";
+            this.PCNameTextBox.Visible = false;
+            // 
+            // PCNameLabel
+            // 
+            this.PCNameLabel.AutoSize = true;
+            this.PCNameLabel.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.PCNameLabel.Location = new System.Drawing.Point(7, 297);
+            this.PCNameLabel.Name = "PCNameLabel";
+            this.PCNameLabel.Size = new System.Drawing.Size(78, 23);
+            this.PCNameLabel.TabIndex = 23;
+            this.PCNameLabel.Text = "计算机名";
+            this.PCNameLabel.Visible = false;
+            // 
+            // ConvertNameIPButton
+            // 
+            this.ConvertNameIPButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ConvertNameIPButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.ConvertNameIPButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ConvertNameIPButton.Location = new System.Drawing.Point(177, 372);
+            this.ConvertNameIPButton.Name = "ConvertNameIPButton";
+            this.ConvertNameIPButton.Size = new System.Drawing.Size(194, 31);
+            this.ConvertNameIPButton.TabIndex = 22;
+            this.ConvertNameIPButton.Text = "计算机名 -> IP 地址";
+            this.ConvertNameIPButton.UseVisualStyleBackColor = true;
+            this.ConvertNameIPButton.Click += new System.EventHandler(this.ConvertNameIPButton_Click);
             // 
             // InstallPythonButton
             // 
@@ -314,65 +356,25 @@
             this.PortLabel.TabIndex = 7;
             this.PortLabel.Text = "端口";
             // 
-            // IPTextBox3
+            // IPRangeTextBox
             // 
-            this.IPTextBox3.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.IPTextBox3.Location = new System.Drawing.Point(326, 28);
-            this.IPTextBox3.Name = "IPTextBox3";
-            this.IPTextBox3.Size = new System.Drawing.Size(45, 29);
-            this.IPTextBox3.TabIndex = 6;
-            this.IPTextBox3.Text = "1";
-            this.IPTextBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.IPRangeTextBox.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.IPRangeTextBox.Location = new System.Drawing.Point(326, 28);
+            this.IPRangeTextBox.Name = "IPRangeTextBox";
+            this.IPRangeTextBox.Size = new System.Drawing.Size(45, 29);
+            this.IPRangeTextBox.TabIndex = 6;
+            this.IPRangeTextBox.Text = "1";
+            this.IPRangeTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // IPLabel3
             // 
             this.IPLabel3.AutoSize = true;
             this.IPLabel3.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.IPLabel3.Location = new System.Drawing.Point(303, 31);
+            this.IPLabel3.Location = new System.Drawing.Point(303, 34);
             this.IPLabel3.Name = "IPLabel3";
             this.IPLabel3.Size = new System.Drawing.Size(17, 23);
             this.IPLabel3.TabIndex = 5;
             this.IPLabel3.Text = "-";
-            // 
-            // IPTextBox2
-            // 
-            this.IPTextBox2.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.IPTextBox2.Location = new System.Drawing.Point(252, 28);
-            this.IPTextBox2.Name = "IPTextBox2";
-            this.IPTextBox2.Size = new System.Drawing.Size(45, 29);
-            this.IPTextBox2.TabIndex = 4;
-            this.IPTextBox2.Text = "1";
-            this.IPTextBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // IPLabel2
-            // 
-            this.IPLabel2.AutoSize = true;
-            this.IPLabel2.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.IPLabel2.Location = new System.Drawing.Point(232, 31);
-            this.IPLabel2.Name = "IPLabel2";
-            this.IPLabel2.Size = new System.Drawing.Size(14, 23);
-            this.IPLabel2.TabIndex = 3;
-            this.IPLabel2.Text = ".";
-            // 
-            // IPTextBox1
-            // 
-            this.IPTextBox1.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.IPTextBox1.Location = new System.Drawing.Point(196, 28);
-            this.IPTextBox1.Name = "IPTextBox1";
-            this.IPTextBox1.Size = new System.Drawing.Size(30, 29);
-            this.IPTextBox1.TabIndex = 2;
-            this.IPTextBox1.Text = "7";
-            this.IPTextBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // IPLabel1
-            // 
-            this.IPLabel1.AutoSize = true;
-            this.IPLabel1.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.IPLabel1.Location = new System.Drawing.Point(97, 31);
-            this.IPLabel1.Name = "IPLabel1";
-            this.IPLabel1.Size = new System.Drawing.Size(93, 23);
-            this.IPLabel1.TabIndex = 1;
-            this.IPLabel1.Text = "192 . 168 .";
             // 
             // SettingsTab
             // 
@@ -602,53 +604,15 @@
             this.TabControl.Size = new System.Drawing.Size(397, 513);
             this.TabControl.TabIndex = 2;
             // 
-            // ConvertNameIPButton
+            // IPTextBox
             // 
-            this.ConvertNameIPButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ConvertNameIPButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.ConvertNameIPButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ConvertNameIPButton.Location = new System.Drawing.Point(177, 372);
-            this.ConvertNameIPButton.Name = "ConvertNameIPButton";
-            this.ConvertNameIPButton.Size = new System.Drawing.Size(194, 31);
-            this.ConvertNameIPButton.TabIndex = 22;
-            this.ConvertNameIPButton.Text = "计算机名 -> IP 地址";
-            this.ConvertNameIPButton.UseVisualStyleBackColor = true;
-            this.ConvertNameIPButton.Click += new System.EventHandler(this.ConvertNameIPButton_Click);
-            // 
-            // PCNameTextBox
-            // 
-            this.PCNameTextBox.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.PCNameTextBox.Location = new System.Drawing.Point(101, 294);
-            this.PCNameTextBox.Name = "PCNameTextBox";
-            this.PCNameTextBox.Size = new System.Drawing.Size(270, 29);
-            this.PCNameTextBox.TabIndex = 24;
-            this.PCNameTextBox.Text = "1-1";
-            this.PCNameTextBox.Visible = false;
-            // 
-            // PCNameLabel
-            // 
-            this.PCNameLabel.AutoSize = true;
-            this.PCNameLabel.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.PCNameLabel.Location = new System.Drawing.Point(7, 297);
-            this.PCNameLabel.Name = "PCNameLabel";
-            this.PCNameLabel.Size = new System.Drawing.Size(78, 23);
-            this.PCNameLabel.TabIndex = 23;
-            this.PCNameLabel.Text = "计算机名";
-            this.PCNameLabel.Visible = false;
-            // 
-            // ConvertButton
-            // 
-            this.ConvertButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ConvertButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.ConvertButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ConvertButton.Location = new System.Drawing.Point(11, 372);
-            this.ConvertButton.Name = "ConvertButton";
-            this.ConvertButton.Size = new System.Drawing.Size(160, 31);
-            this.ConvertButton.TabIndex = 25;
-            this.ConvertButton.Text = "立即转换";
-            this.ConvertButton.UseVisualStyleBackColor = true;
-            this.ConvertButton.Visible = false;
-            this.ConvertButton.Click += new System.EventHandler(this.ConvertButton_Click);
+            this.IPTextBox.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.IPTextBox.Location = new System.Drawing.Point(101, 28);
+            this.IPTextBox.Name = "IPTextBox";
+            this.IPTextBox.Size = new System.Drawing.Size(196, 29);
+            this.IPTextBox.TabIndex = 2;
+            this.IPTextBox.Text = "192.168.0.1";
+            this.IPTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // MainWindow
             // 
@@ -697,12 +661,8 @@
         private System.Windows.Forms.TextBox CmdTextBox;
         private System.Windows.Forms.TextBox PortTextBox;
         private System.Windows.Forms.Label PortLabel;
-        private System.Windows.Forms.TextBox IPTextBox3;
+        private System.Windows.Forms.TextBox IPRangeTextBox;
         private System.Windows.Forms.Label IPLabel3;
-        private System.Windows.Forms.TextBox IPTextBox2;
-        private System.Windows.Forms.Label IPLabel2;
-        private System.Windows.Forms.TextBox IPTextBox1;
-        private System.Windows.Forms.Label IPLabel1;
         private System.Windows.Forms.TabPage SettingsTab;
         private System.Windows.Forms.Button UpdateAppButton;
         private System.Windows.Forms.Button DisableAttackButton;
@@ -729,5 +689,6 @@
         private System.Windows.Forms.Button ConvertButton;
         private System.Windows.Forms.TextBox PCNameTextBox;
         private System.Windows.Forms.Label PCNameLabel;
+        private System.Windows.Forms.TextBox IPTextBox;
     }
 }

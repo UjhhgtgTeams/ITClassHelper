@@ -319,11 +319,11 @@ namespace ITClassHelper
         private void AttackButton_Click(object sender, EventArgs e)
         {
             string scriptPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\attacker.py";
-            string baseArguments = $@"{scriptPath} -p {PortTextBox.Text} -ip 192.168.{IPTextBox1.Text}.{IPTextBox2.Text}";
+            string baseArguments = $@"{scriptPath} -p {PortTextBox.Text} -ip {IPTextBox.Text}";
             string formattedMsg = MsgTextBox.Text.Replace("\n", "").Replace("\r", "");
-            if (IPTextBox2.Text != IPTextBox3.Text)
+            if (IPTextBox.Text.Split('.')[3] != IPRangeTextBox.Text)
             {
-                baseArguments += $"-{IPTextBox3.Text}";
+                baseArguments += $"-{IPRangeTextBox.Text}";
             }
             if (UseMsgRadio.Checked == true)
             {
@@ -349,7 +349,7 @@ namespace ITClassHelper
             }
             else
             {
-                if (IPTextBox2.Text != IPTextBox3.Text)
+                if (IPTextBox.Text.Split('.')[3] != IPRangeTextBox.Text)
                 {
                     MessageBox.Show("暂不支持向多台设备发送脚本！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -370,7 +370,7 @@ namespace ITClassHelper
                                 {
                                     ExecuteProcess("py", $"{baseArguments} -c \"{fileLine}\"");
                                 }
-                                Thread.Sleep(2000);
+                                Thread.Sleep(1500);
                             }
                         }
                     }
@@ -381,15 +381,15 @@ namespace ITClassHelper
 
         private void IPButton_Click(object sender, EventArgs e)
         {
-            string MyIP = string.Empty;
-            foreach (IPAddress IPAddresses in Dns.GetHostEntry(Dns.GetHostName()).AddressList)
+            string realAddress = "无法获取到当前 IP 地址！请检查网络是否正常！";
+            foreach (IPAddress curAddress in Dns.GetHostEntry(Dns.GetHostName()).AddressList)
             {
-                if (IPAddresses.AddressFamily.ToString() == "InterNetwork")
+                if (curAddress.AddressFamily.ToString() == "InterNetwork")
                 {
-                    MyIP = IPAddresses.ToString();
+                    realAddress = curAddress.ToString();
                 }
             }
-            MessageBox.Show($"您的 IP 地址为：{MyIP}", "IP 地址", MessageBoxButtons.OK);
+            MessageBox.Show($"您的 IP 地址为：{realAddress}", "IP 地址", MessageBoxButtons.OK);
         }
 
         private void DisableAttackButton_Click(object sender, EventArgs e)
@@ -436,10 +436,12 @@ Include_tcltk=1 Include_test=1 Include_tools=1";
 
         private void ChooseScriptButton_Click(object sender, EventArgs e)
         {
-            OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.Multiselect = false;
-            fileDialog.Title = "选择脚本文件";
-            fileDialog.Filter = "BAT脚本(*.bat)|*.bat";
+            OpenFileDialog fileDialog = new OpenFileDialog
+            {
+                Multiselect = false,
+                Title = "选择脚本文件",
+                Filter = "BAT脚本(*.bat)|*.bat"
+            };
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
                 attackScriptPath = fileDialog.FileName;
