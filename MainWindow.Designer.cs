@@ -28,14 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
-            this.NotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.NotifyIconMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.ShowHideProgramMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.CloseAppMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.RecoverAppMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ExitProgramMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AttackTab = new System.Windows.Forms.TabPage();
             this.ProgramUsingGroup = new System.Windows.Forms.GroupBox();
             this.ConvertButton = new System.Windows.Forms.Button();
@@ -55,6 +47,7 @@
             this.PortLabel = new System.Windows.Forms.Label();
             this.IPRangeTextBox = new System.Windows.Forms.TextBox();
             this.IPLabel3 = new System.Windows.Forms.Label();
+            this.IPTextBox = new System.Windows.Forms.TextBox();
             this.SettingsTab = new System.Windows.Forms.TabPage();
             this.UpdateAppButton = new System.Windows.Forms.Button();
             this.DisableAttackButton = new System.Windows.Forms.Button();
@@ -74,8 +67,6 @@
             this.PauseAppButton = new System.Windows.Forms.Button();
             this.ExitProgramButton = new System.Windows.Forms.Button();
             this.TabControl = new System.Windows.Forms.TabControl();
-            this.IPTextBox = new System.Windows.Forms.TextBox();
-            this.NotifyIconMenu.SuspendLayout();
             this.AttackTab.SuspendLayout();
             this.ProgramUsingGroup.SuspendLayout();
             this.SettingsTab.SuspendLayout();
@@ -84,58 +75,6 @@
             this.AppControlGroup.SuspendLayout();
             this.TabControl.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // NotifyIcon
-            // 
-            this.NotifyIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.NotifyIcon.BalloonTipTitle = "机房助手";
-            this.NotifyIcon.ContextMenuStrip = this.NotifyIconMenu;
-            this.NotifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("NotifyIcon.Icon")));
-            this.NotifyIcon.Text = "机房助手";
-            this.NotifyIcon.Visible = true;
-            this.NotifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.NotifyIcon_MouseDoubleClick);
-            // 
-            // NotifyIconMenu
-            // 
-            this.NotifyIconMenu.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.NotifyIconMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.NotifyIconMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ShowHideProgramMenuItem,
-            this.CloseAppMenuItem,
-            this.RecoverAppMenuItem,
-            this.ExitProgramMenuItem});
-            this.NotifyIconMenu.Name = "NotifyIconMenu";
-            this.NotifyIconMenu.ShowImageMargin = false;
-            this.NotifyIconMenu.Size = new System.Drawing.Size(114, 100);
-            this.NotifyIconMenu.Text = "机房助手";
-            // 
-            // ShowHideProgramMenuItem
-            // 
-            this.ShowHideProgramMenuItem.Name = "ShowHideProgramMenuItem";
-            this.ShowHideProgramMenuItem.Size = new System.Drawing.Size(113, 24);
-            this.ShowHideProgramMenuItem.Text = "显隐程序";
-            this.ShowHideProgramMenuItem.Click += new System.EventHandler(this.ShowHideProgramMenuItem_Click);
-            // 
-            // CloseAppMenuItem
-            // 
-            this.CloseAppMenuItem.Name = "CloseAppMenuItem";
-            this.CloseAppMenuItem.Size = new System.Drawing.Size(113, 24);
-            this.CloseAppMenuItem.Text = "关闭极域";
-            this.CloseAppMenuItem.Click += new System.EventHandler(this.CloseAppMenuItem_Click);
-            // 
-            // RecoverAppMenuItem
-            // 
-            this.RecoverAppMenuItem.Name = "RecoverAppMenuItem";
-            this.RecoverAppMenuItem.Size = new System.Drawing.Size(113, 24);
-            this.RecoverAppMenuItem.Text = "恢复极域";
-            this.RecoverAppMenuItem.Click += new System.EventHandler(this.RecoverAppMenuItem_Click);
-            // 
-            // ExitProgramMenuItem
-            // 
-            this.ExitProgramMenuItem.Name = "ExitProgramMenuItem";
-            this.ExitProgramMenuItem.Size = new System.Drawing.Size(113, 24);
-            this.ExitProgramMenuItem.Text = "退出程序";
-            this.ExitProgramMenuItem.Click += new System.EventHandler(this.ExitProgramMenuItem_Click);
             // 
             // AttackTab
             // 
@@ -376,6 +315,16 @@
             this.IPLabel3.TabIndex = 5;
             this.IPLabel3.Text = "-";
             // 
+            // IPTextBox
+            // 
+            this.IPTextBox.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.IPTextBox.Location = new System.Drawing.Point(101, 28);
+            this.IPTextBox.Name = "IPTextBox";
+            this.IPTextBox.Size = new System.Drawing.Size(196, 29);
+            this.IPTextBox.TabIndex = 2;
+            this.IPTextBox.Text = "192.168.0.1";
+            this.IPTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // SettingsTab
             // 
             this.SettingsTab.BackColor = System.Drawing.Color.Transparent;
@@ -604,16 +553,6 @@
             this.TabControl.Size = new System.Drawing.Size(397, 513);
             this.TabControl.TabIndex = 2;
             // 
-            // IPTextBox
-            // 
-            this.IPTextBox.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.IPTextBox.Location = new System.Drawing.Point(101, 28);
-            this.IPTextBox.Name = "IPTextBox";
-            this.IPTextBox.Size = new System.Drawing.Size(196, 29);
-            this.IPTextBox.TabIndex = 2;
-            this.IPTextBox.Text = "192.168.0.1";
-            this.IPTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // MainWindow
             // 
             this.AcceptButton = this.CloseAppButton;
@@ -629,7 +568,6 @@
             this.Text = "机房助手";
             this.TopMost = true;
             this.Load += new System.EventHandler(this.MainWindow_Load);
-            this.NotifyIconMenu.ResumeLayout(false);
             this.AttackTab.ResumeLayout(false);
             this.ProgramUsingGroup.ResumeLayout(false);
             this.ProgramUsingGroup.PerformLayout();
@@ -645,12 +583,6 @@
         }
 
         #endregion
-        private System.Windows.Forms.NotifyIcon NotifyIcon;
-        private System.Windows.Forms.ContextMenuStrip NotifyIconMenu;
-        private System.Windows.Forms.ToolStripMenuItem CloseAppMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ExitProgramMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ShowHideProgramMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem RecoverAppMenuItem;
         private System.Windows.Forms.TabPage AttackTab;
         private System.Windows.Forms.GroupBox ProgramUsingGroup;
         private System.Windows.Forms.Button IPButton;
