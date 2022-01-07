@@ -116,8 +116,9 @@ namespace ITClassHelper
 
 
         MiniController castControlWindow = new MiniController();
-        static readonly string ProgramVersion = "1.4.0";
+        static readonly string ProgramVersion = "1.5.0";
         string attackScriptPath;
+        string roomPath = @"C:\Program Files\Mythware\e-Learning Class\StudentMain.exe";
         readonly string disableAttackFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\disableAttack.txt";
 
         [DllImport("user32.dll")]
@@ -129,7 +130,7 @@ namespace ITClassHelper
         public MainWindow()
         {
             InitializeComponent();
-            ProgramVerLabel.Text += ProgramVersion;
+            ProgramVerLabel.Text = ProgramVerLabel.Text.Replace("X.Y.Z", ProgramVersion);
             castControlWindow.Show();
             castControlWindow.Hide();
             HotKey.RegisterHotKey(Handle, 100, HotKey.KeyModifiers.Alt, Keys.H);
@@ -173,13 +174,13 @@ namespace ITClassHelper
                 Process[] studentProc = Process.GetProcessesByName("StudentMain");
                 if (studentProc.Length == 0)
                 {
-                    AppStatusLabel.Text = "未在运行";
-                    AppStatusLabel.ForeColor = Color.Green;
+                    RoomStatusLabel.Text = "未在运行";
+                    RoomStatusLabel.ForeColor = Color.Green;
                 }
                 else
                 {
-                    AppStatusLabel.Text = "正在运行";
-                    AppStatusLabel.ForeColor = Color.Red;
+                    RoomStatusLabel.Text = "正在运行";
+                    RoomStatusLabel.ForeColor = Color.Red;
                 }
                 Thread.Sleep(1000);
             }
@@ -200,7 +201,7 @@ namespace ITClassHelper
             }
         }
 
-        private void PauseApp_Click(object sender, EventArgs e)
+        private void PauseRoomButton_Click(object sender, EventArgs e)
         {
             try
             {
@@ -210,22 +211,16 @@ namespace ITClassHelper
             catch { }
         }
 
-        private void CloseApp_Click(object sender, EventArgs e)
+        private void CloseRoomButton_Click(object sender, EventArgs e)
         {
-            CloseApp();
+            CloseRoom();
         }
 
-        private void CloseApp()
+        private void CloseRoom()
         {
             string ntsdPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\ntsd.exe";
             ExecuteProcess(ntsdPath, "-c q -pn StudentMain.exe");
-            new Thread(CleanupNtsd).Start();
-        }
-
-        private void GetPswd_Click(object sender, EventArgs e)
-        {
-            string PswdText = GetPswd();
-            MessageBox.Show($"密码为：{PswdText}", "极域密码", MessageBoxButtons.OK);
+            new Thread( x => { Thread.Sleep(1000); ExecuteProcess("taskkill", "/f /im ntsd.exe"); } ).Start();
         }
 
         private string GetPswd()
@@ -240,12 +235,11 @@ namespace ITClassHelper
             return longPswd.Replace("Passwd", "");
         }
 
-        /* private void SetPswd(string pswdText)
+        private void SetPswd(string pswdText)
         {
             string keyDir = @"HKEY_LOCAL_MACHINE\SOFTWARE\TopDomain\e-Learning Class Standard\1.00";
             Registry.SetValue(keyDir, "UninstallPasswd", $@"Passwd{pswdText}");
         }
-        */
 
         private void ExecuteProcess(string process, string arguments, bool noHide = false)
         {
@@ -272,18 +266,12 @@ namespace ITClassHelper
             ExeProcess.Start();
         }
 
-        private void CleanupNtsd()
+        private void RecoverRoomButton_Click(object sender, EventArgs e)
         {
-            Thread.Sleep(1000);
-            ExecuteProcess("taskkill", "/f /im ntsd.exe");
+            RecoverRoom();
         }
 
-        private void RecoverApp_Click(object sender, EventArgs e)
-        {
-            RecoverApp();
-        }
-
-        private void RecoverApp(bool noShowError = false)
+        private void RecoverRoom()
         {
             try
             {
@@ -292,53 +280,9 @@ namespace ITClassHelper
             }
             catch
             {
-                if (AppPathTextBox.Text == "")
-                {
-                    string path = @"C:\Program Files\Mythware\e-Learning Class\StudentMain.exe";
-                    if (File.Exists(path))
-                    {
-                        ExecuteProcess(path, "", true);
-                    }
-                    else
-                    {
-                        if (noShowError == false) { MessageBox.Show("无法找到极域的位置！请在设置里手动设置！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error); }
-                    }
-                }
-                else
-                {
-                    ExecuteProcess(AppPathTextBox.Text, "", true);
-                }
+                try { ExecuteProcess(roomPath, "", true); }
+                catch { }
             }
-        }
-
-        private void CloseAppMenuItem_Click(object sender, EventArgs e)
-        {
-            CloseApp();
-        }
-
-        private void ExitProgramMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowExitProgram();
-        }
-
-        private void NotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            Show();
-        }
-
-        private void HideProgramButton_Click(object sender, EventArgs e)
-        {
-            Hide();
-        }
-
-        private void RecoverAppMenuItem_Click(object sender, EventArgs e)
-        {
-            RecoverApp();
-        }
-
-        private void ShowHideProgramMenuItem_Click(object sender, EventArgs e)
-        {
-            Visible = !Visible;
         }
 
         private void AttackTypeRadio_CheckedChanged(object sender, EventArgs e)
@@ -433,7 +377,7 @@ namespace ITClassHelper
             catch { }
         }
 
-        private void UpdateAppButton_Click(object sender, EventArgs e)
+        private void UpdateProgramButton_Click(object sender, EventArgs e)
         {
             string path = Application.StartupPath + @"\ITCHUpdater.exe";
             if (File.Exists(path))
@@ -480,23 +424,6 @@ Include_tcltk=1 Include_test=1 Include_tools=1";
             }
         }
 
-        private void ConvertNameIPButton_Click(object sender, EventArgs e)
-        {
-            PCNameLabel.Visible = !PCNameLabel.Visible;
-            PCNameTextBox.Visible = !PCNameTextBox.Visible;
-            ConvertButton.Visible = !ConvertButton.Visible;
-            InstallPythonButton.Visible = !InstallPythonButton.Visible;
-            if (ConvertNameIPButton.Text == "计算机名 -> IP 地址")
-            {
-                ConvertNameIPButton.Text = "隐藏";
-            }
-            else
-            {
-                ConvertNameIPButton.Text = "计算机名 -> IP 地址";
-            }
-
-        }
-
         private void ConvertButton_Click(object sender, EventArgs e)
         {
             MessageBox.Show(
@@ -508,6 +435,19 @@ $@"即将显示一个命令窗口。
             ExecuteProcess("cmd", $"/c nbtstat -a {PCNameTextBox.Text} && pause && cls && arp -a && pause", true);
         }
 
+        private void ChooseRoomButton_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog
+            {
+                Multiselect = false,
+                Title = "选择教室程序",
+                Filter = "教师程序(*.exe)|*.exe"
+            };
+            if (fileDialog.ShowDialog() == DialogResult.OK)
+            {
+                roomPath = fileDialog.FileName;
+            }
+        }
 
         protected override void WndProc(ref Message msg)
         {

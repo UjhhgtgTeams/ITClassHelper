@@ -28,12 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.AttackTab = new System.Windows.Forms.TabPage();
-            this.ProgramUsingGroup = new System.Windows.Forms.GroupBox();
-            this.ConvertButton = new System.Windows.Forms.Button();
+            this.RoomFakingGroup = new System.Windows.Forms.GroupBox();
             this.PCNameTextBox = new System.Windows.Forms.TextBox();
-            this.PCNameLabel = new System.Windows.Forms.Label();
-            this.ConvertNameIPButton = new System.Windows.Forms.Button();
+            this.ConvertButton = new System.Windows.Forms.Button();
             this.InstallPythonButton = new System.Windows.Forms.Button();
             this.ChooseScriptButton = new System.Windows.Forms.Button();
             this.UseScriptRadio = new System.Windows.Forms.RadioButton();
@@ -44,134 +41,87 @@
             this.UseCmdRadio = new System.Windows.Forms.RadioButton();
             this.CmdTextBox = new System.Windows.Forms.TextBox();
             this.PortTextBox = new System.Windows.Forms.TextBox();
-            this.PortLabel = new System.Windows.Forms.Label();
             this.IPRangeTextBox = new System.Windows.Forms.TextBox();
             this.IPLabel3 = new System.Windows.Forms.Label();
             this.IPTextBox = new System.Windows.Forms.TextBox();
-            this.SettingsTab = new System.Windows.Forms.TabPage();
-            this.UpdateAppButton = new System.Windows.Forms.Button();
+            this.UpdateProgramButton = new System.Windows.Forms.Button();
             this.DisableAttackButton = new System.Windows.Forms.Button();
-            this.AuthorLabel = new System.Windows.Forms.Label();
+            this.RoomStatusGroup = new System.Windows.Forms.GroupBox();
+            this.RoomStatusLabel = new System.Windows.Forms.Label();
+            this.RoomStatusButton = new System.Windows.Forms.Button();
+            this.RoomControlGroup = new System.Windows.Forms.GroupBox();
+            this.RecoverRoomButton = new System.Windows.Forms.Button();
+            this.CloseRoomButton = new System.Windows.Forms.Button();
+            this.PauseRoomButton = new System.Windows.Forms.Button();
+            this.ProgramSettingsGroup = new System.Windows.Forms.GroupBox();
+            this.ChooseRoomButton = new System.Windows.Forms.Button();
             this.ProgramVerLabel = new System.Windows.Forms.Label();
-            this.AppPathTextBox = new System.Windows.Forms.TextBox();
-            this.AppPathLabel = new System.Windows.Forms.Label();
-            this.MainTab = new System.Windows.Forms.TabPage();
-            this.AppStatusGroup = new System.Windows.Forms.GroupBox();
-            this.AppStatusLabel = new System.Windows.Forms.Label();
-            this.AppStatusButton = new System.Windows.Forms.Button();
-            this.HideProgramButton = new System.Windows.Forms.Button();
-            this.AppControlGroup = new System.Windows.Forms.GroupBox();
-            this.GetPswdButton = new System.Windows.Forms.Button();
-            this.RecoverAppButton = new System.Windows.Forms.Button();
-            this.CloseAppButton = new System.Windows.Forms.Button();
-            this.PauseAppButton = new System.Windows.Forms.Button();
-            this.ExitProgramButton = new System.Windows.Forms.Button();
-            this.TabControl = new System.Windows.Forms.TabControl();
-            this.AttackTab.SuspendLayout();
-            this.ProgramUsingGroup.SuspendLayout();
-            this.SettingsTab.SuspendLayout();
-            this.MainTab.SuspendLayout();
-            this.AppStatusGroup.SuspendLayout();
-            this.AppControlGroup.SuspendLayout();
-            this.TabControl.SuspendLayout();
+            this.AuthorLabel = new System.Windows.Forms.Label();
+            this.PortLabel = new System.Windows.Forms.Label();
+            this.RoomFakingGroup.SuspendLayout();
+            this.RoomStatusGroup.SuspendLayout();
+            this.RoomControlGroup.SuspendLayout();
+            this.ProgramSettingsGroup.SuspendLayout();
             this.SuspendLayout();
             // 
-            // AttackTab
+            // RoomFakingGroup
             // 
-            this.AttackTab.Controls.Add(this.ProgramUsingGroup);
-            this.AttackTab.Location = new System.Drawing.Point(4, 29);
-            this.AttackTab.Name = "AttackTab";
-            this.AttackTab.Padding = new System.Windows.Forms.Padding(3);
-            this.AttackTab.Size = new System.Drawing.Size(389, 480);
-            this.AttackTab.TabIndex = 3;
-            this.AttackTab.Text = "网络攻击";
-            this.AttackTab.UseVisualStyleBackColor = true;
+            this.RoomFakingGroup.Controls.Add(this.PortLabel);
+            this.RoomFakingGroup.Controls.Add(this.PCNameTextBox);
+            this.RoomFakingGroup.Controls.Add(this.ConvertButton);
+            this.RoomFakingGroup.Controls.Add(this.InstallPythonButton);
+            this.RoomFakingGroup.Controls.Add(this.ChooseScriptButton);
+            this.RoomFakingGroup.Controls.Add(this.UseScriptRadio);
+            this.RoomFakingGroup.Controls.Add(this.IPButton);
+            this.RoomFakingGroup.Controls.Add(this.AttackButton);
+            this.RoomFakingGroup.Controls.Add(this.UseMsgRadio);
+            this.RoomFakingGroup.Controls.Add(this.MsgTextBox);
+            this.RoomFakingGroup.Controls.Add(this.UseCmdRadio);
+            this.RoomFakingGroup.Controls.Add(this.CmdTextBox);
+            this.RoomFakingGroup.Controls.Add(this.PortTextBox);
+            this.RoomFakingGroup.Controls.Add(this.IPRangeTextBox);
+            this.RoomFakingGroup.Controls.Add(this.IPLabel3);
+            this.RoomFakingGroup.Controls.Add(this.IPTextBox);
+            this.RoomFakingGroup.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.RoomFakingGroup.Location = new System.Drawing.Point(299, 12);
+            this.RoomFakingGroup.Name = "RoomFakingGroup";
+            this.RoomFakingGroup.Size = new System.Drawing.Size(493, 403);
+            this.RoomFakingGroup.TabIndex = 0;
+            this.RoomFakingGroup.TabStop = false;
+            this.RoomFakingGroup.Text = "教室利用";
             // 
-            // ProgramUsingGroup
+            // PCNameTextBox
             // 
-            this.ProgramUsingGroup.Controls.Add(this.ConvertButton);
-            this.ProgramUsingGroup.Controls.Add(this.PCNameTextBox);
-            this.ProgramUsingGroup.Controls.Add(this.PCNameLabel);
-            this.ProgramUsingGroup.Controls.Add(this.ConvertNameIPButton);
-            this.ProgramUsingGroup.Controls.Add(this.InstallPythonButton);
-            this.ProgramUsingGroup.Controls.Add(this.ChooseScriptButton);
-            this.ProgramUsingGroup.Controls.Add(this.UseScriptRadio);
-            this.ProgramUsingGroup.Controls.Add(this.IPButton);
-            this.ProgramUsingGroup.Controls.Add(this.AttackButton);
-            this.ProgramUsingGroup.Controls.Add(this.UseMsgRadio);
-            this.ProgramUsingGroup.Controls.Add(this.MsgTextBox);
-            this.ProgramUsingGroup.Controls.Add(this.UseCmdRadio);
-            this.ProgramUsingGroup.Controls.Add(this.CmdTextBox);
-            this.ProgramUsingGroup.Controls.Add(this.PortTextBox);
-            this.ProgramUsingGroup.Controls.Add(this.PortLabel);
-            this.ProgramUsingGroup.Controls.Add(this.IPRangeTextBox);
-            this.ProgramUsingGroup.Controls.Add(this.IPLabel3);
-            this.ProgramUsingGroup.Controls.Add(this.IPTextBox);
-            this.ProgramUsingGroup.Location = new System.Drawing.Point(4, 4);
-            this.ProgramUsingGroup.Name = "ProgramUsingGroup";
-            this.ProgramUsingGroup.Size = new System.Drawing.Size(381, 470);
-            this.ProgramUsingGroup.TabIndex = 0;
-            this.ProgramUsingGroup.TabStop = false;
-            this.ProgramUsingGroup.Text = "极域利用";
+            this.PCNameTextBox.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.PCNameTextBox.Location = new System.Drawing.Point(206, 261);
+            this.PCNameTextBox.Name = "PCNameTextBox";
+            this.PCNameTextBox.Size = new System.Drawing.Size(281, 29);
+            this.PCNameTextBox.TabIndex = 24;
+            this.PCNameTextBox.Text = "1-1";
             // 
             // ConvertButton
             // 
             this.ConvertButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ConvertButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.ConvertButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ConvertButton.Location = new System.Drawing.Point(11, 372);
+            this.ConvertButton.Location = new System.Drawing.Point(6, 260);
             this.ConvertButton.Name = "ConvertButton";
-            this.ConvertButton.Size = new System.Drawing.Size(160, 31);
-            this.ConvertButton.TabIndex = 25;
-            this.ConvertButton.Text = "立即转换";
+            this.ConvertButton.Size = new System.Drawing.Size(194, 31);
+            this.ConvertButton.TabIndex = 22;
+            this.ConvertButton.Text = "计算机名 -> IP 地址";
             this.ConvertButton.UseVisualStyleBackColor = true;
-            this.ConvertButton.Visible = false;
             this.ConvertButton.Click += new System.EventHandler(this.ConvertButton_Click);
-            // 
-            // PCNameTextBox
-            // 
-            this.PCNameTextBox.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.PCNameTextBox.Location = new System.Drawing.Point(101, 294);
-            this.PCNameTextBox.Name = "PCNameTextBox";
-            this.PCNameTextBox.Size = new System.Drawing.Size(270, 29);
-            this.PCNameTextBox.TabIndex = 24;
-            this.PCNameTextBox.Text = "1-1";
-            this.PCNameTextBox.Visible = false;
-            // 
-            // PCNameLabel
-            // 
-            this.PCNameLabel.AutoSize = true;
-            this.PCNameLabel.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.PCNameLabel.Location = new System.Drawing.Point(7, 297);
-            this.PCNameLabel.Name = "PCNameLabel";
-            this.PCNameLabel.Size = new System.Drawing.Size(78, 23);
-            this.PCNameLabel.TabIndex = 23;
-            this.PCNameLabel.Text = "计算机名";
-            this.PCNameLabel.Visible = false;
-            // 
-            // ConvertNameIPButton
-            // 
-            this.ConvertNameIPButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ConvertNameIPButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.ConvertNameIPButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ConvertNameIPButton.Location = new System.Drawing.Point(177, 372);
-            this.ConvertNameIPButton.Name = "ConvertNameIPButton";
-            this.ConvertNameIPButton.Size = new System.Drawing.Size(194, 31);
-            this.ConvertNameIPButton.TabIndex = 22;
-            this.ConvertNameIPButton.Text = "计算机名 -> IP 地址";
-            this.ConvertNameIPButton.UseVisualStyleBackColor = true;
-            this.ConvertNameIPButton.Click += new System.EventHandler(this.ConvertNameIPButton_Click);
             // 
             // InstallPythonButton
             // 
             this.InstallPythonButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.InstallPythonButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.InstallPythonButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.InstallPythonButton.Location = new System.Drawing.Point(11, 372);
+            this.InstallPythonButton.Location = new System.Drawing.Point(372, 339);
             this.InstallPythonButton.Name = "InstallPythonButton";
-            this.InstallPythonButton.Size = new System.Drawing.Size(160, 31);
+            this.InstallPythonButton.Size = new System.Drawing.Size(115, 55);
             this.InstallPythonButton.TabIndex = 21;
-            this.InstallPythonButton.Text = "安装运行环境";
+            this.InstallPythonButton.Text = "安装\r\n运行环境";
             this.InstallPythonButton.UseVisualStyleBackColor = true;
             this.InstallPythonButton.Click += new System.EventHandler(this.InstallPythonButton_Click);
             // 
@@ -180,11 +130,11 @@
             this.ChooseScriptButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ChooseScriptButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.ChooseScriptButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ChooseScriptButton.Location = new System.Drawing.Point(252, 257);
+            this.ChooseScriptButton.Location = new System.Drawing.Point(329, 224);
             this.ChooseScriptButton.Name = "ChooseScriptButton";
-            this.ChooseScriptButton.Size = new System.Drawing.Size(119, 31);
+            this.ChooseScriptButton.Size = new System.Drawing.Size(158, 31);
             this.ChooseScriptButton.TabIndex = 20;
-            this.ChooseScriptButton.Text = "选择脚本";
+            this.ChooseScriptButton.Text = "选择脚本文件";
             this.ChooseScriptButton.UseVisualStyleBackColor = true;
             this.ChooseScriptButton.Click += new System.EventHandler(this.ChooseScriptButton_Click);
             // 
@@ -193,7 +143,7 @@
             this.UseScriptRadio.AutoSize = true;
             this.UseScriptRadio.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.UseScriptRadio.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.UseScriptRadio.Location = new System.Drawing.Point(11, 257);
+            this.UseScriptRadio.Location = new System.Drawing.Point(6, 226);
             this.UseScriptRadio.Name = "UseScriptRadio";
             this.UseScriptRadio.Size = new System.Drawing.Size(74, 28);
             this.UseScriptRadio.TabIndex = 19;
@@ -219,7 +169,7 @@
             this.AttackButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.AttackButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.AttackButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.AttackButton.Location = new System.Drawing.Point(11, 409);
+            this.AttackButton.Location = new System.Drawing.Point(6, 339);
             this.AttackButton.Name = "AttackButton";
             this.AttackButton.Size = new System.Drawing.Size(360, 55);
             this.AttackButton.TabIndex = 14;
@@ -232,7 +182,7 @@
             this.UseMsgRadio.AutoSize = true;
             this.UseMsgRadio.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.UseMsgRadio.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.UseMsgRadio.Location = new System.Drawing.Point(11, 134);
+            this.UseMsgRadio.Location = new System.Drawing.Point(6, 98);
             this.UseMsgRadio.Name = "UseMsgRadio";
             this.UseMsgRadio.Size = new System.Drawing.Size(74, 28);
             this.UseMsgRadio.TabIndex = 13;
@@ -244,12 +194,12 @@
             // 
             this.MsgTextBox.Enabled = false;
             this.MsgTextBox.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.MsgTextBox.Location = new System.Drawing.Point(101, 133);
+            this.MsgTextBox.Location = new System.Drawing.Point(104, 97);
             this.MsgTextBox.Multiline = true;
             this.MsgTextBox.Name = "MsgTextBox";
-            this.MsgTextBox.Size = new System.Drawing.Size(270, 117);
+            this.MsgTextBox.Size = new System.Drawing.Size(383, 121);
             this.MsgTextBox.TabIndex = 12;
-            this.MsgTextBox.Text = "老师正在监视您的屏幕！";
+            this.MsgTextBox.Text = "BOO！！！";
             // 
             // UseCmdRadio
             // 
@@ -257,7 +207,7 @@
             this.UseCmdRadio.Checked = true;
             this.UseCmdRadio.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.UseCmdRadio.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.UseCmdRadio.Location = new System.Drawing.Point(11, 99);
+            this.UseCmdRadio.Location = new System.Drawing.Point(6, 63);
             this.UseCmdRadio.Name = "UseCmdRadio";
             this.UseCmdRadio.Size = new System.Drawing.Size(74, 28);
             this.UseCmdRadio.TabIndex = 11;
@@ -269,36 +219,26 @@
             // CmdTextBox
             // 
             this.CmdTextBox.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.CmdTextBox.Location = new System.Drawing.Point(101, 98);
+            this.CmdTextBox.Location = new System.Drawing.Point(104, 62);
             this.CmdTextBox.Name = "CmdTextBox";
-            this.CmdTextBox.Size = new System.Drawing.Size(270, 29);
+            this.CmdTextBox.Size = new System.Drawing.Size(383, 29);
             this.CmdTextBox.TabIndex = 10;
             this.CmdTextBox.Text = "shutdown -s -t 0";
             // 
             // PortTextBox
             // 
             this.PortTextBox.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.PortTextBox.Location = new System.Drawing.Point(284, 63);
+            this.PortTextBox.Location = new System.Drawing.Point(400, 27);
             this.PortTextBox.Name = "PortTextBox";
             this.PortTextBox.Size = new System.Drawing.Size(87, 29);
             this.PortTextBox.TabIndex = 8;
             this.PortTextBox.Text = "4605";
             this.PortTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // PortLabel
-            // 
-            this.PortLabel.AutoSize = true;
-            this.PortLabel.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.PortLabel.Location = new System.Drawing.Point(7, 66);
-            this.PortLabel.Name = "PortLabel";
-            this.PortLabel.Size = new System.Drawing.Size(44, 23);
-            this.PortLabel.TabIndex = 7;
-            this.PortLabel.Text = "端口";
-            // 
             // IPRangeTextBox
             // 
             this.IPRangeTextBox.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.IPRangeTextBox.Location = new System.Drawing.Point(326, 28);
+            this.IPRangeTextBox.Location = new System.Drawing.Point(329, 27);
             this.IPRangeTextBox.Name = "IPRangeTextBox";
             this.IPRangeTextBox.Size = new System.Drawing.Size(45, 29);
             this.IPRangeTextBox.TabIndex = 6;
@@ -309,7 +249,7 @@
             // 
             this.IPLabel3.AutoSize = true;
             this.IPLabel3.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.IPLabel3.Location = new System.Drawing.Point(303, 34);
+            this.IPLabel3.Location = new System.Drawing.Point(306, 33);
             this.IPLabel3.Name = "IPLabel3";
             this.IPLabel3.Size = new System.Drawing.Size(17, 23);
             this.IPLabel3.TabIndex = 5;
@@ -318,249 +258,191 @@
             // IPTextBox
             // 
             this.IPTextBox.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.IPTextBox.Location = new System.Drawing.Point(101, 28);
+            this.IPTextBox.Location = new System.Drawing.Point(104, 27);
             this.IPTextBox.Name = "IPTextBox";
             this.IPTextBox.Size = new System.Drawing.Size(196, 29);
             this.IPTextBox.TabIndex = 2;
             this.IPTextBox.Text = "192.168.0.1";
             this.IPTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // SettingsTab
+            // UpdateProgramButton
             // 
-            this.SettingsTab.BackColor = System.Drawing.Color.Transparent;
-            this.SettingsTab.Controls.Add(this.UpdateAppButton);
-            this.SettingsTab.Controls.Add(this.DisableAttackButton);
-            this.SettingsTab.Controls.Add(this.AuthorLabel);
-            this.SettingsTab.Controls.Add(this.ProgramVerLabel);
-            this.SettingsTab.Controls.Add(this.AppPathTextBox);
-            this.SettingsTab.Controls.Add(this.AppPathLabel);
-            this.SettingsTab.Location = new System.Drawing.Point(4, 29);
-            this.SettingsTab.Name = "SettingsTab";
-            this.SettingsTab.Padding = new System.Windows.Forms.Padding(3);
-            this.SettingsTab.Size = new System.Drawing.Size(389, 480);
-            this.SettingsTab.TabIndex = 1;
-            this.SettingsTab.Text = "程序设置";
-            // 
-            // UpdateAppButton
-            // 
-            this.UpdateAppButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.UpdateAppButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.UpdateAppButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.UpdateAppButton.Location = new System.Drawing.Point(8, 151);
-            this.UpdateAppButton.Name = "UpdateAppButton";
-            this.UpdateAppButton.Size = new System.Drawing.Size(374, 35);
-            this.UpdateAppButton.TabIndex = 19;
-            this.UpdateAppButton.Text = "更新软件";
-            this.UpdateAppButton.UseVisualStyleBackColor = true;
-            this.UpdateAppButton.Click += new System.EventHandler(this.UpdateAppButton_Click);
+            this.UpdateProgramButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UpdateProgramButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.UpdateProgramButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.UpdateProgramButton.Location = new System.Drawing.Point(8, 26);
+            this.UpdateProgramButton.Name = "UpdateProgramButton";
+            this.UpdateProgramButton.Size = new System.Drawing.Size(267, 35);
+            this.UpdateProgramButton.TabIndex = 19;
+            this.UpdateProgramButton.Text = "更新软件";
+            this.UpdateProgramButton.UseVisualStyleBackColor = true;
+            this.UpdateProgramButton.Click += new System.EventHandler(this.UpdateProgramButton_Click);
             // 
             // DisableAttackButton
             // 
             this.DisableAttackButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.DisableAttackButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.DisableAttackButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.DisableAttackButton.Location = new System.Drawing.Point(7, 110);
+            this.DisableAttackButton.Location = new System.Drawing.Point(8, 67);
             this.DisableAttackButton.Name = "DisableAttackButton";
-            this.DisableAttackButton.Size = new System.Drawing.Size(374, 35);
+            this.DisableAttackButton.Size = new System.Drawing.Size(267, 35);
             this.DisableAttackButton.TabIndex = 15;
             this.DisableAttackButton.Text = "禁用网络攻击";
             this.DisableAttackButton.UseVisualStyleBackColor = true;
             this.DisableAttackButton.Click += new System.EventHandler(this.DisableAttackButton_Click);
             // 
-            // AuthorLabel
+            // RoomStatusGroup
             // 
-            this.AuthorLabel.AutoSize = true;
-            this.AuthorLabel.Location = new System.Drawing.Point(129, 430);
-            this.AuthorLabel.Name = "AuthorLabel";
-            this.AuthorLabel.Size = new System.Drawing.Size(113, 20);
-            this.AuthorLabel.TabIndex = 5;
-            this.AuthorLabel.Text = "作者：Ujhhgtg";
+            this.RoomStatusGroup.Controls.Add(this.RoomStatusLabel);
+            this.RoomStatusGroup.Controls.Add(this.RoomStatusButton);
+            this.RoomStatusGroup.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.RoomStatusGroup.Location = new System.Drawing.Point(12, 12);
+            this.RoomStatusGroup.Name = "RoomStatusGroup";
+            this.RoomStatusGroup.Size = new System.Drawing.Size(281, 86);
+            this.RoomStatusGroup.TabIndex = 3;
+            this.RoomStatusGroup.TabStop = false;
+            this.RoomStatusGroup.Text = "教室状态";
+            // 
+            // RoomStatusLabel
+            // 
+            this.RoomStatusLabel.AutoSize = true;
+            this.RoomStatusLabel.BackColor = System.Drawing.Color.Transparent;
+            this.RoomStatusLabel.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.RoomStatusLabel.Location = new System.Drawing.Point(100, 41);
+            this.RoomStatusLabel.Name = "RoomStatusLabel";
+            this.RoomStatusLabel.Size = new System.Drawing.Size(78, 23);
+            this.RoomStatusLabel.TabIndex = 7;
+            this.RoomStatusLabel.Text = "状态未知";
+            // 
+            // RoomStatusButton
+            // 
+            this.RoomStatusButton.Enabled = false;
+            this.RoomStatusButton.Location = new System.Drawing.Point(7, 27);
+            this.RoomStatusButton.Name = "RoomStatusButton";
+            this.RoomStatusButton.Size = new System.Drawing.Size(268, 53);
+            this.RoomStatusButton.TabIndex = 0;
+            this.RoomStatusButton.UseVisualStyleBackColor = true;
+            // 
+            // RoomControlGroup
+            // 
+            this.RoomControlGroup.Controls.Add(this.RecoverRoomButton);
+            this.RoomControlGroup.Controls.Add(this.CloseRoomButton);
+            this.RoomControlGroup.Controls.Add(this.PauseRoomButton);
+            this.RoomControlGroup.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.RoomControlGroup.Location = new System.Drawing.Point(12, 104);
+            this.RoomControlGroup.Name = "RoomControlGroup";
+            this.RoomControlGroup.Size = new System.Drawing.Size(281, 99);
+            this.RoomControlGroup.TabIndex = 0;
+            this.RoomControlGroup.TabStop = false;
+            this.RoomControlGroup.Text = "进程控制";
+            // 
+            // RecoverRoomButton
+            // 
+            this.RecoverRoomButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.RecoverRoomButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.RecoverRoomButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.RecoverRoomButton.Location = new System.Drawing.Point(190, 26);
+            this.RecoverRoomButton.Name = "RecoverRoomButton";
+            this.RecoverRoomButton.Size = new System.Drawing.Size(85, 67);
+            this.RecoverRoomButton.TabIndex = 5;
+            this.RecoverRoomButton.Text = "恢复";
+            this.RecoverRoomButton.UseVisualStyleBackColor = true;
+            this.RecoverRoomButton.Click += new System.EventHandler(this.RecoverRoomButton_Click);
+            // 
+            // CloseRoomButton
+            // 
+            this.CloseRoomButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.CloseRoomButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.CloseRoomButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.CloseRoomButton.Location = new System.Drawing.Point(8, 26);
+            this.CloseRoomButton.Name = "CloseRoomButton";
+            this.CloseRoomButton.Size = new System.Drawing.Size(85, 67);
+            this.CloseRoomButton.TabIndex = 4;
+            this.CloseRoomButton.Text = "关闭";
+            this.CloseRoomButton.UseVisualStyleBackColor = true;
+            this.CloseRoomButton.Click += new System.EventHandler(this.CloseRoomButton_Click);
+            // 
+            // PauseRoomButton
+            // 
+            this.PauseRoomButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.PauseRoomButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.PauseRoomButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.PauseRoomButton.Location = new System.Drawing.Point(99, 26);
+            this.PauseRoomButton.Name = "PauseRoomButton";
+            this.PauseRoomButton.Size = new System.Drawing.Size(85, 67);
+            this.PauseRoomButton.TabIndex = 3;
+            this.PauseRoomButton.Text = "挂起";
+            this.PauseRoomButton.UseVisualStyleBackColor = true;
+            this.PauseRoomButton.Click += new System.EventHandler(this.PauseRoomButton_Click);
+            // 
+            // ProgramSettingsGroup
+            // 
+            this.ProgramSettingsGroup.Controls.Add(this.AuthorLabel);
+            this.ProgramSettingsGroup.Controls.Add(this.ProgramVerLabel);
+            this.ProgramSettingsGroup.Controls.Add(this.ChooseRoomButton);
+            this.ProgramSettingsGroup.Controls.Add(this.UpdateProgramButton);
+            this.ProgramSettingsGroup.Controls.Add(this.DisableAttackButton);
+            this.ProgramSettingsGroup.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ProgramSettingsGroup.Location = new System.Drawing.Point(12, 211);
+            this.ProgramSettingsGroup.Name = "ProgramSettingsGroup";
+            this.ProgramSettingsGroup.Size = new System.Drawing.Size(281, 204);
+            this.ProgramSettingsGroup.TabIndex = 6;
+            this.ProgramSettingsGroup.TabStop = false;
+            this.ProgramSettingsGroup.Text = "程序设置";
+            // 
+            // ChooseRoomButton
+            // 
+            this.ChooseRoomButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ChooseRoomButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.ChooseRoomButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ChooseRoomButton.Location = new System.Drawing.Point(8, 108);
+            this.ChooseRoomButton.Name = "ChooseRoomButton";
+            this.ChooseRoomButton.Size = new System.Drawing.Size(267, 35);
+            this.ChooseRoomButton.TabIndex = 25;
+            this.ChooseRoomButton.Text = "选择教室程序";
+            this.ChooseRoomButton.UseVisualStyleBackColor = true;
+            this.ChooseRoomButton.Click += new System.EventHandler(this.ChooseRoomButton_Click);
             // 
             // ProgramVerLabel
             // 
             this.ProgramVerLabel.AutoSize = true;
-            this.ProgramVerLabel.Location = new System.Drawing.Point(131, 450);
+            this.ProgramVerLabel.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ProgramVerLabel.Location = new System.Drawing.Point(77, 149);
             this.ProgramVerLabel.Name = "ProgramVerLabel";
-            this.ProgramVerLabel.Size = new System.Drawing.Size(69, 20);
-            this.ProgramVerLabel.TabIndex = 4;
-            this.ProgramVerLabel.Text = "版本号：";
+            this.ProgramVerLabel.Size = new System.Drawing.Size(118, 23);
+            this.ProgramVerLabel.TabIndex = 20;
+            this.ProgramVerLabel.Text = "版本号：X.Y.Z";
             // 
-            // AppPathTextBox
+            // AuthorLabel
             // 
-            this.AppPathTextBox.Location = new System.Drawing.Point(135, 6);
-            this.AppPathTextBox.Multiline = true;
-            this.AppPathTextBox.Name = "AppPathTextBox";
-            this.AppPathTextBox.Size = new System.Drawing.Size(246, 98);
-            this.AppPathTextBox.TabIndex = 3;
+            this.AuthorLabel.AutoSize = true;
+            this.AuthorLabel.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.AuthorLabel.Location = new System.Drawing.Point(77, 172);
+            this.AuthorLabel.Name = "AuthorLabel";
+            this.AuthorLabel.Size = new System.Drawing.Size(127, 23);
+            this.AuthorLabel.TabIndex = 26;
+            this.AuthorLabel.Text = "作者：Ujhhgtg";
             // 
-            // AppPathLabel
+            // PortLabel
             // 
-            this.AppPathLabel.AutoSize = true;
-            this.AppPathLabel.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.AppPathLabel.Location = new System.Drawing.Point(3, 6);
-            this.AppPathLabel.Name = "AppPathLabel";
-            this.AppPathLabel.Size = new System.Drawing.Size(124, 46);
-            this.AppPathLabel.TabIndex = 2;
-            this.AppPathLabel.Text = "极域程序路径\r\n(默认无需指定)";
-            // 
-            // MainTab
-            // 
-            this.MainTab.Controls.Add(this.AppStatusGroup);
-            this.MainTab.Controls.Add(this.HideProgramButton);
-            this.MainTab.Controls.Add(this.AppControlGroup);
-            this.MainTab.Controls.Add(this.ExitProgramButton);
-            this.MainTab.Location = new System.Drawing.Point(4, 29);
-            this.MainTab.Name = "MainTab";
-            this.MainTab.Padding = new System.Windows.Forms.Padding(3);
-            this.MainTab.Size = new System.Drawing.Size(389, 480);
-            this.MainTab.TabIndex = 0;
-            this.MainTab.Text = "主界面";
-            this.MainTab.UseVisualStyleBackColor = true;
-            // 
-            // AppStatusGroup
-            // 
-            this.AppStatusGroup.Controls.Add(this.AppStatusLabel);
-            this.AppStatusGroup.Controls.Add(this.AppStatusButton);
-            this.AppStatusGroup.Location = new System.Drawing.Point(6, 7);
-            this.AppStatusGroup.Name = "AppStatusGroup";
-            this.AppStatusGroup.Size = new System.Drawing.Size(379, 86);
-            this.AppStatusGroup.TabIndex = 3;
-            this.AppStatusGroup.TabStop = false;
-            this.AppStatusGroup.Text = "程序状态";
-            // 
-            // AppStatusLabel
-            // 
-            this.AppStatusLabel.AutoSize = true;
-            this.AppStatusLabel.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.AppStatusLabel.Location = new System.Drawing.Point(150, 41);
-            this.AppStatusLabel.Name = "AppStatusLabel";
-            this.AppStatusLabel.Size = new System.Drawing.Size(78, 23);
-            this.AppStatusLabel.TabIndex = 7;
-            this.AppStatusLabel.Text = "状态未知";
-            // 
-            // AppStatusButton
-            // 
-            this.AppStatusButton.Enabled = false;
-            this.AppStatusButton.Location = new System.Drawing.Point(7, 27);
-            this.AppStatusButton.Name = "AppStatusButton";
-            this.AppStatusButton.Size = new System.Drawing.Size(366, 53);
-            this.AppStatusButton.TabIndex = 0;
-            this.AppStatusButton.UseVisualStyleBackColor = true;
-            // 
-            // HideProgramButton
-            // 
-            this.HideProgramButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.HideProgramButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.HideProgramButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.HideProgramButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.HideProgramButton.Location = new System.Drawing.Point(8, 423);
-            this.HideProgramButton.Name = "HideProgramButton";
-            this.HideProgramButton.Size = new System.Drawing.Size(183, 49);
-            this.HideProgramButton.TabIndex = 2;
-            this.HideProgramButton.Text = "隐藏";
-            this.HideProgramButton.UseVisualStyleBackColor = true;
-            this.HideProgramButton.Click += new System.EventHandler(this.HideProgramButton_Click);
-            // 
-            // AppControlGroup
-            // 
-            this.AppControlGroup.Controls.Add(this.GetPswdButton);
-            this.AppControlGroup.Controls.Add(this.RecoverAppButton);
-            this.AppControlGroup.Controls.Add(this.CloseAppButton);
-            this.AppControlGroup.Controls.Add(this.PauseAppButton);
-            this.AppControlGroup.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.AppControlGroup.Location = new System.Drawing.Point(6, 99);
-            this.AppControlGroup.Name = "AppControlGroup";
-            this.AppControlGroup.Size = new System.Drawing.Size(379, 318);
-            this.AppControlGroup.TabIndex = 0;
-            this.AppControlGroup.TabStop = false;
-            this.AppControlGroup.Text = "程序控制";
-            // 
-            // GetPswdButton
-            // 
-            this.GetPswdButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.GetPswdButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.GetPswdButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.GetPswdButton.Location = new System.Drawing.Point(8, 245);
-            this.GetPswdButton.Name = "GetPswdButton";
-            this.GetPswdButton.Size = new System.Drawing.Size(367, 67);
-            this.GetPswdButton.TabIndex = 6;
-            this.GetPswdButton.Text = "读取密码";
-            this.GetPswdButton.UseVisualStyleBackColor = true;
-            this.GetPswdButton.Click += new System.EventHandler(this.GetPswd_Click);
-            // 
-            // RecoverAppButton
-            // 
-            this.RecoverAppButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.RecoverAppButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.RecoverAppButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.RecoverAppButton.Location = new System.Drawing.Point(7, 172);
-            this.RecoverAppButton.Name = "RecoverAppButton";
-            this.RecoverAppButton.Size = new System.Drawing.Size(367, 67);
-            this.RecoverAppButton.TabIndex = 5;
-            this.RecoverAppButton.Text = "恢复极域";
-            this.RecoverAppButton.UseVisualStyleBackColor = true;
-            this.RecoverAppButton.Click += new System.EventHandler(this.RecoverApp_Click);
-            // 
-            // CloseAppButton
-            // 
-            this.CloseAppButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.CloseAppButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.CloseAppButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.CloseAppButton.Location = new System.Drawing.Point(8, 26);
-            this.CloseAppButton.Name = "CloseAppButton";
-            this.CloseAppButton.Size = new System.Drawing.Size(367, 67);
-            this.CloseAppButton.TabIndex = 4;
-            this.CloseAppButton.Text = "关闭极域";
-            this.CloseAppButton.UseVisualStyleBackColor = true;
-            this.CloseAppButton.Click += new System.EventHandler(this.CloseApp_Click);
-            // 
-            // PauseAppButton
-            // 
-            this.PauseAppButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.PauseAppButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.PauseAppButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.PauseAppButton.Location = new System.Drawing.Point(8, 99);
-            this.PauseAppButton.Name = "PauseAppButton";
-            this.PauseAppButton.Size = new System.Drawing.Size(367, 67);
-            this.PauseAppButton.TabIndex = 3;
-            this.PauseAppButton.Text = "挂起极域";
-            this.PauseAppButton.UseVisualStyleBackColor = true;
-            this.PauseAppButton.Click += new System.EventHandler(this.PauseApp_Click);
-            // 
-            // ExitProgramButton
-            // 
-            this.ExitProgramButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ExitProgramButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.ExitProgramButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.ExitProgramButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ExitProgramButton.Location = new System.Drawing.Point(193, 423);
-            this.ExitProgramButton.Name = "ExitProgramButton";
-            this.ExitProgramButton.Size = new System.Drawing.Size(192, 49);
-            this.ExitProgramButton.TabIndex = 0;
-            this.ExitProgramButton.Text = "退出";
-            this.ExitProgramButton.UseVisualStyleBackColor = true;
-            this.ExitProgramButton.Click += new System.EventHandler(this.ExitProgram_Click);
-            // 
-            // TabControl
-            // 
-            this.TabControl.Controls.Add(this.MainTab);
-            this.TabControl.Controls.Add(this.SettingsTab);
-            this.TabControl.Controls.Add(this.AttackTab);
-            this.TabControl.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.TabControl.Location = new System.Drawing.Point(0, 0);
-            this.TabControl.Name = "TabControl";
-            this.TabControl.SelectedIndex = 0;
-            this.TabControl.Size = new System.Drawing.Size(397, 513);
-            this.TabControl.TabIndex = 2;
+            this.PortLabel.AutoSize = true;
+            this.PortLabel.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.PortLabel.Location = new System.Drawing.Point(380, 33);
+            this.PortLabel.Name = "PortLabel";
+            this.PortLabel.Size = new System.Drawing.Size(14, 23);
+            this.PortLabel.TabIndex = 25;
+            this.PortLabel.Text = ":";
             // 
             // MainWindow
             // 
-            this.AcceptButton = this.CloseAppButton;
+            this.AcceptButton = this.CloseRoomButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.HideProgramButton;
-            this.ClientSize = new System.Drawing.Size(397, 513);
-            this.Controls.Add(this.TabControl);
+            this.ClientSize = new System.Drawing.Size(804, 422);
+            this.Controls.Add(this.ProgramSettingsGroup);
+            this.Controls.Add(this.RoomFakingGroup);
+            this.Controls.Add(this.RoomStatusGroup);
+            this.Controls.Add(this.RoomControlGroup);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MainWindow";
@@ -568,23 +450,19 @@
             this.Text = "机房助手";
             this.TopMost = true;
             this.Load += new System.EventHandler(this.MainWindow_Load);
-            this.AttackTab.ResumeLayout(false);
-            this.ProgramUsingGroup.ResumeLayout(false);
-            this.ProgramUsingGroup.PerformLayout();
-            this.SettingsTab.ResumeLayout(false);
-            this.SettingsTab.PerformLayout();
-            this.MainTab.ResumeLayout(false);
-            this.AppStatusGroup.ResumeLayout(false);
-            this.AppStatusGroup.PerformLayout();
-            this.AppControlGroup.ResumeLayout(false);
-            this.TabControl.ResumeLayout(false);
+            this.RoomFakingGroup.ResumeLayout(false);
+            this.RoomFakingGroup.PerformLayout();
+            this.RoomStatusGroup.ResumeLayout(false);
+            this.RoomStatusGroup.PerformLayout();
+            this.RoomControlGroup.ResumeLayout(false);
+            this.ProgramSettingsGroup.ResumeLayout(false);
+            this.ProgramSettingsGroup.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-        private System.Windows.Forms.TabPage AttackTab;
-        private System.Windows.Forms.GroupBox ProgramUsingGroup;
+        private System.Windows.Forms.GroupBox RoomFakingGroup;
         private System.Windows.Forms.Button IPButton;
         private System.Windows.Forms.Button AttackButton;
         private System.Windows.Forms.RadioButton UseMsgRadio;
@@ -592,35 +470,27 @@
         private System.Windows.Forms.RadioButton UseCmdRadio;
         private System.Windows.Forms.TextBox CmdTextBox;
         private System.Windows.Forms.TextBox PortTextBox;
-        private System.Windows.Forms.Label PortLabel;
         private System.Windows.Forms.TextBox IPRangeTextBox;
         private System.Windows.Forms.Label IPLabel3;
-        private System.Windows.Forms.TabPage SettingsTab;
-        private System.Windows.Forms.Button UpdateAppButton;
+        private System.Windows.Forms.Button UpdateProgramButton;
         private System.Windows.Forms.Button DisableAttackButton;
-        private System.Windows.Forms.Label AuthorLabel;
-        private System.Windows.Forms.Label ProgramVerLabel;
-        private System.Windows.Forms.TextBox AppPathTextBox;
-        private System.Windows.Forms.Label AppPathLabel;
-        private System.Windows.Forms.TabPage MainTab;
-        private System.Windows.Forms.GroupBox AppStatusGroup;
-        private System.Windows.Forms.Label AppStatusLabel;
-        private System.Windows.Forms.Button AppStatusButton;
-        private System.Windows.Forms.Button HideProgramButton;
-        private System.Windows.Forms.GroupBox AppControlGroup;
-        private System.Windows.Forms.Button GetPswdButton;
-        private System.Windows.Forms.Button RecoverAppButton;
-        private System.Windows.Forms.Button CloseAppButton;
-        private System.Windows.Forms.Button PauseAppButton;
-        private System.Windows.Forms.Button ExitProgramButton;
-        private System.Windows.Forms.TabControl TabControl;
+        private System.Windows.Forms.GroupBox RoomStatusGroup;
+        private System.Windows.Forms.Label RoomStatusLabel;
+        private System.Windows.Forms.Button RoomStatusButton;
+        private System.Windows.Forms.GroupBox RoomControlGroup;
+        private System.Windows.Forms.Button RecoverRoomButton;
+        private System.Windows.Forms.Button CloseRoomButton;
+        private System.Windows.Forms.Button PauseRoomButton;
         private System.Windows.Forms.RadioButton UseScriptRadio;
         private System.Windows.Forms.Button ChooseScriptButton;
         private System.Windows.Forms.Button InstallPythonButton;
-        private System.Windows.Forms.Button ConvertNameIPButton;
         private System.Windows.Forms.Button ConvertButton;
         private System.Windows.Forms.TextBox PCNameTextBox;
-        private System.Windows.Forms.Label PCNameLabel;
         private System.Windows.Forms.TextBox IPTextBox;
+        private System.Windows.Forms.GroupBox ProgramSettingsGroup;
+        private System.Windows.Forms.Label ProgramVerLabel;
+        private System.Windows.Forms.Button ChooseRoomButton;
+        private System.Windows.Forms.Label AuthorLabel;
+        private System.Windows.Forms.Label PortLabel;
     }
 }
