@@ -116,7 +116,7 @@ namespace ITClassHelper
 
 
         MiniController castControlWindow = new MiniController();
-        static readonly string ProgramVersion = "1.5.0";
+        static readonly string ProgramVersion = "1.5.1";
         string attackScriptPath;
         string roomPath = @"C:\Program Files\Mythware\e-Learning Class\StudentMain.exe";
         readonly string disableAttackFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\disableAttack.txt";
@@ -289,6 +289,7 @@ namespace ITClassHelper
         {
             CmdTextBox.Enabled = UseCmdRadio.Checked;
             MsgTextBox.Enabled = UseMsgRadio.Checked;
+            ChooseScriptButton.Enabled = UseScriptRadio.Checked;
         }
 
         private void AttackButton_Click(object sender, EventArgs e)
@@ -437,15 +438,24 @@ $@"即将显示一个命令窗口。
 
         private void ChooseRoomButton_Click(object sender, EventArgs e)
         {
-            OpenFileDialog fileDialog = new OpenFileDialog
+            Process[] studentProcs = Process.GetProcessesByName("StudentMain");
+            if (studentProcs.Length != 0)
             {
-                Multiselect = false,
-                Title = "选择教室程序",
-                Filter = "教师程序(*.exe)|*.exe"
-            };
-            if (fileDialog.ShowDialog() == DialogResult.OK)
+                roomPath = studentProcs[0].MainModule.FileName;
+                MessageBox.Show("已自动读取到教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
             {
-                roomPath = fileDialog.FileName;
+                OpenFileDialog fileDialog = new OpenFileDialog
+                {
+                    Multiselect = false,
+                    Title = "选择教室程序",
+                    Filter = "教室程序(*.exe)|*.exe"
+                };
+                if (fileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    roomPath = fileDialog.FileName;
+                }
             }
         }
 
