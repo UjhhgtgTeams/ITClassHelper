@@ -7,6 +7,7 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
+using Microsoft.VisualBasic;
 
 namespace ITClassHelper
 {
@@ -223,24 +224,6 @@ namespace ITClassHelper
             new Thread( x => { Thread.Sleep(1000); ExecuteProcess("taskkill", "/f /im ntsd.exe"); } ).Start();
         }
 
-        private string GetPswd()
-        {
-            RegistryKey pswdKey;
-            try
-            {
-                pswdKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\TopDomain\e-Learning Class Standard\1.00");
-            }
-            catch { pswdKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\TopDomain\e-Learning Class\1.00"); }
-            string longPswd = (string)pswdKey.GetValue("UninstallPasswd");
-            return longPswd.Replace("Passwd", "");
-        }
-
-        private void SetPswd(string pswdText)
-        {
-            string keyDir = @"HKEY_LOCAL_MACHINE\SOFTWARE\TopDomain\e-Learning Class Standard\1.00";
-            Registry.SetValue(keyDir, "UninstallPasswd", $@"Passwd{pswdText}");
-        }
-
         private void ExecuteProcess(string process, string arguments, bool noHide = false)
         {
             Process ExeProcess = new Process();
@@ -365,7 +348,7 @@ namespace ITClassHelper
                     realAddress = curAddress.ToString();
                 }
             }
-            MessageBox.Show($"您的 IP 地址为：{realAddress}", "IP 地址", MessageBoxButtons.OK);
+            MessageBox.Show($"IP 地址为：{realAddress}", "信息", MessageBoxButtons.OK);
         }
 
         private void DisableAttackButton_Click(object sender, EventArgs e)
@@ -457,6 +440,27 @@ $@"即将显示一个命令窗口。
                     roomPath = fileDialog.FileName;
                 }
             }
+        }
+
+        private void GetPswdButton_Click(object sender, EventArgs e)
+        {
+            RegistryKey pswdKey;
+            try
+            {
+                pswdKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\TopDomain\e-Learning Class Standard\1.00");
+            }
+            catch { pswdKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\TopDomain\e-Learning Class\1.00"); }
+            string longPswd = (string)pswdKey.GetValue("UninstallPasswd");
+            MessageBox.Show($"密码为：{longPswd.Replace("Passwd", "")}", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void SetPswdButton_Click(object sender, EventArgs e)
+        {
+            string keyDir = @"HKEY_LOCAL_MACHINE\SOFTWARE\TopDomain\e-Learning Class Standard\1.00";
+            string pswdText = Interaction.InputBox("请输入要设置的密码：", "信息", "", -1, -1);
+            Registry.SetValue(keyDir, "UninstallPasswd", $@"Passwd{pswdText}");
+            CloseRoom();
+            new Thread(x => { Thread.Sleep(1000); RecoverRoom(); });
         }
 
         protected override void WndProc(ref Message msg)

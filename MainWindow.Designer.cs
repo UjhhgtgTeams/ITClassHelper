@@ -58,10 +58,14 @@
             this.ProgramVerLabel = new System.Windows.Forms.Label();
             this.ChooseRoomButton = new System.Windows.Forms.Button();
             this.RoomStatusButton = new System.Windows.Forms.Button();
+            this.PswdGroup = new System.Windows.Forms.GroupBox();
+            this.GetPswdButton = new System.Windows.Forms.Button();
+            this.SetPswdButton = new System.Windows.Forms.Button();
             this.RoomFakingGroup.SuspendLayout();
             this.RoomStatusGroup.SuspendLayout();
             this.RoomControlGroup.SuspendLayout();
             this.ProgramSettingsGroup.SuspendLayout();
+            this.PswdGroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // RoomFakingGroup
@@ -85,7 +89,7 @@
             this.RoomFakingGroup.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.RoomFakingGroup.Location = new System.Drawing.Point(299, 7);
             this.RoomFakingGroup.Name = "RoomFakingGroup";
-            this.RoomFakingGroup.Size = new System.Drawing.Size(493, 403);
+            this.RoomFakingGroup.Size = new System.Drawing.Size(493, 491);
             this.RoomFakingGroup.TabIndex = 13;
             this.RoomFakingGroup.TabStop = false;
             this.RoomFakingGroup.Text = "教室利用";
@@ -127,7 +131,7 @@
             this.InstallPythonButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.InstallPythonButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.InstallPythonButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.InstallPythonButton.Location = new System.Drawing.Point(372, 339);
+            this.InstallPythonButton.Location = new System.Drawing.Point(372, 427);
             this.InstallPythonButton.Name = "InstallPythonButton";
             this.InstallPythonButton.Size = new System.Drawing.Size(115, 55);
             this.InstallPythonButton.TabIndex = 28;
@@ -180,7 +184,7 @@
             this.AttackButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.AttackButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.AttackButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.AttackButton.Location = new System.Drawing.Point(6, 339);
+            this.AttackButton.Location = new System.Drawing.Point(6, 427);
             this.AttackButton.Name = "AttackButton";
             this.AttackButton.Size = new System.Drawing.Size(360, 55);
             this.AttackButton.TabIndex = 29;
@@ -385,7 +389,7 @@
             this.ProgramSettingsGroup.Controls.Add(this.UpdateProgramButton);
             this.ProgramSettingsGroup.Controls.Add(this.DisableAttackButton);
             this.ProgramSettingsGroup.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ProgramSettingsGroup.Location = new System.Drawing.Point(12, 206);
+            this.ProgramSettingsGroup.Location = new System.Drawing.Point(12, 294);
             this.ProgramSettingsGroup.Name = "ProgramSettingsGroup";
             this.ProgramSettingsGroup.Size = new System.Drawing.Size(281, 204);
             this.ProgramSettingsGroup.TabIndex = 7;
@@ -435,12 +439,51 @@
             this.RoomStatusButton.TabIndex = 1;
             this.RoomStatusButton.UseVisualStyleBackColor = false;
             // 
+            // PswdGroup
+            // 
+            this.PswdGroup.Controls.Add(this.GetPswdButton);
+            this.PswdGroup.Controls.Add(this.SetPswdButton);
+            this.PswdGroup.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.PswdGroup.Location = new System.Drawing.Point(12, 204);
+            this.PswdGroup.Name = "PswdGroup";
+            this.PswdGroup.Size = new System.Drawing.Size(281, 84);
+            this.PswdGroup.TabIndex = 7;
+            this.PswdGroup.TabStop = false;
+            this.PswdGroup.Text = "密码设置";
+            // 
+            // GetPswdButton
+            // 
+            this.GetPswdButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.GetPswdButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.GetPswdButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.GetPswdButton.Location = new System.Drawing.Point(8, 26);
+            this.GetPswdButton.Name = "GetPswdButton";
+            this.GetPswdButton.Size = new System.Drawing.Size(131, 50);
+            this.GetPswdButton.TabIndex = 7;
+            this.GetPswdButton.Text = "读取";
+            this.GetPswdButton.UseVisualStyleBackColor = true;
+            this.GetPswdButton.Click += new System.EventHandler(this.GetPswdButton_Click);
+            // 
+            // SetPswdButton
+            // 
+            this.SetPswdButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.SetPswdButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.SetPswdButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.SetPswdButton.Location = new System.Drawing.Point(145, 26);
+            this.SetPswdButton.Name = "SetPswdButton";
+            this.SetPswdButton.Size = new System.Drawing.Size(130, 50);
+            this.SetPswdButton.TabIndex = 8;
+            this.SetPswdButton.Text = "设置";
+            this.SetPswdButton.UseVisualStyleBackColor = true;
+            this.SetPswdButton.Click += new System.EventHandler(this.SetPswdButton_Click);
+            // 
             // MainWindow
             // 
             this.AcceptButton = this.CloseRoomButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(804, 417);
+            this.ClientSize = new System.Drawing.Size(804, 510);
+            this.Controls.Add(this.PswdGroup);
             this.Controls.Add(this.ProgramSettingsGroup);
             this.Controls.Add(this.RoomFakingGroup);
             this.Controls.Add(this.RoomStatusGroup);
@@ -450,7 +493,6 @@
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "机房助手";
-            this.TopMost = true;
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.RoomFakingGroup.ResumeLayout(false);
             this.RoomFakingGroup.PerformLayout();
@@ -459,6 +501,7 @@
             this.RoomControlGroup.ResumeLayout(false);
             this.ProgramSettingsGroup.ResumeLayout(false);
             this.ProgramSettingsGroup.PerformLayout();
+            this.PswdGroup.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -494,5 +537,8 @@
         private System.Windows.Forms.Label AuthorLabel;
         private System.Windows.Forms.Label PortLabel;
         private System.Windows.Forms.Button RoomStatusButton;
+        private System.Windows.Forms.GroupBox PswdGroup;
+        private System.Windows.Forms.Button GetPswdButton;
+        private System.Windows.Forms.Button SetPswdButton;
     }
 }
