@@ -49,6 +49,7 @@
             this.DisableAttackButton = new System.Windows.Forms.Button();
             this.RoomStatusGroup = new System.Windows.Forms.GroupBox();
             this.RoomStatusLabel = new System.Windows.Forms.Label();
+            this.RoomStatusButton = new System.Windows.Forms.Button();
             this.RoomControlGroup = new System.Windows.Forms.GroupBox();
             this.RecoverRoomButton = new System.Windows.Forms.Button();
             this.CloseRoomButton = new System.Windows.Forms.Button();
@@ -57,7 +58,6 @@
             this.AuthorLabel = new System.Windows.Forms.Label();
             this.ProgramVerLabel = new System.Windows.Forms.Label();
             this.ChooseRoomButton = new System.Windows.Forms.Button();
-            this.RoomStatusButton = new System.Windows.Forms.Button();
             this.PswdGroup = new System.Windows.Forms.GroupBox();
             this.GetPswdButton = new System.Windows.Forms.Button();
             this.SetPswdButton = new System.Windows.Forms.Button();
@@ -90,7 +90,7 @@
             this.RoomFakingGroup.Location = new System.Drawing.Point(299, 7);
             this.RoomFakingGroup.Name = "RoomFakingGroup";
             this.RoomFakingGroup.Size = new System.Drawing.Size(493, 491);
-            this.RoomFakingGroup.TabIndex = 13;
+            this.RoomFakingGroup.TabIndex = 16;
             this.RoomFakingGroup.TabStop = false;
             this.RoomFakingGroup.Text = "教室利用";
             // 
@@ -174,7 +174,7 @@
             this.IPButton.Location = new System.Drawing.Point(6, 26);
             this.IPButton.Name = "IPButton";
             this.IPButton.Size = new System.Drawing.Size(79, 31);
-            this.IPButton.TabIndex = 14;
+            this.IPButton.TabIndex = 17;
             this.IPButton.Text = "IP 地址";
             this.IPButton.UseVisualStyleBackColor = true;
             this.IPButton.Click += new System.EventHandler(this.IPButton_Click);
@@ -288,7 +288,7 @@
             this.UpdateProgramButton.Location = new System.Drawing.Point(8, 26);
             this.UpdateProgramButton.Name = "UpdateProgramButton";
             this.UpdateProgramButton.Size = new System.Drawing.Size(267, 35);
-            this.UpdateProgramButton.TabIndex = 8;
+            this.UpdateProgramButton.TabIndex = 11;
             this.UpdateProgramButton.Text = "更新软件";
             this.UpdateProgramButton.UseVisualStyleBackColor = true;
             this.UpdateProgramButton.Click += new System.EventHandler(this.UpdateProgramButton_Click);
@@ -301,7 +301,7 @@
             this.DisableAttackButton.Location = new System.Drawing.Point(8, 67);
             this.DisableAttackButton.Name = "DisableAttackButton";
             this.DisableAttackButton.Size = new System.Drawing.Size(267, 35);
-            this.DisableAttackButton.TabIndex = 9;
+            this.DisableAttackButton.TabIndex = 12;
             this.DisableAttackButton.Text = "禁用网络攻击";
             this.DisableAttackButton.UseVisualStyleBackColor = true;
             this.DisableAttackButton.Click += new System.EventHandler(this.DisableAttackButton_Click);
@@ -328,6 +328,16 @@
             this.RoomStatusLabel.Size = new System.Drawing.Size(78, 23);
             this.RoomStatusLabel.TabIndex = 2;
             this.RoomStatusLabel.Text = "状态未知";
+            // 
+            // RoomStatusButton
+            // 
+            this.RoomStatusButton.BackColor = System.Drawing.Color.White;
+            this.RoomStatusButton.Enabled = false;
+            this.RoomStatusButton.Location = new System.Drawing.Point(7, 27);
+            this.RoomStatusButton.Name = "RoomStatusButton";
+            this.RoomStatusButton.Size = new System.Drawing.Size(268, 53);
+            this.RoomStatusButton.TabIndex = 1;
+            this.RoomStatusButton.UseVisualStyleBackColor = false;
             // 
             // RoomControlGroup
             // 
@@ -392,7 +402,7 @@
             this.ProgramSettingsGroup.Location = new System.Drawing.Point(12, 294);
             this.ProgramSettingsGroup.Name = "ProgramSettingsGroup";
             this.ProgramSettingsGroup.Size = new System.Drawing.Size(281, 204);
-            this.ProgramSettingsGroup.TabIndex = 7;
+            this.ProgramSettingsGroup.TabIndex = 10;
             this.ProgramSettingsGroup.TabStop = false;
             this.ProgramSettingsGroup.Text = "程序设置";
             // 
@@ -403,7 +413,7 @@
             this.AuthorLabel.Location = new System.Drawing.Point(77, 172);
             this.AuthorLabel.Name = "AuthorLabel";
             this.AuthorLabel.Size = new System.Drawing.Size(127, 23);
-            this.AuthorLabel.TabIndex = 12;
+            this.AuthorLabel.TabIndex = 15;
             this.AuthorLabel.Text = "作者：Ujhhgtg";
             // 
             // ProgramVerLabel
@@ -413,7 +423,7 @@
             this.ProgramVerLabel.Location = new System.Drawing.Point(77, 149);
             this.ProgramVerLabel.Name = "ProgramVerLabel";
             this.ProgramVerLabel.Size = new System.Drawing.Size(118, 23);
-            this.ProgramVerLabel.TabIndex = 11;
+            this.ProgramVerLabel.TabIndex = 14;
             this.ProgramVerLabel.Text = "版本号：X.Y.Z";
             // 
             // ChooseRoomButton
@@ -424,20 +434,10 @@
             this.ChooseRoomButton.Location = new System.Drawing.Point(8, 108);
             this.ChooseRoomButton.Name = "ChooseRoomButton";
             this.ChooseRoomButton.Size = new System.Drawing.Size(267, 35);
-            this.ChooseRoomButton.TabIndex = 10;
+            this.ChooseRoomButton.TabIndex = 13;
             this.ChooseRoomButton.Text = "选择教室程序";
             this.ChooseRoomButton.UseVisualStyleBackColor = true;
             this.ChooseRoomButton.Click += new System.EventHandler(this.ChooseRoomButton_Click);
-            // 
-            // RoomStatusButton
-            // 
-            this.RoomStatusButton.BackColor = System.Drawing.Color.White;
-            this.RoomStatusButton.Enabled = false;
-            this.RoomStatusButton.Location = new System.Drawing.Point(7, 27);
-            this.RoomStatusButton.Name = "RoomStatusButton";
-            this.RoomStatusButton.Size = new System.Drawing.Size(268, 53);
-            this.RoomStatusButton.TabIndex = 1;
-            this.RoomStatusButton.UseVisualStyleBackColor = false;
             // 
             // PswdGroup
             // 
@@ -459,7 +459,7 @@
             this.GetPswdButton.Location = new System.Drawing.Point(8, 26);
             this.GetPswdButton.Name = "GetPswdButton";
             this.GetPswdButton.Size = new System.Drawing.Size(131, 50);
-            this.GetPswdButton.TabIndex = 7;
+            this.GetPswdButton.TabIndex = 8;
             this.GetPswdButton.Text = "读取";
             this.GetPswdButton.UseVisualStyleBackColor = true;
             this.GetPswdButton.Click += new System.EventHandler(this.GetPswdButton_Click);
@@ -472,7 +472,7 @@
             this.SetPswdButton.Location = new System.Drawing.Point(145, 26);
             this.SetPswdButton.Name = "SetPswdButton";
             this.SetPswdButton.Size = new System.Drawing.Size(130, 50);
-            this.SetPswdButton.TabIndex = 8;
+            this.SetPswdButton.TabIndex = 9;
             this.SetPswdButton.Text = "设置";
             this.SetPswdButton.UseVisualStyleBackColor = true;
             this.SetPswdButton.Click += new System.EventHandler(this.SetPswdButton_Click);
