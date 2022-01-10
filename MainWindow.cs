@@ -114,8 +114,6 @@ namespace ITClassHelper
             }
         }
 
-
-
         MiniController castControlWindow = new MiniController();
         static readonly string ProgramVersion = "1.6.0";
         string attackScriptPath;
