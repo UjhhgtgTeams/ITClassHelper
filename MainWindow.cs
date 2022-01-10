@@ -115,7 +115,7 @@ namespace ITClassHelper
         }
 
         MiniController castControlWindow = new MiniController();
-        static readonly string ProgramVersion = "1.6.0";
+        static readonly string ProgramVersion = "1.6.1";
         string attackScriptPath;
         string roomPath = @"C:\Program Files\Mythware\e-Learning Class\StudentMain.exe";
         readonly string disableAttackFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\disableAttack.txt";
