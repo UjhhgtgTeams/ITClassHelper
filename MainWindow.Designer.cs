@@ -61,6 +61,7 @@
             this.PswdGroup = new System.Windows.Forms.GroupBox();
             this.GetPswdButton = new System.Windows.Forms.Button();
             this.SetPswdButton = new System.Windows.Forms.Button();
+            this.ScripterButton = new System.Windows.Forms.Button();
             this.RoomFakingGroup.SuspendLayout();
             this.RoomStatusGroup.SuspendLayout();
             this.RoomControlGroup.SuspendLayout();
@@ -70,6 +71,7 @@
             // 
             // RoomFakingGroup
             // 
+            this.RoomFakingGroup.Controls.Add(this.ScripterButton);
             this.RoomFakingGroup.Controls.Add(this.PortLabel);
             this.RoomFakingGroup.Controls.Add(this.PCNameTextBox);
             this.RoomFakingGroup.Controls.Add(this.ConvertButton);
@@ -477,6 +479,19 @@
             this.SetPswdButton.UseVisualStyleBackColor = true;
             this.SetPswdButton.Click += new System.EventHandler(this.SetPswdButton_Click);
             // 
+            // ScripterButton
+            // 
+            this.ScripterButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ScripterButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.ScripterButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ScripterButton.Location = new System.Drawing.Point(165, 224);
+            this.ScripterButton.Name = "ScripterButton";
+            this.ScripterButton.Size = new System.Drawing.Size(158, 31);
+            this.ScripterButton.TabIndex = 30;
+            this.ScripterButton.Text = "脚本制作器";
+            this.ScripterButton.UseVisualStyleBackColor = true;
+            this.ScripterButton.Click += new System.EventHandler(this.ScripterButton_Click);
+            // 
             // MainWindow
             // 
             this.AcceptButton = this.CloseRoomButton;
@@ -540,5 +555,6 @@
         private System.Windows.Forms.GroupBox PswdGroup;
         private System.Windows.Forms.Button GetPswdButton;
         private System.Windows.Forms.Button SetPswdButton;
+        private System.Windows.Forms.Button ScripterButton;
     }
 }

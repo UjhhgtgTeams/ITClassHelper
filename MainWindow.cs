@@ -117,7 +117,7 @@ namespace ITClassHelper
 
 
         MiniController castControlWindow = new MiniController();
-        static readonly string ProgramVersion = "1.5.1";
+        static readonly string ProgramVersion = "1.6.0";
         string attackScriptPath;
         string roomPath = @"C:\Program Files\Mythware\e-Learning Class\StudentMain.exe";
         readonly string disableAttackFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\disableAttack.txt";
@@ -457,10 +457,32 @@ $@"即将显示一个命令窗口。
         private void SetPswdButton_Click(object sender, EventArgs e)
         {
             string keyDir = @"HKEY_LOCAL_MACHINE\SOFTWARE\TopDomain\e-Learning Class Standard\1.00";
-            string pswdText = Interaction.InputBox("请输入要设置的密码：", "信息", "", -1, -1);
-            Registry.SetValue(keyDir, "UninstallPasswd", $@"Passwd{pswdText}");
+            string pswdText = Interaction.InputBox("请输入要设置的密码：", "信息", "defaultPswd", -1, -1);
+            if (pswdText != "defaultPswd") Registry.SetValue(keyDir, "UninstallPasswd", $@"Passwd{pswdText}");
             CloseRoom();
-            new Thread(x => { Thread.Sleep(1000); RecoverRoom(); });
+            new Thread(x => { Thread.Sleep(1000); RecoverRoom(); }) { IsBackground = true }.Start();
+        }
+
+        private void ScripterButton_Click(object sender, EventArgs e)
+        {
+            string path = Application.StartupPath + @"\ITCHScripter.exe";
+            if (File.Exists(path))
+            {
+                OpenFileDialog fileDialog = new OpenFileDialog
+                {
+                    Multiselect = false,
+                    Title = "选择脚本文件",
+                    Filter = "原始BAT脚本(*.bat)|*.bat"
+                };
+                if (fileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    ExecuteProcess(path, fileDialog.FileName, true);
+                }
+            }
+            else
+            {
+                MessageBox.Show("脚本制作程序不存在！请点击程序中的[更新软件]下载！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         protected override void WndProc(ref Message msg)
