@@ -277,31 +277,19 @@ namespace ITClassHelper
         {
             string scriptPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\attacker.py";
             string baseArguments = $@"{scriptPath} -p {PortTextBox.Text} -ip {IPTextBox.Text}";
-            string formattedMsg = MsgTextBox.Text.Replace("\n", "").Replace("\r", "");
             if (IPTextBox.Text.Split('.')[3] != IPRangeTextBox.Text)
             {
                 baseArguments += $"-{IPRangeTextBox.Text}";
             }
-            if (UseMsgRadio.Checked == true)
+            if (UseMsgRadio.Checked == true  || UseCmdRadio.Checked == true)
             {
-                try
-                {
-                    ExecuteProcess("python", $"{baseArguments} -msg \"{formattedMsg}\"");
-                }
-                catch
-                {
-                    ExecuteProcess("py", $"{baseArguments} -msg \"{formattedMsg}\"");
-                }
-            }
-            else if (UseCmdRadio.Checked == true)
-            {
-                try
-                {
-                    ExecuteProcess("python", $"{baseArguments} -c \"{CmdTextBox.Text}\"");
-                }
-                catch
-                {
-                    ExecuteProcess("py", $"{baseArguments} -c \"{CmdTextBox.Text}\"");
+                string attackItem;
+                if (UseMsgRadio.Checked == true) attackItem = $"-msg {MsgTextBox.Text.Replace("\n", "").Replace("\r", "")}";
+                else attackItem = $"-c \"{CmdTextBox}\"";
+                try { ExecuteProcess("python", $"{baseArguments} {attackItem}"); }
+                catch { 
+                    try { ExecuteProcess("py", $"{baseArguments} {attackItem}"); }
+                    catch { MessageBox.Show("未安装运行环境！请点击[安装运行环境]安装！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                 }
             }
             else
@@ -388,7 +376,7 @@ Include_tcltk=1 Include_test=1 Include_tools=1";
             }
             else
             {
-                MessageBox.Show("Python 安装程序不存在！请点击程序中的[更新软件]下载！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Python 安装程序不存在！请点击[更新软件]下载！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
