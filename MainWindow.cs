@@ -115,7 +115,8 @@ namespace ITClassHelper
         }
 
         MiniController castControlWindow = new MiniController();
-        static readonly string ProgramVersion = "1.6.1";
+        static readonly string ProgramVersion = "1.6.2";
+        string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         string attackScriptPath;
         string roomPath = @"C:\Program Files\Mythware\e-Learning Class\StudentMain.exe";
         readonly string disableAttackFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\disableAttack.txt";
@@ -142,7 +143,7 @@ namespace ITClassHelper
                 DisableAttackButton.Enabled = false;
                 AttackButton.Enabled = false;
             }
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
             string ntsdPath = path + @"\ntsd.exe";
             if (!File.Exists(ntsdPath))
             {
@@ -151,11 +152,19 @@ namespace ITClassHelper
                 ntsdFsObj.Write(RescNtsd, 0, RescNtsd.Length);
                 ntsdFsObj.Close();
             }
-            string scriptPath = path + @"\attacker.py";
+
+            string attackerPath = path + @"\attacker.py";
             byte[] RescAttacker = Properties.Resources.Attacker;
-            FileStream attackerFsObj = new FileStream(scriptPath, FileMode.Create);
+            FileStream attackerFsObj = new FileStream(attackerPath, FileMode.Create);
             attackerFsObj.Write(RescAttacker, 0, RescAttacker.Length);
             attackerFsObj.Close();
+
+            string scripterPath = path + @"\ITCHScripter.exe";
+            byte[] RescScripter = Properties.Resources.Scripter;
+            FileStream scripterFsObj = new FileStream(scripterPath, FileMode.Create);
+            scripterFsObj.Write(RescScripter, 0, RescScripter.Length);
+            scripterFsObj.Close();
+
             new Thread(LoopThread)
             { IsBackground = true }.Start();
         }
@@ -349,10 +358,10 @@ namespace ITClassHelper
 
         private void UpdateProgramButton_Click(object sender, EventArgs e)
         {
-            string path = Application.StartupPath + @"\ITCHUpdater.exe";
-            if (File.Exists(path))
+            string updaterPath = Application.StartupPath + @"\ITCHUpdater.exe";
+            if (File.Exists(updaterPath))
             {
-                ExecuteProcess(path, "", true);
+                ExecuteProcess(updaterPath, "", true);
                 HotKey.UnregisterHotKey(Handle, 100);
                 Environment.Exit(0);
             }
@@ -364,15 +373,15 @@ namespace ITClassHelper
 
         private void InstallPythonButton_Click(object sender, EventArgs e)
         {
-            string path = Application.StartupPath + @"\PythonInstaller.exe";
+            string pythonInstallerPath = Application.StartupPath + @"\PythonInstaller.exe";
             string arguments =
 @"/passive PrependPath=1 InstallAllUsers=0 AssociateFiles=1 Shortcuts=1 
 Include_doc=0 Include_debug=1 Include_dev=1 Include_exe=1 Include_launcher=1 
 InstallLauncherAllUsers=1 Include_lib=1 Include_pip=1 Include_symbols=1 
 Include_tcltk=1 Include_test=1 Include_tools=1";
-            if (File.Exists(path))
+            if (File.Exists(pythonInstallerPath))
             {
-                ExecuteProcess(path, arguments);
+                ExecuteProcess(pythonInstallerPath, arguments);
             }
             else
             {
@@ -451,23 +460,16 @@ $@"即将显示一个命令窗口。
 
         private void ScripterButton_Click(object sender, EventArgs e)
         {
-            string path = Application.StartupPath + @"\ITCHScripter.exe";
-            if (File.Exists(path))
+            string scripterPath = path + @"\ITCHScripter.exe";
+            OpenFileDialog fileDialog = new OpenFileDialog
             {
-                OpenFileDialog fileDialog = new OpenFileDialog
-                {
-                    Multiselect = false,
-                    Title = "选择脚本文件",
-                    Filter = "原始BAT脚本(*.bat)|*.bat"
-                };
-                if (fileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    ExecuteProcess(path, fileDialog.FileName, true);
-                }
-            }
-            else
+                Multiselect = false,
+                Title = "选择脚本文件",
+                Filter = "原始BAT脚本(*.bat)|*.bat"
+            };
+            if (fileDialog.ShowDialog() == DialogResult.OK)
             {
-                MessageBox.Show("脚本制作程序不存在！请点击程序中的[更新软件]下载！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ExecuteProcess(scripterPath, fileDialog.FileName, true);
             }
         }
 

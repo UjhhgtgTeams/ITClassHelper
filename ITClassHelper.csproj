@@ -119,6 +119,7 @@
   <ItemGroup>
     <Content Include=".gitattributes" />
     <Content Include=".gitignore" />
+    <None Include="bin\Release\ITCHScripter.exe" />
     <Content Include="bin\Release\ITClassHelper.exe" />
     <Content Include="MythwareKiller.ico" />
     <None Include="Resources\attacker.py" />
