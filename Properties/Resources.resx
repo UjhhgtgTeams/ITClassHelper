@@ -121,10 +121,13 @@
   <data name="Attacker" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\attacker.py;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="NetCat" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\nc.exe;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="Ntsd" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ntsd.exe;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Scripter" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Release\ITCHScripter.exe;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\Resources\ITCHScripter.exe;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

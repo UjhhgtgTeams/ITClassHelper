@@ -119,6 +119,8 @@
   <ItemGroup>
     <Content Include=".gitattributes" />
     <Content Include=".gitignore" />
+    <None Include="Resources\nc.exe" />
+    <None Include="Resources\ITCHScripter.exe" />
     <None Include="bin\Release\ITCHScripter.exe" />
     <Content Include="bin\Release\ITClassHelper.exe" />
     <Content Include="MythwareKiller.ico" />

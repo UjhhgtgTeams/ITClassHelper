@@ -29,6 +29,10 @@
         private void InitializeComponent()
         {
             this.RoomFakingGroup = new System.Windows.Forms.GroupBox();
+            this.NcLabel = new System.Windows.Forms.Label();
+            this.NcClientButton = new System.Windows.Forms.Button();
+            this.NcServerButton = new System.Windows.Forms.Button();
+            this.ScripterButton = new System.Windows.Forms.Button();
             this.PortLabel = new System.Windows.Forms.Label();
             this.PCNameTextBox = new System.Windows.Forms.TextBox();
             this.ConvertButton = new System.Windows.Forms.Button();
@@ -61,7 +65,6 @@
             this.PswdGroup = new System.Windows.Forms.GroupBox();
             this.GetPswdButton = new System.Windows.Forms.Button();
             this.SetPswdButton = new System.Windows.Forms.Button();
-            this.ScripterButton = new System.Windows.Forms.Button();
             this.RoomFakingGroup.SuspendLayout();
             this.RoomStatusGroup.SuspendLayout();
             this.RoomControlGroup.SuspendLayout();
@@ -71,6 +74,9 @@
             // 
             // RoomFakingGroup
             // 
+            this.RoomFakingGroup.Controls.Add(this.NcLabel);
+            this.RoomFakingGroup.Controls.Add(this.NcClientButton);
+            this.RoomFakingGroup.Controls.Add(this.NcServerButton);
             this.RoomFakingGroup.Controls.Add(this.ScripterButton);
             this.RoomFakingGroup.Controls.Add(this.PortLabel);
             this.RoomFakingGroup.Controls.Add(this.PCNameTextBox);
@@ -95,6 +101,60 @@
             this.RoomFakingGroup.TabIndex = 16;
             this.RoomFakingGroup.TabStop = false;
             this.RoomFakingGroup.Text = "教室利用";
+            // 
+            // NcLabel
+            // 
+            this.NcLabel.AutoSize = true;
+            this.NcLabel.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.NcLabel.Location = new System.Drawing.Point(7, 301);
+            this.NcLabel.Name = "NcLabel";
+            this.NcLabel.Size = new System.Drawing.Size(139, 23);
+            this.NcLabel.TabIndex = 16;
+            this.NcLabel.Text = "黑客工具 NetCat";
+            this.NcLabel.Visible = false;
+            // 
+            // NcClientButton
+            // 
+            this.NcClientButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.NcClientButton.Enabled = false;
+            this.NcClientButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.NcClientButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.NcClientButton.Location = new System.Drawing.Point(322, 297);
+            this.NcClientButton.Name = "NcClientButton";
+            this.NcClientButton.Size = new System.Drawing.Size(165, 31);
+            this.NcClientButton.TabIndex = 32;
+            this.NcClientButton.Text = "启动客户端";
+            this.NcClientButton.UseVisualStyleBackColor = true;
+            this.NcClientButton.Visible = false;
+            this.NcClientButton.Click += new System.EventHandler(this.NcClientButton_Click);
+            // 
+            // NcServerButton
+            // 
+            this.NcServerButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.NcServerButton.Enabled = false;
+            this.NcServerButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.NcServerButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.NcServerButton.Location = new System.Drawing.Point(165, 297);
+            this.NcServerButton.Name = "NcServerButton";
+            this.NcServerButton.Size = new System.Drawing.Size(152, 31);
+            this.NcServerButton.TabIndex = 31;
+            this.NcServerButton.Text = "启动服务器";
+            this.NcServerButton.UseVisualStyleBackColor = true;
+            this.NcServerButton.Visible = false;
+            this.NcServerButton.Click += new System.EventHandler(this.NcServerButton_Click);
+            // 
+            // ScripterButton
+            // 
+            this.ScripterButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ScripterButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.ScripterButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ScripterButton.Location = new System.Drawing.Point(165, 224);
+            this.ScripterButton.Name = "ScripterButton";
+            this.ScripterButton.Size = new System.Drawing.Size(158, 31);
+            this.ScripterButton.TabIndex = 30;
+            this.ScripterButton.Text = "脚本制作器";
+            this.ScripterButton.UseVisualStyleBackColor = true;
+            this.ScripterButton.Click += new System.EventHandler(this.ScripterButton_Click);
             // 
             // PortLabel
             // 
@@ -479,19 +539,6 @@
             this.SetPswdButton.UseVisualStyleBackColor = true;
             this.SetPswdButton.Click += new System.EventHandler(this.SetPswdButton_Click);
             // 
-            // ScripterButton
-            // 
-            this.ScripterButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ScripterButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.ScripterButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ScripterButton.Location = new System.Drawing.Point(165, 224);
-            this.ScripterButton.Name = "ScripterButton";
-            this.ScripterButton.Size = new System.Drawing.Size(158, 31);
-            this.ScripterButton.TabIndex = 30;
-            this.ScripterButton.Text = "脚本制作器";
-            this.ScripterButton.UseVisualStyleBackColor = true;
-            this.ScripterButton.Click += new System.EventHandler(this.ScripterButton_Click);
-            // 
             // MainWindow
             // 
             this.AcceptButton = this.CloseRoomButton;
@@ -556,5 +603,8 @@
         private System.Windows.Forms.Button GetPswdButton;
         private System.Windows.Forms.Button SetPswdButton;
         private System.Windows.Forms.Button ScripterButton;
+        private System.Windows.Forms.Label NcLabel;
+        private System.Windows.Forms.Button NcClientButton;
+        private System.Windows.Forms.Button NcServerButton;
     }
 }

