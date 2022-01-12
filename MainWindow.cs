@@ -115,7 +115,7 @@ namespace ITClassHelper
         }
 
         MiniController castControlWindow = new MiniController();
-        static readonly string ProgramVersion = "1.6.2";
+        static readonly string ProgramVersion = "1.6.3";
         string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         string attackScriptPath;
         string roomPath = @"C:\Program Files\Mythware\e-Learning Class\StudentMain.exe";
@@ -210,6 +210,11 @@ namespace ITClassHelper
         }
 
         private void PauseRoomButton_Click(object sender, EventArgs e)
+        {
+            PauseRoom();
+        }
+
+        private static void PauseRoom()
         {
             try
             {
