@@ -115,7 +115,7 @@ namespace ITClassHelper
         }
 
         MiniController castControlWindow = new MiniController();
-        static readonly string ProgramVersion = "1.6.3";
+        static readonly string ProgramVersion = "1.7.0";
         static readonly string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         static readonly string ncPath = path + @"\nc.exe";
         static string attackScriptPath;
@@ -254,28 +254,12 @@ namespace ITClassHelper
         private string ExecuteProcess(string process, string arguments, bool noHide = false)
         {
             Process ExeProcess = new Process();
-            ProcessStartInfo ExeProcessInfo;
-            if (noHide == true)
+            ProcessStartInfo ExeProcessInfo = new ProcessStartInfo
             {
-                ExeProcessInfo = new ProcessStartInfo
-                {
-                    FileName = process,
-                    Arguments = arguments
-                };
-            }
-            else
-            {
-                ExeProcessInfo = new ProcessStartInfo
-                {
-                    FileName = process,
-                    Arguments = arguments,
-                    WindowStyle = ProcessWindowStyle.Hidden,
-                    UseShellExecute = false,
-                    RedirectStandardError = true,
-                    RedirectStandardInput = true,
-                    RedirectStandardOutput = true
-                };
-            }
+                FileName = process,
+                Arguments = arguments
+            };
+            if (noHide == true) ExeProcessInfo.WindowStyle = ProcessWindowStyle.Hidden;
             ExeProcess.StartInfo = ExeProcessInfo;
             ExeProcess.Start();
             return ExeProcess.StandardOutput.ReadToEnd();
