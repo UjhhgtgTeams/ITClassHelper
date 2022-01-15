@@ -361,3 +361,4 @@ FodyWeavers.xsd
 MiniController.cs
 MiniController.Designer.cs
 MiniController.resx
+/bin/Release/ITClassHelper.iss

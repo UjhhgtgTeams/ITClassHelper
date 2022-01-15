@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.RoomFakingGroup = new System.Windows.Forms.GroupBox();
+            this.RoomAttackGroup = new System.Windows.Forms.GroupBox();
             this.NcLabel = new System.Windows.Forms.Label();
             this.NcClientButton = new System.Windows.Forms.Button();
             this.NcServerButton = new System.Windows.Forms.Button();
@@ -65,42 +65,42 @@
             this.PswdGroup = new System.Windows.Forms.GroupBox();
             this.GetPswdButton = new System.Windows.Forms.Button();
             this.SetPswdButton = new System.Windows.Forms.Button();
-            this.RoomFakingGroup.SuspendLayout();
+            this.RoomAttackGroup.SuspendLayout();
             this.RoomStatusGroup.SuspendLayout();
             this.RoomControlGroup.SuspendLayout();
             this.ProgramSettingsGroup.SuspendLayout();
             this.PswdGroup.SuspendLayout();
             this.SuspendLayout();
             // 
-            // RoomFakingGroup
+            // RoomAttackGroup
             // 
-            this.RoomFakingGroup.Controls.Add(this.NcLabel);
-            this.RoomFakingGroup.Controls.Add(this.NcClientButton);
-            this.RoomFakingGroup.Controls.Add(this.NcServerButton);
-            this.RoomFakingGroup.Controls.Add(this.ScripterButton);
-            this.RoomFakingGroup.Controls.Add(this.PortLabel);
-            this.RoomFakingGroup.Controls.Add(this.PCNameTextBox);
-            this.RoomFakingGroup.Controls.Add(this.ConvertButton);
-            this.RoomFakingGroup.Controls.Add(this.InstallPythonButton);
-            this.RoomFakingGroup.Controls.Add(this.ChooseScriptButton);
-            this.RoomFakingGroup.Controls.Add(this.UseScriptRadio);
-            this.RoomFakingGroup.Controls.Add(this.IPButton);
-            this.RoomFakingGroup.Controls.Add(this.AttackButton);
-            this.RoomFakingGroup.Controls.Add(this.UseMsgRadio);
-            this.RoomFakingGroup.Controls.Add(this.MsgTextBox);
-            this.RoomFakingGroup.Controls.Add(this.UseCmdRadio);
-            this.RoomFakingGroup.Controls.Add(this.CmdTextBox);
-            this.RoomFakingGroup.Controls.Add(this.PortTextBox);
-            this.RoomFakingGroup.Controls.Add(this.IPRangeTextBox);
-            this.RoomFakingGroup.Controls.Add(this.IPLabel3);
-            this.RoomFakingGroup.Controls.Add(this.IPTextBox);
-            this.RoomFakingGroup.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.RoomFakingGroup.Location = new System.Drawing.Point(299, 7);
-            this.RoomFakingGroup.Name = "RoomFakingGroup";
-            this.RoomFakingGroup.Size = new System.Drawing.Size(493, 491);
-            this.RoomFakingGroup.TabIndex = 16;
-            this.RoomFakingGroup.TabStop = false;
-            this.RoomFakingGroup.Text = "教室利用";
+            this.RoomAttackGroup.Controls.Add(this.NcLabel);
+            this.RoomAttackGroup.Controls.Add(this.NcClientButton);
+            this.RoomAttackGroup.Controls.Add(this.NcServerButton);
+            this.RoomAttackGroup.Controls.Add(this.ScripterButton);
+            this.RoomAttackGroup.Controls.Add(this.PortLabel);
+            this.RoomAttackGroup.Controls.Add(this.PCNameTextBox);
+            this.RoomAttackGroup.Controls.Add(this.ConvertButton);
+            this.RoomAttackGroup.Controls.Add(this.InstallPythonButton);
+            this.RoomAttackGroup.Controls.Add(this.ChooseScriptButton);
+            this.RoomAttackGroup.Controls.Add(this.UseScriptRadio);
+            this.RoomAttackGroup.Controls.Add(this.IPButton);
+            this.RoomAttackGroup.Controls.Add(this.AttackButton);
+            this.RoomAttackGroup.Controls.Add(this.UseMsgRadio);
+            this.RoomAttackGroup.Controls.Add(this.MsgTextBox);
+            this.RoomAttackGroup.Controls.Add(this.UseCmdRadio);
+            this.RoomAttackGroup.Controls.Add(this.CmdTextBox);
+            this.RoomAttackGroup.Controls.Add(this.PortTextBox);
+            this.RoomAttackGroup.Controls.Add(this.IPRangeTextBox);
+            this.RoomAttackGroup.Controls.Add(this.IPLabel3);
+            this.RoomAttackGroup.Controls.Add(this.IPTextBox);
+            this.RoomAttackGroup.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.RoomAttackGroup.Location = new System.Drawing.Point(299, 7);
+            this.RoomAttackGroup.Name = "RoomAttackGroup";
+            this.RoomAttackGroup.Size = new System.Drawing.Size(493, 491);
+            this.RoomAttackGroup.TabIndex = 16;
+            this.RoomAttackGroup.TabStop = false;
+            this.RoomAttackGroup.Text = "机房攻击";
             // 
             // NcLabel
             // 
@@ -466,7 +466,7 @@
             this.ProgramSettingsGroup.Size = new System.Drawing.Size(281, 204);
             this.ProgramSettingsGroup.TabIndex = 10;
             this.ProgramSettingsGroup.TabStop = false;
-            this.ProgramSettingsGroup.Text = "程序设置";
+            this.ProgramSettingsGroup.Text = "软件设置";
             // 
             // AuthorLabel
             // 
@@ -547,7 +547,7 @@
             this.ClientSize = new System.Drawing.Size(804, 510);
             this.Controls.Add(this.PswdGroup);
             this.Controls.Add(this.ProgramSettingsGroup);
-            this.Controls.Add(this.RoomFakingGroup);
+            this.Controls.Add(this.RoomAttackGroup);
             this.Controls.Add(this.RoomStatusGroup);
             this.Controls.Add(this.RoomControlGroup);
             this.MaximizeBox = false;
@@ -556,8 +556,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "机房助手";
             this.Load += new System.EventHandler(this.MainWindow_Load);
-            this.RoomFakingGroup.ResumeLayout(false);
-            this.RoomFakingGroup.PerformLayout();
+            this.RoomAttackGroup.ResumeLayout(false);
+            this.RoomAttackGroup.PerformLayout();
             this.RoomStatusGroup.ResumeLayout(false);
             this.RoomStatusGroup.PerformLayout();
             this.RoomControlGroup.ResumeLayout(false);
@@ -569,7 +569,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.GroupBox RoomFakingGroup;
+        private System.Windows.Forms.GroupBox RoomAttackGroup;
         private System.Windows.Forms.Button IPButton;
         private System.Windows.Forms.Button AttackButton;
         private System.Windows.Forms.RadioButton UseMsgRadio;
