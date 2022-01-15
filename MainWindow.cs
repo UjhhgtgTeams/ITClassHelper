@@ -397,7 +397,7 @@ namespace ITClassHelper
             string dlMainProgram = "wget \"https://gitee.com/ujhhgtg/ITClassHelper/raw/master/bin/Release/ITClassHelper.exe\" -O \"ITClassHelper.exe\"";
             string dlPyInstaller = "wget \"https://hub.fastgit.org/UjhhgtgTeams/ITClassHelper/raw/master/bin/Release/PythonInstaller.exe\" -O \"PythonInstaller.exe\"";
             string dlTrollScripts = "wget \"https://gitee.com/ujhhgtg/ITClassHelper/raw/master/bin/Release/TrollScripts.zip\" -O \"TrollScripts.zip\"";
-            string cpUpdateFiles = $"echo \"复制更新文件......\";cp \"ITClassHelper.exe\" \"{Directory.GetCurrentDirectory()}\\ITClassHelper.exe\";cp \"PythonInstaller.exe\" \"{Directory.GetCurrentDirectory()}\\PythonInstaller.exe\";cp \"TrollScripts.zip\" \"{Directory.GetCurrentDirectory()}\\TrollScripts.zip\"";
+            string cpUpdateFiles = $"echo \"复制更新文件......\";cp \".\\ITClassHelper.exe\" \"{Directory.GetCurrentDirectory()}\\ITClassHelper.exe\";cp \".\\PythonInstaller.exe\" \"{Directory.GetCurrentDirectory()}\\PythonInstaller.exe\";cp \".\\TrollScripts.zip\" \"{Directory.GetCurrentDirectory()}\\TrollScripts.zip\"";
             string endMessage = "echo \"更新完成！将在 3 秒后自动关闭。\";sleep 3";
             string arguments = $"{startMessage};{delUpdateFiles};echo \"下载更新文件......\";{dlMainProgram};{dlPyInstaller};{dlTrollScripts};{cpUpdateFiles};{endMessage};";
             ExecuteProcess("powershell", arguments, true);
