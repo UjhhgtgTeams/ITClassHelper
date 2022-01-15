@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using Microsoft.VisualBasic;
+using Microsoft.Win32;
 using System;
 using System.Diagnostics;
 using System.Drawing;
@@ -7,7 +8,6 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
-using Microsoft.VisualBasic;
 
 namespace ITClassHelper
 {
@@ -92,7 +92,7 @@ namespace ITClassHelper
             [DllImport("user32.dll", SetLastError = true)]
             public static extern bool RegisterHotKey(
                 IntPtr hWnd,
-                int hotkeyId,        
+                int hotkeyId,
                 KeyModifiers keyModifiers,
                 Keys keys
                 );
@@ -119,7 +119,7 @@ namespace ITClassHelper
         static readonly string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         static readonly string ncPath = path + @"\nc.exe";
         static string attackScriptPath;
-        static string roomPath = @"C:\Program Files\Mythware\e-Learning Class\StudentMain.exe";
+        static string roomPath;
         static readonly string disableAttackFilePath = path + @"\disableAttack.txt";
         static readonly string allowNcFilePath = path + @"\allowNcAttack.txt";
 
@@ -132,6 +132,7 @@ namespace ITClassHelper
         public MainWindow()
         {
             InitializeComponent();
+            CheckForIllegalCrossThreadCalls = false;
             ProgramVerLabel.Text = ProgramVerLabel.Text.Replace("X.Y.Z", ProgramVersion);
             castControlWindow.Show();
             castControlWindow.Hide();
@@ -203,7 +204,8 @@ namespace ITClassHelper
                     RoomStatusLabel.Text = "正在运行";
                     RoomStatusLabel.ForeColor = Color.Red;
                 }
-                Thread.Sleep(1000);
+                GetRoomPath("quiet");
+                Thread.Sleep(1500);
             }
         }
 
@@ -246,10 +248,10 @@ namespace ITClassHelper
         {
             string ntsdPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\ntsd.exe";
             ExecuteProcess(ntsdPath, "-c q -pn StudentMain.exe");
-            new Thread( x => { Thread.Sleep(1000); ExecuteProcess("taskkill", "/f /im ntsd.exe"); } ).Start();
+            new Thread(x => { Thread.Sleep(1000); ExecuteProcess("taskkill", "/f /im ntsd.exe"); }).Start();
         }
 
-        private void ExecuteProcess(string process, string arguments, bool noHide = false)
+        private string ExecuteProcess(string process, string arguments, bool noHide = false)
         {
             Process ExeProcess = new Process();
             ProcessStartInfo ExeProcessInfo;
@@ -267,11 +269,16 @@ namespace ITClassHelper
                 {
                     FileName = process,
                     Arguments = arguments,
-                    WindowStyle = ProcessWindowStyle.Hidden
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                    UseShellExecute = false,
+                    RedirectStandardError = true,
+                    RedirectStandardInput = true,
+                    RedirectStandardOutput = true
                 };
             }
             ExeProcess.StartInfo = ExeProcessInfo;
             ExeProcess.Start();
+            return ExeProcess.StandardOutput.ReadToEnd();
         }
 
         private void RecoverRoomButton_Click(object sender, EventArgs e)
@@ -288,8 +295,8 @@ namespace ITClassHelper
             }
             catch
             {
-                try { ExecuteProcess(roomPath, "", true); }
-                catch { }
+                if (File.Exists(roomPath)) ExecuteProcess(roomPath, "", true);
+                else { GetRoomPath("manual"); }
             }
         }
 
@@ -308,19 +315,12 @@ namespace ITClassHelper
             {
                 baseArguments += $"-{IPRangeTextBox.Text}";
             }
-            if (UseMsgRadio.Checked == true  || UseCmdRadio.Checked == true)
+            if (UseMsgRadio.Checked == true || UseCmdRadio.Checked == true)
             {
-                string attackItem;
-                if (UseMsgRadio.Checked == true) attackItem = $"-msg {MsgTextBox.Text.Replace("\n", "").Replace("\r", "")}";
-                else
-                {
-                    attackItem = $"-c \"{CmdTextBox.Text}\"";
-                };
-                try { ExecuteProcess("python", $"{baseArguments} {attackItem}"); }
-                catch { 
-                    try { ExecuteProcess("py", $"{baseArguments} {attackItem}"); }
-                    catch { MessageBox.Show("未安装运行环境！请点击[安装运行环境]安装！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error); }
-                }
+                string attackArguments;
+                if (UseMsgRadio.Checked == true) attackArguments = $"-msg {MsgTextBox.Text.Replace("\n", "").Replace("\r", "")}";
+                else { attackArguments = $"-c \"{CmdTextBox.Text}\""; }
+                ExecutePython($"{baseArguments} {attackArguments}");
             }
             else
             {
@@ -337,14 +337,7 @@ namespace ITClassHelper
                             string fileLine;
                             while ((fileLine = sr.ReadLine()) != null)
                             {
-                                try
-                                {
-                                    ExecuteProcess("python", $"{baseArguments} -c \"{fileLine}\"");
-                                }
-                                catch
-                                {
-                                    ExecuteProcess("py", $"{baseArguments} -c \"{fileLine}\"");
-                                }
+                                ExecutePython($"{baseArguments} -c \"{fileLine}\"");
                                 Thread.Sleep(1500);
                             }
                         }
@@ -354,30 +347,41 @@ namespace ITClassHelper
             }
         }
 
-        private void IPButton_Click(object sender, EventArgs e)
+        private void ExecutePython(string arguments)
         {
-            GetIPAddress(true);
-        }
-
-        private static string GetIPAddress(bool uiTrigger = false)
-        {
-            string realAddress = "ERROR";
-            foreach (IPAddress curAddress in Dns.GetHostEntry(Dns.GetHostName()).AddressList)
+            try
             {
-                if (curAddress.AddressFamily.ToString() == "InterNetwork")
+                ExecuteProcess("python", arguments);
+            }
+            catch
+            {
+                try
                 {
-                    realAddress = curAddress.ToString();
+                    ExecuteProcess("py", arguments);
+                }
+                catch
+                {
+                    MessageBox.Show("未安装运行环境！请点击[安装运行环境]安装！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            if (uiTrigger == true)
+        }
+
+        private void IPButton_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show($"IP 地址为：{GetIPAddress()}", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private static string GetIPAddress()
+        {
+            string mainAddress = "ERROR";
+            foreach (IPAddress curCheckIP in Dns.GetHostEntry(Dns.GetHostName()).AddressList)
             {
-                MessageBox.Show($"IP 地址为：{realAddress}", "信息", MessageBoxButtons.OK);
-                return "";
+                if (curCheckIP.AddressFamily.ToString() == "InterNetwork")
+                {
+                    mainAddress = curCheckIP.ToString();
+                }
             }
-            else
-            {
-                return realAddress;
-            }
+            return mainAddress;
         }
 
         private void DisableAttackButton_Click(object sender, EventArgs e)
@@ -385,7 +389,7 @@ namespace ITClassHelper
             DisableAttackButton.Enabled = false;
             try
             {
-                File.Create(disableAttackFilePath); 
+                File.Create(disableAttackFilePath);
             }
             catch { }
         }
@@ -402,19 +406,6 @@ namespace ITClassHelper
             string arguments = $"{startMessage};{delUpdateFiles};echo \"下载更新文件......\";{dlMainProgram};{dlPyInstaller};{dlTrollScripts};{cpUpdateFiles};{endMessage};";
             ExecuteProcess("powershell", arguments, true);
             Environment.Exit(0);
-            /*
-            string updaterPath = Application.StartupPath + @"\ITCHUpdater.exe";
-            if (File.Exists(updaterPath))
-            {
-                ExecuteProcess(updaterPath, "", true);
-                HotKey.UnregisterHotKey(Handle, 100);
-                Environment.Exit(0);
-            }
-            else
-            {
-                MessageBox.Show("更新程序不存在！请前往 url.cy/0sR4gf 下载！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            */
         }
 
         private void InstallPythonButton_Click(object sender, EventArgs e)
@@ -451,34 +442,73 @@ Include_tcltk=1 Include_test=1 Include_tools=1";
 
         private void ConvertButton_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(
-$@"即将显示一个命令窗口。
-请稍等几秒，然后记下其中的 MAC 地址。
-接着，按下回车键，在出现的表格中找到对应的 IP 地址。
-此地址即为该计算机名对应的地址。"
-            , "使用须知", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            ExecuteProcess("cmd", $"/c nbtstat -a {PCNameTextBox.Text} && pause && cls && arp -a && pause", true);
+            string targetAddress = "ERROR";
+            try
+            {
+                foreach (IPAddress curCheckIP in Dns.GetHostEntry(PCNameTextBox.Text).AddressList)
+                {
+                    if (curCheckIP.AddressFamily.ToString() == "InterNetwork")
+                    {
+                        targetAddress = curCheckIP.ToString();
+                    }
+                }
+                MessageBox.Show($"目标 IP 地址为：{targetAddress}", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (System.Net.Sockets.SocketException)
+            {
+                MessageBox.Show("找不到此计算机！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        private void ChooseRoomButton_Click(object sender, EventArgs e)
+        private void GetRoomPathButton_Click(object sender, EventArgs e)
+        {
+            GetRoomPath("manual");
+        }
+
+        private static void GetRoomPath(string getMethod)
         {
             Process[] studentProcs = Process.GetProcessesByName("StudentMain");
             if (studentProcs.Length != 0)
             {
                 roomPath = studentProcs[0].MainModule.FileName;
-                MessageBox.Show("已自动读取到教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (getMethod != "quiet") MessageBox.Show("已自动获取到教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                OpenFileDialog fileDialog = new OpenFileDialog
+                if (roomPath != null)
                 {
-                    Multiselect = false,
-                    Title = "选择教室程序",
-                    Filter = "教室程序(*.exe)|*.exe"
-                };
-                if (fileDialog.ShowDialog() == DialogResult.OK)
+                    if (getMethod != "quiet") MessageBox.Show("已获取过了教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
                 {
-                    roomPath = fileDialog.FileName;
+                    string defaultPath = @"C:\Program Files\Mythware\e-Learning Class\StudentMain.exe";
+                    if (File.Exists(defaultPath))
+                    {
+                        roomPath = defaultPath;
+                        if (getMethod != "quiet") MessageBox.Show("已自动获取到教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        switch (getMethod)
+                        {
+                            case "manual":
+                                MessageBox.Show("无法自动找到教室程序路径！请在下一界面手动选择！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                OpenFileDialog fileDialog = new OpenFileDialog
+                                {
+                                    Multiselect = false,
+                                    Title = "选择教室程序",
+                                    Filter = "教室程序(*.exe)|*.exe"
+                                };
+                                if (fileDialog.ShowDialog() == DialogResult.OK)
+                                {
+                                    roomPath = fileDialog.FileName;
+                                }
+                                break;
+
+                            case "quiet":
+                                break;
+                        }
+                    }
                 }
             }
         }
@@ -537,13 +567,13 @@ $@"即将显示一个命令窗口。
             switch (msg.Msg)
             {
                 case WM_HOTKEY:
-                switch (msg.WParam.ToInt32())
-                {
-                    case 100:
-                    Visible = !Visible;
+                    switch (msg.WParam.ToInt32())
+                    {
+                        case 100:
+                            Visible = !Visible;
+                            break;
+                    }
                     break;
-                }
-                break;
             }
             base.WndProc(ref msg);
         }

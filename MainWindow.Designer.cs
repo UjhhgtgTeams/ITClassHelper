@@ -61,7 +61,7 @@
             this.ProgramSettingsGroup = new System.Windows.Forms.GroupBox();
             this.AuthorLabel = new System.Windows.Forms.Label();
             this.ProgramVerLabel = new System.Windows.Forms.Label();
-            this.ChooseRoomButton = new System.Windows.Forms.Button();
+            this.GetRoomPathButton = new System.Windows.Forms.Button();
             this.PswdGroup = new System.Windows.Forms.GroupBox();
             this.GetPswdButton = new System.Windows.Forms.Button();
             this.SetPswdButton = new System.Windows.Forms.Button();
@@ -169,11 +169,11 @@
             // PCNameTextBox
             // 
             this.PCNameTextBox.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.PCNameTextBox.Location = new System.Drawing.Point(206, 261);
+            this.PCNameTextBox.Location = new System.Drawing.Point(190, 261);
             this.PCNameTextBox.Name = "PCNameTextBox";
-            this.PCNameTextBox.Size = new System.Drawing.Size(281, 29);
+            this.PCNameTextBox.Size = new System.Drawing.Size(297, 29);
             this.PCNameTextBox.TabIndex = 27;
-            this.PCNameTextBox.Text = "1-1";
+            this.PCNameTextBox.Text = "7-3";
             // 
             // ConvertButton
             // 
@@ -182,7 +182,7 @@
             this.ConvertButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.ConvertButton.Location = new System.Drawing.Point(6, 260);
             this.ConvertButton.Name = "ConvertButton";
-            this.ConvertButton.Size = new System.Drawing.Size(194, 31);
+            this.ConvertButton.Size = new System.Drawing.Size(178, 31);
             this.ConvertButton.TabIndex = 26;
             this.ConvertButton.Text = "计算机名 -> IP 地址";
             this.ConvertButton.UseVisualStyleBackColor = true;
@@ -457,7 +457,7 @@
             // 
             this.ProgramSettingsGroup.Controls.Add(this.AuthorLabel);
             this.ProgramSettingsGroup.Controls.Add(this.ProgramVerLabel);
-            this.ProgramSettingsGroup.Controls.Add(this.ChooseRoomButton);
+            this.ProgramSettingsGroup.Controls.Add(this.GetRoomPathButton);
             this.ProgramSettingsGroup.Controls.Add(this.UpdateProgramButton);
             this.ProgramSettingsGroup.Controls.Add(this.DisableAttackButton);
             this.ProgramSettingsGroup.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -488,18 +488,18 @@
             this.ProgramVerLabel.TabIndex = 14;
             this.ProgramVerLabel.Text = "版本号：X.Y.Z";
             // 
-            // ChooseRoomButton
+            // GetRoomPathButton
             // 
-            this.ChooseRoomButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ChooseRoomButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.ChooseRoomButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ChooseRoomButton.Location = new System.Drawing.Point(8, 108);
-            this.ChooseRoomButton.Name = "ChooseRoomButton";
-            this.ChooseRoomButton.Size = new System.Drawing.Size(267, 35);
-            this.ChooseRoomButton.TabIndex = 13;
-            this.ChooseRoomButton.Text = "选择教室程序";
-            this.ChooseRoomButton.UseVisualStyleBackColor = true;
-            this.ChooseRoomButton.Click += new System.EventHandler(this.ChooseRoomButton_Click);
+            this.GetRoomPathButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.GetRoomPathButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.GetRoomPathButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.GetRoomPathButton.Location = new System.Drawing.Point(8, 108);
+            this.GetRoomPathButton.Name = "GetRoomPathButton";
+            this.GetRoomPathButton.Size = new System.Drawing.Size(267, 35);
+            this.GetRoomPathButton.TabIndex = 13;
+            this.GetRoomPathButton.Text = "选择教室程序";
+            this.GetRoomPathButton.UseVisualStyleBackColor = true;
+            this.GetRoomPathButton.Click += new System.EventHandler(this.GetRoomPathButton_Click);
             // 
             // PswdGroup
             // 
@@ -595,7 +595,7 @@
         private System.Windows.Forms.TextBox IPTextBox;
         private System.Windows.Forms.GroupBox ProgramSettingsGroup;
         private System.Windows.Forms.Label ProgramVerLabel;
-        private System.Windows.Forms.Button ChooseRoomButton;
+        private System.Windows.Forms.Button GetRoomPathButton;
         private System.Windows.Forms.Label AuthorLabel;
         private System.Windows.Forms.Label PortLabel;
         private System.Windows.Forms.Button RoomStatusButton;
