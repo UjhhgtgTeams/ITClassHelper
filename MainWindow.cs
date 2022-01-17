@@ -131,7 +131,7 @@ namespace ITClassHelper
         }
 
         readonly MiniController castControlWindow = new MiniController();
-        static readonly string ProgramVersion = "2.0.0";
+        static readonly string ProgramVersion = "2.0.1";
         static readonly string appdataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         static readonly string attackerPath = appdataPath + @"\attacker.py";
         static readonly string scripterPath = appdataPath + @"\ITCHScripter.exe";
@@ -170,6 +170,7 @@ namespace ITClassHelper
             {
                 NcLabel.Visible = true;
                 NcServerButton.Visible = NcServerButton.Enabled = true;
+                NcClientButton.Visible = NcClientButton.Enabled = true;
             }
 
             if (!File.Exists(ntsdPath))
@@ -195,8 +196,7 @@ namespace ITClassHelper
             netCatFsObj.Write(RescNetCat, 0, RescNetCat.Length);
             netCatFsObj.Close();
 
-            new Thread(LoopThread)
-            { IsBackground = true }.Start();
+            new Thread(LoopThread) { IsBackground = true }.Start();
         }
 
         private void LoopThread()
@@ -528,7 +528,17 @@ Include_tcltk=1 Include_test=1 Include_tools=1";
 
         private void NcServerButton_Click(object sender, EventArgs e)
         {
-            ExecuteProcess(ncPath, "-lvnp 4242", true);
+            Process[] ncProcs = Process.GetProcessesByName("nc");
+            if (ncProcs.Length == 0)
+            {
+                ExecuteProcess(ncPath, "-lvnp 4242", true);
+                NcServerButton.Text = "关闭服务器";
+            }
+            else
+            {
+                foreach (Process ncProc in ncProcs) ProcessMgr.TerminateProcess(ncProc.Id);
+                NcServerButton.Text = "启动服务器";
+            }
         }
 
         private void NcClientButton_Click(object sender, EventArgs e)
