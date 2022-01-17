@@ -251,7 +251,7 @@ namespace ITClassHelper
             new Thread(x => { Thread.Sleep(1000); ExecuteProcess("taskkill", "/f /im ntsd.exe"); }).Start();
         }
 
-        private string ExecuteProcess(string process, string arguments, bool noHide = false)
+        private void ExecuteProcess(string process, string arguments, bool noHide = false)
         {
             Process ExeProcess = new Process();
             ProcessStartInfo ExeProcessInfo = new ProcessStartInfo
@@ -262,7 +262,6 @@ namespace ITClassHelper
             if (noHide == true) ExeProcessInfo.WindowStyle = ProcessWindowStyle.Hidden;
             ExeProcess.StartInfo = ExeProcessInfo;
             ExeProcess.Start();
-            return ExeProcess.StandardOutput.ReadToEnd();
         }
 
         private void RecoverRoomButton_Click(object sender, EventArgs e)
