@@ -259,7 +259,7 @@ namespace ITClassHelper
                 FileName = process,
                 Arguments = arguments
             };
-            if (noHide == true) ExeProcessInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            if (noHide != true) ExeProcessInfo.WindowStyle = ProcessWindowStyle.Hidden;
             ExeProcess.StartInfo = ExeProcessInfo;
             ExeProcess.Start();
         }
