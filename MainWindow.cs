@@ -130,17 +130,18 @@ namespace ITClassHelper
             }
         }
 
-        readonly MiniController castControlWindow = new MiniController();
-        static readonly string ProgramVersion = "2.0.1";
+        readonly MiniController miniController = new MiniController();
+        static readonly string ProgramVersion = "2.0.2";
         static readonly string appdataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         static readonly string attackerPath = appdataPath + @"\attacker.py";
         static readonly string scripterPath = appdataPath + @"\ITCHScripter.exe";
         static readonly string ncPath = appdataPath + @"\nc.exe";
         static readonly string ntsdPath = appdataPath + @"\ntsd.exe";
-        static string attackScriptPath;
-        static string roomPath;
+        static readonly string pythonInstallerPath = Application.StartupPath + @"\PythonInstaller.exe";
         static readonly string disableAttackFilePath = appdataPath + @"\disableAttack.txt";
         static readonly string allowNcFilePath = appdataPath + @"\allowNcAttack.txt";
+        static readonly string helpDocPath = appdataPath + @"\HELPPAGE.md";
+        static string attackScriptPath, roomPath;
 
         [DllImport("user32.dll")]
         public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
@@ -152,9 +153,9 @@ namespace ITClassHelper
         {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
-            ProgramVerLabel.Text = ProgramVerLabel.Text.Replace("X.Y.Z", ProgramVersion);
-            castControlWindow.Show();
-            castControlWindow.Hide();
+            ProgramAboutLabel.Text = ProgramAboutLabel.Text.Replace("X.Y.Z", ProgramVersion);
+            miniController.Show();
+            miniController.Hide();
             HotKey.RegisterHotKey(Handle, 100, HotKey.KeyModifiers.Alt, Keys.H);
         }
 
@@ -196,6 +197,11 @@ namespace ITClassHelper
             netCatFsObj.Write(RescNetCat, 0, RescNetCat.Length);
             netCatFsObj.Close();
 
+            byte[] RescHelpDoc = Properties.Resources.HelpDoc;
+            FileStream helpDocFsObj = new FileStream(helpDocPath, FileMode.Create);
+            helpDocFsObj.Write(RescHelpDoc, 0, RescHelpDoc.Length);
+            helpDocFsObj.Close();
+
             new Thread(LoopThread) { IsBackground = true }.Start();
         }
 
@@ -207,7 +213,7 @@ namespace ITClassHelper
                 if (MousePosition == new Point(0, 0))
                 {
                     MoveWindow(studentWindow, 337, 186, 1000, 500, true);
-                    castControlWindow.Show();
+                    miniController.Show();
                 }
                 if (GetStudentProcs().Length == 0)
                 {
@@ -244,7 +250,6 @@ namespace ITClassHelper
             if (GetStudentProcs().Length > 0) ProcessMgr.TerminateProcess(GetStudentProcs()[0].Id);
             if (GetStudentProcs().Length > 0)
             {
-                string ntsdPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\ntsd.exe";
                 ExecuteProcess(ntsdPath, "-c q -pn StudentMain.exe");
                 new Thread(x => { Thread.Sleep(1000); ExecuteProcess("taskkill", "/f /im ntsd.exe"); }).Start();
             }
@@ -390,7 +395,6 @@ namespace ITClassHelper
 
         private void InstallPythonButton_Click(object sender, EventArgs e)
         {
-            string pythonInstallerPath = Application.StartupPath + @"\PythonInstaller.exe";
             string arguments =
 @"/passive PrependPath=1 InstallAllUsers=0 AssociateFiles=1 Shortcuts=1 
 Include_doc=0 Include_debug=1 Include_dev=1 Include_exe=1 Include_launcher=1 
@@ -460,10 +464,10 @@ Include_tcltk=1 Include_test=1 Include_tools=1";
                 }
                 else
                 {
-                    string defaultPath = @"C:\Program Files\Mythware\e-Learning Class\StudentMain.exe";
-                    if (File.Exists(defaultPath))
+                    string defaultRoomPath = @"C:\Program Files\Mythware\e-Learning Class\StudentMain.exe";
+                    if (File.Exists(defaultRoomPath))
                     {
-                        roomPath = defaultPath;
+                        roomPath = defaultRoomPath;
                         if (getMethod != "quiet") MessageBox.Show("已自动获取到教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
@@ -549,7 +553,7 @@ Include_tcltk=1 Include_test=1 Include_tools=1";
 
         private void MainWindow_HelpButtonClicked(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            MessageBox.Show("帮助文档还未完成！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            ExecuteProcess(helpDocPath, "", true);
         }
 
         protected override void WndProc(ref Message msg)

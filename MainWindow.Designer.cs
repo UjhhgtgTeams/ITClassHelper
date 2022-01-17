@@ -59,8 +59,7 @@
             this.CloseRoomButton = new System.Windows.Forms.Button();
             this.PauseRoomButton = new System.Windows.Forms.Button();
             this.ProgramSettingsGroup = new System.Windows.Forms.GroupBox();
-            this.AuthorLabel = new System.Windows.Forms.Label();
-            this.ProgramVerLabel = new System.Windows.Forms.Label();
+            this.ProgramAboutLabel = new System.Windows.Forms.Label();
             this.GetRoomPathButton = new System.Windows.Forms.Button();
             this.PswdGroup = new System.Windows.Forms.GroupBox();
             this.GetPswdButton = new System.Windows.Forms.Button();
@@ -144,6 +143,7 @@
             // ScripterButton
             // 
             this.ScripterButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ScripterButton.Enabled = false;
             this.ScripterButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.ScripterButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.ScripterButton.Location = new System.Drawing.Point(165, 224);
@@ -453,8 +453,7 @@
             // 
             // ProgramSettingsGroup
             // 
-            this.ProgramSettingsGroup.Controls.Add(this.AuthorLabel);
-            this.ProgramSettingsGroup.Controls.Add(this.ProgramVerLabel);
+            this.ProgramSettingsGroup.Controls.Add(this.ProgramAboutLabel);
             this.ProgramSettingsGroup.Controls.Add(this.GetRoomPathButton);
             this.ProgramSettingsGroup.Controls.Add(this.UpdateProgramButton);
             this.ProgramSettingsGroup.Controls.Add(this.DisableAttackButton);
@@ -466,25 +465,15 @@
             this.ProgramSettingsGroup.TabStop = false;
             this.ProgramSettingsGroup.Text = "软件设置";
             // 
-            // AuthorLabel
+            // ProgramAboutLabel
             // 
-            this.AuthorLabel.AutoSize = true;
-            this.AuthorLabel.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.AuthorLabel.Location = new System.Drawing.Point(77, 172);
-            this.AuthorLabel.Name = "AuthorLabel";
-            this.AuthorLabel.Size = new System.Drawing.Size(127, 23);
-            this.AuthorLabel.TabIndex = 15;
-            this.AuthorLabel.Text = "作者：Ujhhgtg";
-            // 
-            // ProgramVerLabel
-            // 
-            this.ProgramVerLabel.AutoSize = true;
-            this.ProgramVerLabel.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ProgramVerLabel.Location = new System.Drawing.Point(77, 149);
-            this.ProgramVerLabel.Name = "ProgramVerLabel";
-            this.ProgramVerLabel.Size = new System.Drawing.Size(118, 23);
-            this.ProgramVerLabel.TabIndex = 14;
-            this.ProgramVerLabel.Text = "版本号：X.Y.Z";
+            this.ProgramAboutLabel.AutoSize = true;
+            this.ProgramAboutLabel.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ProgramAboutLabel.Location = new System.Drawing.Point(77, 149);
+            this.ProgramAboutLabel.Name = "ProgramAboutLabel";
+            this.ProgramAboutLabel.Size = new System.Drawing.Size(127, 46);
+            this.ProgramAboutLabel.TabIndex = 14;
+            this.ProgramAboutLabel.Text = "版本号：X.Y.Z\r\n作者：Ujhhgtg";
             // 
             // GetRoomPathButton
             // 
@@ -594,9 +583,8 @@
         private System.Windows.Forms.TextBox PCNameTextBox;
         private System.Windows.Forms.TextBox IPTextBox;
         private System.Windows.Forms.GroupBox ProgramSettingsGroup;
-        private System.Windows.Forms.Label ProgramVerLabel;
+        private System.Windows.Forms.Label ProgramAboutLabel;
         private System.Windows.Forms.Button GetRoomPathButton;
-        private System.Windows.Forms.Label AuthorLabel;
         private System.Windows.Forms.Label PortLabel;
         private System.Windows.Forms.Button RoomStatusButton;
         private System.Windows.Forms.GroupBox PswdGroup;
