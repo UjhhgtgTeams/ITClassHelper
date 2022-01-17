@@ -165,11 +165,11 @@ namespace ITClassHelper
                 DisableAttackButton.Enabled = false;
                 AttackButton.Enabled = false;
             }
+
             if (File.Exists(allowNcFilePath))
             {
                 NcLabel.Visible = true;
                 NcServerButton.Visible = NcServerButton.Enabled = true;
-                NcClientButton.Visible = NcClientButton.Enabled = true;
             }
 
             if (!File.Exists(ntsdPath))
@@ -533,9 +533,8 @@ Include_tcltk=1 Include_test=1 Include_tools=1";
 
         private void NcClientButton_Click(object sender, EventArgs e)
         {
-            if (!File.Exists(appdataPath + @"\"))
-                UseCmdRadio.Checked = true; UseMsgRadio.Checked = UseScriptRadio.Checked = false;
-            CmdTextBox.Text = $"{ncPath} -e cmd {GetIPAddress()} 4242";
+            if (!File.Exists(allowNcFilePath)) ExecuteProcess(ncPath, $"-e cmd {IPTextBox.Text} 4242");
+            else CmdTextBox.Text = $"{ncPath} -e cmd {GetIPAddress()} 4242";
         }
 
         private void MainWindow_HelpButtonClicked(object sender, System.ComponentModel.CancelEventArgs e)

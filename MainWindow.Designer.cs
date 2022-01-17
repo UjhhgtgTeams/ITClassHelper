@@ -111,7 +111,6 @@
             this.NcLabel.Size = new System.Drawing.Size(139, 23);
             this.NcLabel.TabIndex = 16;
             this.NcLabel.Text = "黑客工具 NetCat";
-            this.NcLabel.Visible = false;
             // 
             // NcClientButton
             // 
@@ -125,7 +124,6 @@
             this.NcClientButton.TabIndex = 32;
             this.NcClientButton.Text = "启动客户端";
             this.NcClientButton.UseVisualStyleBackColor = true;
-            this.NcClientButton.Visible = false;
             this.NcClientButton.Click += new System.EventHandler(this.NcClientButton_Click);
             // 
             // NcServerButton
