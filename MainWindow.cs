@@ -544,6 +544,10 @@ Include_tcltk=1 Include_test=1 Include_tools=1";
             CmdTextBox.Text = $"{ncPath} -e cmd {GetIPAddress()} 4242";
         }
 
+        private void MainWindow_HelpButtonClicked(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            MessageBox.Show("帮助文档还未完成！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
 
         protected override void WndProc(ref Message msg)
         {
