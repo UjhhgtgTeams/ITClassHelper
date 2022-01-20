@@ -99,15 +99,5 @@ namespace ITClassHelper.Properties {
                 return ((byte[])(obj));
             }
         }
-        
-        /// <summary>
-        ///   查找 System.Byte[] 类型的本地化资源。
-        /// </summary>
-        internal static byte[] Scripter {
-            get {
-                object obj = ResourceManager.GetObject("Scripter", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }

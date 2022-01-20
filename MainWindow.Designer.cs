@@ -64,6 +64,7 @@
             this.PswdGroup = new System.Windows.Forms.GroupBox();
             this.GetPswdButton = new System.Windows.Forms.Button();
             this.SetPswdButton = new System.Windows.Forms.Button();
+            this.ExitProgramButton = new System.Windows.Forms.Button();
             this.RoomAttackGroup.SuspendLayout();
             this.RoomStatusGroup.SuspendLayout();
             this.RoomControlGroup.SuspendLayout();
@@ -453,6 +454,7 @@
             // 
             // ProgramSettingsGroup
             // 
+            this.ProgramSettingsGroup.Controls.Add(this.ExitProgramButton);
             this.ProgramSettingsGroup.Controls.Add(this.ProgramAboutLabel);
             this.ProgramSettingsGroup.Controls.Add(this.GetRoomPathButton);
             this.ProgramSettingsGroup.Controls.Add(this.UpdateProgramButton);
@@ -469,7 +471,7 @@
             // 
             this.ProgramAboutLabel.AutoSize = true;
             this.ProgramAboutLabel.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ProgramAboutLabel.Location = new System.Drawing.Point(77, 149);
+            this.ProgramAboutLabel.Location = new System.Drawing.Point(19, 149);
             this.ProgramAboutLabel.Name = "ProgramAboutLabel";
             this.ProgramAboutLabel.Size = new System.Drawing.Size(127, 46);
             this.ProgramAboutLabel.TabIndex = 14;
@@ -526,6 +528,19 @@
             this.SetPswdButton.UseVisualStyleBackColor = true;
             this.SetPswdButton.Click += new System.EventHandler(this.SetPswdButton_Click);
             // 
+            // ExitProgramButton
+            // 
+            this.ExitProgramButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ExitProgramButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.ExitProgramButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ExitProgramButton.Location = new System.Drawing.Point(170, 150);
+            this.ExitProgramButton.Name = "ExitProgramButton";
+            this.ExitProgramButton.Size = new System.Drawing.Size(97, 46);
+            this.ExitProgramButton.TabIndex = 33;
+            this.ExitProgramButton.Text = "退出软件";
+            this.ExitProgramButton.UseVisualStyleBackColor = true;
+            this.ExitProgramButton.Click += new System.EventHandler(this.ExitProgramButton_Click);
+            // 
             // MainWindow
             // 
             this.AcceptButton = this.CloseRoomButton;
@@ -544,6 +559,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "机房助手";
             this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.MainWindow_HelpButtonClicked);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.RoomAttackGroup.ResumeLayout(false);
             this.RoomAttackGroup.PerformLayout();
@@ -594,5 +610,6 @@
         private System.Windows.Forms.Label NcLabel;
         private System.Windows.Forms.Button NcClientButton;
         private System.Windows.Forms.Button NcServerButton;
+        private System.Windows.Forms.Button ExitProgramButton;
     }
 }

