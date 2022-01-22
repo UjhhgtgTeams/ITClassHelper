@@ -12,6 +12,9 @@
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -26,9 +29,6 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -146,11 +146,9 @@
     <Content Include=".gitattributes" />
     <Content Include=".gitignore" />
     <None Include="Resources\nc.exe" />
-    <None Include="Resources\ITCHScripter.exe" />
     <None Include="bin\Release\ITCHScripter.exe" />
     <Content Include="bin\Release\ITClassHelper.exe" />
     <Content Include="MythwareKiller.ico" />
-    <None Include="Resources\attacker.py" />
     <None Include="Resources\ntsd.exe" />
   </ItemGroup>
   <ItemGroup>

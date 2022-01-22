@@ -63,16 +63,6 @@ namespace ITClassHelper.Properties {
         /// <summary>
         ///   查找 System.Byte[] 类型的本地化资源。
         /// </summary>
-        internal static byte[] Attacker {
-            get {
-                object obj = ResourceManager.GetObject("Attacker", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Byte[] 类型的本地化资源。
-        /// </summary>
         internal static byte[] HelpDoc {
             get {
                 object obj = ResourceManager.GetObject("HelpDoc", resourceCulture);
