@@ -521,13 +521,11 @@
             this.Controls.Add(this.RoomAttackGroup);
             this.Controls.Add(this.RoomStatusGroup);
             this.Controls.Add(this.RoomControlGroup);
-            this.HelpButton = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "机房助手";
-            this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.MainWindow_HelpButtonClicked);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.RoomAttackGroup.ResumeLayout(false);

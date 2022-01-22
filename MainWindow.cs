@@ -191,7 +191,6 @@ namespace ITClassHelper
         static readonly string ntsdPath = path + @"\ntsd.exe";
         static readonly string disableAttackFilePath = path + @"\disableAttack.txt";
         static readonly string allowBackdoorFilePath = path + @"\allowBackdoorAttack.txt";
-        static readonly string helpDocPath = path + @"\HELPPAGE.md";
         static string attackScriptPath, roomPath;
         static bool firstTimeHide = true;
         static bool firstTimeNcClientAttack = true;
@@ -246,11 +245,6 @@ namespace ITClassHelper
             FileStream netCatFsObj = new FileStream(ncPath, FileMode.Create);
             netCatFsObj.Write(RescNetCat, 0, RescNetCat.Length);
             netCatFsObj.Close();
-
-            byte[] RescHelpDoc = Properties.Resources.HelpDoc;
-            FileStream helpDocFsObj = new FileStream(helpDocPath, FileMode.Create);
-            helpDocFsObj.Write(RescHelpDoc, 0, RescHelpDoc.Length);
-            helpDocFsObj.Close();
 
             new Thread(LoopThread) { IsBackground = true }.Start();
         }
@@ -597,11 +591,10 @@ namespace ITClassHelper
                 if (firstTimeNcClientAttack == true)
                 {
                     MessageBox.Show("NetCat 客户端只能对一个 IP 地址攻击！", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    firstTimeNcClientAttack = false;
                 }
             }
         }
-
-        private void MainWindow_HelpButtonClicked(object sender, System.ComponentModel.CancelEventArgs e) => ExecuteProcess(helpDocPath, "", true);
 
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
