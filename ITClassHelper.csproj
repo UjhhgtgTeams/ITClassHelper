@@ -155,6 +155,7 @@
   <ItemGroup>
     <Content Include=".gitattributes" />
     <Content Include=".gitignore" />
+    <None Include="Resources\ComputerKiller.py" />
     <None Include="Resources\nc.exe" />
     <None Include="bin\Release\ITCHScripter.exe" />
     <Content Include="bin\Release\ITClassHelper.exe" />
