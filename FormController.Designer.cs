@@ -1,6 +1,6 @@
 ﻿namespace ITClassHelper
 {
-    partial class MiniController
+    partial class FormController
     {
         /// <summary>
         /// Required designer variable.
@@ -28,22 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.MiniControllerLabel = new System.Windows.Forms.Label();
+            this.FormControllerLabel = new System.Windows.Forms.Label();
             this.HideCastButton = new System.Windows.Forms.Button();
             this.SmallCastButton = new System.Windows.Forms.Button();
             this.ShowCastButton = new System.Windows.Forms.Button();
             this.HideControllerButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // MiniControllerLabel
+            // FormControllerLabel
             // 
-            this.MiniControllerLabel.AutoSize = true;
-            this.MiniControllerLabel.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.MiniControllerLabel.Location = new System.Drawing.Point(12, 9);
-            this.MiniControllerLabel.Name = "MiniControllerLabel";
-            this.MiniControllerLabel.Size = new System.Drawing.Size(95, 23);
-            this.MiniControllerLabel.TabIndex = 8;
-            this.MiniControllerLabel.Text = "教室控制器";
+            this.FormControllerLabel.AutoSize = true;
+            this.FormControllerLabel.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.FormControllerLabel.Location = new System.Drawing.Point(12, 9);
+            this.FormControllerLabel.Name = "FormControllerLabel";
+            this.FormControllerLabel.Size = new System.Drawing.Size(95, 23);
+            this.FormControllerLabel.TabIndex = 8;
+            this.FormControllerLabel.Text = "教室控制器";
             // 
             // HideCastButton
             // 
@@ -97,7 +97,7 @@
             this.HideControllerButton.UseVisualStyleBackColor = true;
             this.HideControllerButton.Click += new System.EventHandler(this.HideControllerButton_Click);
             // 
-            // MiniController
+            // FormController
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -108,17 +108,17 @@
             this.Controls.Add(this.ShowCastButton);
             this.Controls.Add(this.SmallCastButton);
             this.Controls.Add(this.HideCastButton);
-            this.Controls.Add(this.MiniControllerLabel);
+            this.Controls.Add(this.FormControllerLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "MiniController";
+            this.Name = "FormController";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "MiniController";
+            this.Text = "FormController";
             this.TopMost = true;
-            this.Load += new System.EventHandler(this.MiniController_Load);
+            this.Load += new System.EventHandler(this.FormController_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -126,7 +126,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Label MiniControllerLabel;
+        private System.Windows.Forms.Label FormControllerLabel;
         private System.Windows.Forms.Button HideCastButton;
         private System.Windows.Forms.Button SmallCastButton;
         private System.Windows.Forms.Button ShowCastButton;
