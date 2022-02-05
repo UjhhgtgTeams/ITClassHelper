@@ -1,6 +1,6 @@
 ﻿namespace ITClassHelper
 {
-    partial class FormController
+    partial class FormCastControl
     {
         /// <summary>
         /// Required designer variable.
@@ -43,7 +43,7 @@
             this.FormControllerLabel.Name = "FormControllerLabel";
             this.FormControllerLabel.Size = new System.Drawing.Size(95, 23);
             this.FormControllerLabel.TabIndex = 8;
-            this.FormControllerLabel.Text = "教室控制器";
+            this.FormControllerLabel.Text = "广播控制器";
             // 
             // HideCastButton
             // 
@@ -97,7 +97,7 @@
             this.HideControllerButton.UseVisualStyleBackColor = true;
             this.HideControllerButton.Click += new System.EventHandler(this.HideControllerButton_Click);
             // 
-            // FormController
+            // FormCastControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -112,7 +112,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "FormController";
+            this.Name = "FormCastControl";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;

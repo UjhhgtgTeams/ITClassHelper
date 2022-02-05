@@ -3,12 +3,9 @@ using System.Windows.Forms;
 
 namespace ITClassHelper
 {
-    public partial class FormController : Form
+    public partial class FormCastControl : Form
     {
-        public FormController()
-        {
-            InitializeComponent();
-        }
+        public FormCastControl() => InitializeComponent();
 
         private void FormController_Load(object sender, EventArgs e) { }
 
@@ -20,15 +17,15 @@ namespace ITClassHelper
 
         private void ShowCast()
         {
-            IntPtr studentWindow = Tools.FindWindow(null, "屏幕演播室窗口");
-            Tools.MoveWindow(studentWindow, 0, 0, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, true);
+            IntPtr studentWindow = HandleMgr.GetStudentWindow();
+            HandleMgr.MoveWindow(studentWindow, 0, 0, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, true);
             Hide();
         }
 
         private void HideCast()
         {
-            IntPtr studentWindow = Tools.FindWindow(null, "屏幕演播室窗口");
-            Tools.MoveWindow(studentWindow, Size.Width, Size.Height, 0, 0, true);
+            IntPtr studentWindow = HandleMgr.GetStudentWindow();
+            HandleMgr.MoveWindow(studentWindow, Size.Width, Size.Height, 0, 0, true);
         }
 
         private void HideTimeCastButton_Click(object sender, EventArgs e) => Hide();

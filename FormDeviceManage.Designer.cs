@@ -36,9 +36,13 @@
             this.DeviceContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.SendCmdMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SendMsgMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SendScriptMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ScripterMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Seperator1MenuItem = new System.Windows.Forms.ToolStripSeparator();
             this.ShutdownMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RebootMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MagicCommandMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.BluescreenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PortLabel = new System.Windows.Forms.Label();
             this.IPButton = new System.Windows.Forms.Button();
             this.PortTextBox = new System.Windows.Forms.TextBox();
@@ -51,10 +55,7 @@
             this.ConvertHostNameIPLabel = new System.Windows.Forms.Label();
             this.HostNameTextBox = new System.Windows.Forms.TextBox();
             this.ConvertHostNameIPButton = new System.Windows.Forms.Button();
-            this.SendScriptMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ScripterMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.NcClientButton = new System.Windows.Forms.Button();
-            this.NcServerButton = new System.Windows.Forms.Button();
+            this.RevShellMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeviceContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -99,10 +100,11 @@
             this.ScripterMenuItem,
             this.Seperator1MenuItem,
             this.ShutdownMenuItem,
-            this.RebootMenuItem});
+            this.RebootMenuItem,
+            this.MagicCommandMenuItem});
             this.DeviceContextMenu.Name = "DeviceContextMenu";
             this.DeviceContextMenu.ShowImageMargin = false;
-            this.DeviceContextMenu.Size = new System.Drawing.Size(129, 154);
+            this.DeviceContextMenu.Size = new System.Drawing.Size(186, 206);
             // 
             // SendCmdMenuItem
             // 
@@ -117,6 +119,20 @@
             this.SendMsgMenuItem.Size = new System.Drawing.Size(185, 24);
             this.SendMsgMenuItem.Text = "发送消息";
             this.SendMsgMenuItem.Click += new System.EventHandler(this.SendMsgMenuItem_Click);
+            // 
+            // SendScriptMenuItem
+            // 
+            this.SendScriptMenuItem.Name = "SendScriptMenuItem";
+            this.SendScriptMenuItem.Size = new System.Drawing.Size(185, 24);
+            this.SendScriptMenuItem.Text = "发送脚本";
+            this.SendScriptMenuItem.Click += new System.EventHandler(this.SendScriptMenuItem_Click);
+            // 
+            // ScripterMenuItem
+            // 
+            this.ScripterMenuItem.Name = "ScripterMenuItem";
+            this.ScripterMenuItem.Size = new System.Drawing.Size(185, 24);
+            this.ScripterMenuItem.Text = "脚本制作器";
+            this.ScripterMenuItem.Click += new System.EventHandler(this.ScripterMenuItem_Click);
             // 
             // Seperator1MenuItem
             // 
@@ -136,6 +152,22 @@
             this.RebootMenuItem.Size = new System.Drawing.Size(185, 24);
             this.RebootMenuItem.Text = "远程重启";
             this.RebootMenuItem.Click += new System.EventHandler(this.RebootMenuItem_Click);
+            // 
+            // MagicCommandMenuItem
+            // 
+            this.MagicCommandMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.BluescreenMenuItem,
+            this.RevShellMenuItem});
+            this.MagicCommandMenuItem.Name = "MagicCommandMenuItem";
+            this.MagicCommandMenuItem.Size = new System.Drawing.Size(185, 24);
+            this.MagicCommandMenuItem.Text = "魔法指令";
+            // 
+            // BluescreenMenuItem
+            // 
+            this.BluescreenMenuItem.Name = "BluescreenMenuItem";
+            this.BluescreenMenuItem.Size = new System.Drawing.Size(354, 26);
+            this.BluescreenMenuItem.Text = "统统蓝屏！";
+            this.BluescreenMenuItem.Click += new System.EventHandler(this.BluescreenMenuItem_Click);
             // 
             // PortLabel
             // 
@@ -222,7 +254,7 @@
             this.DisableHostNameCheckBox.Name = "DisableHostNameCheckBox";
             this.DisableHostNameCheckBox.Size = new System.Drawing.Size(347, 28);
             this.DisableHostNameCheckBox.TabIndex = 49;
-            this.DisableHostNameCheckBox.Text = "禁用计算机名扫描（大幅加快扫描时间）";
+            this.DisableHostNameCheckBox.Text = "禁用计算机名扫描（大幅加快扫描速度）";
             this.DisableHostNameCheckBox.UseVisualStyleBackColor = true;
             // 
             // DisableMacAddressCheckBox
@@ -234,7 +266,7 @@
             this.DisableMacAddressCheckBox.Name = "DisableMacAddressCheckBox";
             this.DisableMacAddressCheckBox.Size = new System.Drawing.Size(329, 28);
             this.DisableMacAddressCheckBox.TabIndex = 50;
-            this.DisableMacAddressCheckBox.Text = "禁用 MAC 地址扫描（加快扫描时间）";
+            this.DisableMacAddressCheckBox.Text = "禁用 MAC 地址扫描（加快扫描速度）";
             this.DisableMacAddressCheckBox.UseVisualStyleBackColor = true;
             // 
             // ConvertHostNameIPLabel
@@ -269,55 +301,18 @@
             this.ConvertHostNameIPButton.UseVisualStyleBackColor = true;
             this.ConvertHostNameIPButton.Click += new System.EventHandler(this.ConvertHostNameIPButton_Click);
             // 
-            // SendScriptMenuItem
+            // RevShellMenuItem
             // 
-            this.SendScriptMenuItem.Name = "SendScriptMenuItem";
-            this.SendScriptMenuItem.Size = new System.Drawing.Size(185, 24);
-            this.SendScriptMenuItem.Text = "发送脚本";
-            this.SendScriptMenuItem.Click += new System.EventHandler(this.SendScriptMenuItem_Click);
-            // 
-            // ScripterMenuItem
-            // 
-            this.ScripterMenuItem.Name = "ScripterMenuItem";
-            this.ScripterMenuItem.Size = new System.Drawing.Size(185, 24);
-            this.ScripterMenuItem.Text = "脚本制作器";
-            this.ScripterMenuItem.Click += new System.EventHandler(this.ScripterMenuItem_Click);
-            // 
-            // NcClientButton
-            // 
-            this.NcClientButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.NcClientButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.NcClientButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.NcClientButton.Location = new System.Drawing.Point(493, 441);
-            this.NcClientButton.Name = "NcClientButton";
-            this.NcClientButton.Size = new System.Drawing.Size(129, 31);
-            this.NcClientButton.TabIndex = 55;
-            this.NcClientButton.Text = "危险按钮2号";
-            this.NcClientButton.UseVisualStyleBackColor = true;
-            this.NcClientButton.Click += new System.EventHandler(this.NcClientButton_Click);
-            // 
-            // NcServerButton
-            // 
-            this.NcServerButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.NcServerButton.Enabled = false;
-            this.NcServerButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.NcServerButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.NcServerButton.Location = new System.Drawing.Point(358, 441);
-            this.NcServerButton.Name = "NcServerButton";
-            this.NcServerButton.Size = new System.Drawing.Size(129, 31);
-            this.NcServerButton.TabIndex = 54;
-            this.NcServerButton.Text = "危险按钮1号";
-            this.NcServerButton.UseVisualStyleBackColor = true;
-            this.NcServerButton.Visible = false;
-            this.NcServerButton.Click += new System.EventHandler(this.NcServerButton_Click);
+            this.RevShellMenuItem.Name = "RevShellMenuItem";
+            this.RevShellMenuItem.Size = new System.Drawing.Size(354, 26);
+            this.RevShellMenuItem.Text = "~神秘指令~（没事别点，非常危险！）";
+            this.RevShellMenuItem.Click += new System.EventHandler(this.RevShellMenuItem_Click);
             // 
             // FormDeviceManage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(634, 550);
-            this.Controls.Add(this.NcClientButton);
-            this.Controls.Add(this.NcServerButton);
             this.Controls.Add(this.ConvertHostNameIPLabel);
             this.Controls.Add(this.HostNameTextBox);
             this.Controls.Add(this.ConvertHostNameIPButton);
@@ -355,7 +350,6 @@
         private System.Windows.Forms.TextBox PortTextBox;
         private System.Windows.Forms.TextBox IPRangeTextBox;
         private System.Windows.Forms.Label IPLabel3;
-        private System.Windows.Forms.TextBox IPTextBox;
         private System.Windows.Forms.Button ScanButton;
         private System.Windows.Forms.ColumnHeader HostNameColumn;
         private System.Windows.Forms.CheckBox DisableHostNameCheckBox;
@@ -365,7 +359,9 @@
         private System.Windows.Forms.Label ConvertHostNameIPLabel;
         private System.Windows.Forms.TextBox HostNameTextBox;
         private System.Windows.Forms.Button ConvertHostNameIPButton;
-        private System.Windows.Forms.Button NcClientButton;
-        private System.Windows.Forms.Button NcServerButton;
+        private System.Windows.Forms.ToolStripMenuItem MagicCommandMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem BluescreenMenuItem;
+        private System.Windows.Forms.TextBox IPTextBox;
+        private System.Windows.Forms.ToolStripMenuItem RevShellMenuItem;
     }
 }

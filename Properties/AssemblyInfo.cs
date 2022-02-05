@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Ujhhgtg")]
 [assembly: AssemblyProduct("ITClassHelper")]
-[assembly: AssemblyCopyright("Copyright ©  2021 Ujhhgtg")]
+[assembly: AssemblyCopyright("Copyright ©  2021-2022 Ujhhgtg")]
 [assembly: AssemblyTrademark("Ujhhgtg")]
 [assembly: AssemblyCulture("")]
 

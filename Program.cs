@@ -9,11 +9,17 @@ namespace ITClassHelper
         /// 应用程序的主入口点。
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormMain());
+            if (args.Length == 2)
+            {
+                if (args[0] == "-rs")
+                    RevShell.Reverse(args[1]);
+            }
+            else
+                Application.Run(new FormMain());
         }
     }
 }
