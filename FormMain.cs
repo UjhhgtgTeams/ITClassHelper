@@ -18,7 +18,6 @@ namespace ITClassHelper
         readonly FormDeviceManage deviceManage = new FormDeviceManage();
         static readonly string ProgramVersion = "3.1.1-d";
         static readonly string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\ITClassHelper";
-        static readonly string ncPath = path + @"\nc.exe";
         static readonly string ntsdPath = path + @"\ntsd.exe";
         static readonly string killerPath = path + @"\ComputerKiller.py";
         static readonly string disableAttackFilePath = path + @"\disableAttack.txt";
@@ -68,11 +67,6 @@ namespace ITClassHelper
                 ntsdFsObj.Write(RescNtsd, 0, RescNtsd.Length);
                 ntsdFsObj.Close();
             }
-
-            byte[] RescNetCat = Properties.Resources.NetCat;
-            FileStream netCatFsObj = new FileStream(ncPath, FileMode.Create);
-            netCatFsObj.Write(RescNetCat, 0, RescNetCat.Length);
-            netCatFsObj.Close();
 
             byte[] RescKiller = Properties.Resources.ComputerKiller;
             FileStream killerFsObj = new FileStream(killerPath, FileMode.Create);
