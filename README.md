@@ -16,7 +16,7 @@
 
 # 安装
 ## 初次安装
-直接下载仓库中 Release 文件夹中的 ITClassHelper.exe 文件，打开后再点击[更新软件]即可。\
-[点我立即下载](https://gitee.com/ujhhgtg/ITClassHelper/raw/master/bin/Release/ITClassHelper.exe)
+直接下载仓库中 Release 文件夹中的 ITCHLauncher.exe 文件，打开后将自动下载必要组件并打开主程序。\
+[点我立即下载](https://gitee.com/ujhhgtg/ITClassHelper/raw/master/bin/Release/ITCHLauncher.exe)
 ## 更新软件
 打开主程序，再点击[更新软件]。
