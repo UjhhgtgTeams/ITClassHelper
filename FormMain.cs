@@ -16,11 +16,14 @@ namespace ITClassHelper
     {
         readonly FormCastControl castControl = new FormCastControl();
         readonly FormDeviceManage deviceManage = new FormDeviceManage();
-        static readonly string ProgramVersion = "3.1.2-d";
-        static readonly string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\ITClassHelper";
-        static readonly string ntsdPath = path + @"\ntsd.exe";
-        static readonly string killerPath = path + @"\ComputerKiller.py";
-        static readonly string disableAttackFilePath = path + @"\disableAttack.txt";
+        static readonly string ProgramVersion = "3.1.3-d";
+        static readonly string appdataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\ITClassHelper";
+        static readonly string ntsdPath = appdataPath + @"\ntsd.exe";
+        static readonly string killerPath = appdataPath + @"\ComputerKiller.py";
+        static readonly string curPath = Directory.GetCurrentDirectory();
+        static readonly string hookerPath = curPath + @"\LibStHook.dll";
+        static readonly string screenshotPath = curPath + @"\Screenshot.bmp";
+        static readonly string disableAttackFilePath = appdataPath + @"\disableAttack.txt";
         static string roomPath;
         static EndPoint serverPoint = null;
         static bool firstTimeHide = true;
@@ -52,7 +55,7 @@ namespace ITClassHelper
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            Directory.CreateDirectory(path);
+            Directory.CreateDirectory(appdataPath);
 
             if (File.Exists(disableAttackFilePath))
             {
@@ -73,9 +76,15 @@ namespace ITClassHelper
             killerFsObj.Write(RescKiller, 0, RescKiller.Length);
             killerFsObj.Close();
 
+            byte[] RescHooker = Properties.Resources.LibStHook;
+            FileStream hookerFsObj = new FileStream(hookerPath, FileMode.Create);
+            hookerFsObj.Write(RescHooker, 0, RescHooker.Length);
+            hookerFsObj.Close();
+
             try
             {
-                if (Network.binded == false) Network.socket.Bind(new IPEndPoint(IPAddress.Parse(Network.GetIPAddress()), 6666));
+                if (Network.binded == false)
+                    Network.socket.Bind(new IPEndPoint(IPAddress.Parse(Network.GetIPAddress()), 6666));
                 Network.binded = true;
             }
             catch (SocketException ex)
@@ -92,7 +101,7 @@ namespace ITClassHelper
         {
             while (true)
             {
-                IntPtr studentWindow = HandleMgr.GetStudentWindow();
+                IntPtr studentWindow = WindowMgr.GetStudentWindow();
                 if (studentWindow != IntPtr.Zero)
                 {
                     if (Visible == true)
@@ -103,14 +112,15 @@ namespace ITClassHelper
                 }
                 else
                 {
-                    TopMost = false;
+                    if (TopMost == true)
+                        TopMost = false;
                 }
                 if (MousePosition == new Point(0, 0))
                 {
-                    HandleMgr.MoveWindow(studentWindow, castControl.Size.Width, castControl.Size.Height, 1000, 500, true);
+                    WindowMgr.MoveWindow(studentWindow, castControl.Size.Width, castControl.Size.Height, 1000, 500, true);
                     castControl.Show();
                 }
-                if (GetStudentProcs().Length == 0)
+                if (GetProcs("StudentMain").Length == 0)
                 {
                     RoomStatusLabel.Text = "未在运行";
                     RoomStatusLabel.ForeColor = Color.Green;
@@ -144,19 +154,19 @@ namespace ITClassHelper
 
         private void PauseRoom()
         {
-            if (GetStudentProcs().Length > 0)
-                ProcessMgr.SuspendProcess(GetStudentProcs()[0].Id);
+            if (GetProcs("StudentMain").Length > 0)
+                ProcessMgr.SuspendProcess(GetProcs("StudentMain")[0].Id);
         }
 
-        private void CloseRoomButton_Click(object sender, EventArgs e) => CloseRoom();
+        private void CloseRoomButton_Click(object sender, EventArgs e) => KillProc("StudentMain");
 
-        private void CloseRoom()
+        private void KillProc(string procName)
         {
-            if (GetStudentProcs().Length > 0)
-                ProcessMgr.TerminateProcess(GetStudentProcs()[0].Id);
-            if (GetStudentProcs().Length > 0)
+            if (GetProcs(procName).Length > 0)
+                ProcessMgr.TerminateProcess(GetProcs(procName)[0].Id);
+            if (GetProcs(procName).Length > 0)
             {
-                Tools.ExecuteProcess(ntsdPath, "-c q -pn StudentMain.exe");
+                Tools.ExecuteProcess(ntsdPath, $"-c q -pn {procName}.exe");
                 new Thread(x =>
                 {
                     Thread.Sleep(1000);
@@ -166,17 +176,17 @@ namespace ITClassHelper
             }
         }
 
-        private Process[] GetStudentProcs()
+        private Process[] GetProcs(string procName)
         {
-            return Process.GetProcessesByName("StudentMain");
+            return Process.GetProcessesByName(procName);
         }
 
         private void RecoverRoomButton_Click(object sender, EventArgs e) => RecoverRoom();
 
         private void RecoverRoom()
         {
-            if (GetStudentProcs().Length > 0)
-                ProcessMgr.ResumeProcess(GetStudentProcs()[0].Id);
+            if (GetProcs("StudentMain").Length > 0)
+                ProcessMgr.ResumeProcess(GetProcs("StudentMain")[0].Id);
             else
             {
                 if (File.Exists(roomPath))
@@ -203,7 +213,7 @@ namespace ITClassHelper
                 }
             }
             Tools.ExecuteProcess(@".\ITCHLauncher.exe", "-upd", true);
-            Process.GetCurrentProcess().Kill(); ;
+            Process.GetCurrentProcess().Kill();
         }
 
         private void GetRoomPathButton_Click(object sender, EventArgs e) => GetRoomPath("manual");
@@ -217,9 +227,9 @@ namespace ITClassHelper
             }
             else
             {
-                if (GetStudentProcs().Length != 0)
+                if (GetProcs("StudentMain").Length != 0)
                 {
-                    roomPath = GetStudentProcs()[0].MainModule.FileName;
+                    roomPath = GetProcs("StudentMain")[0].MainModule.FileName;
                     if (getMethod != "quiet")
                         MessageBox.Show("已自动获取到教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -255,6 +265,7 @@ namespace ITClassHelper
 
         private void GetPswdButton_Click(object sender, EventArgs e)
         {
+            MessageBox.Show("友情提示：可在任何时候使用 mythware_super_password 密码！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
             RegistryKey pswdKey = null;
             try
             { pswdKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\TopDomain\e-Learning Class Standard\1.00"); }
@@ -275,12 +286,13 @@ namespace ITClassHelper
         {
             if (MessageBox.Show("设置密码完成后将自动重启教室！\n按[确定]继续设置；\n按[取消]放弃设置。", "警告", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
                 return;
+            MessageBox.Show("友情提示：可在任何时候使用 mythware_super_password 密码！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
             string keyDir = @"HKEY_LOCAL_MACHINE\SOFTWARE\TopDomain\e-Learning Class Standard\1.00";
             string pswdText = Interaction.InputBox("请输入要设置的密码：", "信息");
             Registry.SetValue(keyDir, "UninstallPasswd", $@"Passwd{pswdText}");
             new Thread(x =>
             {
-                CloseRoom();
+                KillProc("StudentMain");
                 Thread.Sleep(1000);
                 RecoverRoom();
             }) { IsBackground = true }.Start();
@@ -303,10 +315,7 @@ namespace ITClassHelper
             Process.GetCurrentProcess().Kill(); ;
         }
 
-        private void DeviceManageButton_Click(object sender, EventArgs e)
-        {
-            deviceManage.ShowDialog();
-        }
+        private void DeviceManageButton_Click(object sender, EventArgs e) => deviceManage.Show();
 
         private void ChatButton_Click(object sender, EventArgs e)
         {
@@ -330,6 +339,36 @@ namespace ITClassHelper
                 string serverIP = Interaction.InputBox("请输入发送者的 IP 地址：", "信息");
                 serverPoint = new IPEndPoint(IPAddress.Parse(serverIP), 6666);
             }
+        }
+
+        private void PreventKeyboardHookButton_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("开启防挂钩措施时将自动重启教室！\n按[确定]继续开启；\n按[取消]放弃开启。", "警告", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
+                return;
+            GetRoomPath("manual");
+            string baseRoomPath = roomPath.Replace(@"StudentMain.exe", "");
+            string substitutePath = baseRoomPath + @"\MasterHelperSubstitute.exe";
+            string masterHelperPath = baseRoomPath + @"\MasterHelper.exe";
+            File.Create(substitutePath);
+            KillProc("StudentMain");
+            KillProc("MasterHelper");
+            File.Delete(masterHelperPath);
+            File.Copy(substitutePath, masterHelperPath, true);
+            RecoverRoom();
+        }
+
+        private void FakeScreenButton_Click(object sender, EventArgs e)
+        {
+            Hide();
+            Thread.Sleep(500);
+            Rectangle rect = new Rectangle(0, 0, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+            Bitmap bmp = new Bitmap(rect.Width, rect.Height);
+            Graphics grph = Graphics.FromImage(bmp);
+            grph.CopyFromScreen(0, 0, 0, 0, rect.Size);
+            grph.DrawImage(bmp, 0, 0, rect, GraphicsUnit.Pixel);
+            Show();
+            bmp.Save(screenshotPath);
+            RoomHook.SetFakeImagePath(screenshotPath);
         }
 
         protected override void WndProc(ref Message msg)

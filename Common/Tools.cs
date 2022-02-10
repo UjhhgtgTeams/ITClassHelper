@@ -12,7 +12,8 @@ namespace ITClassHelper
                 FileName = fileName,
                 Arguments = arguments
             };
-            if (noHide != true) processInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            if (noHide != true)
+                processInfo.WindowStyle = ProcessWindowStyle.Hidden;
             process.StartInfo = processInfo;
             process.Start();
         }

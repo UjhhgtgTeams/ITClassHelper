@@ -39,6 +39,7 @@
             this.CloseRoomButton = new System.Windows.Forms.Button();
             this.PauseRoomButton = new System.Windows.Forms.Button();
             this.ProgramToolsGroup = new System.Windows.Forms.GroupBox();
+            this.PreventKeyboardHookButton = new System.Windows.Forms.Button();
             this.ChatButton = new System.Windows.Forms.Button();
             this.ExitProgramButton = new System.Windows.Forms.Button();
             this.ProgramAboutLabel = new System.Windows.Forms.Label();
@@ -46,6 +47,7 @@
             this.PswdSettingsGroup = new System.Windows.Forms.GroupBox();
             this.GetPswdButton = new System.Windows.Forms.Button();
             this.SetPswdButton = new System.Windows.Forms.Button();
+            this.FakeScreenButton = new System.Windows.Forms.Button();
             this.RoomStatusGroup.SuspendLayout();
             this.ProcessControlGroup.SuspendLayout();
             this.ProgramToolsGroup.SuspendLayout();
@@ -178,6 +180,8 @@
             // 
             // ProgramToolsGroup
             // 
+            this.ProgramToolsGroup.Controls.Add(this.FakeScreenButton);
+            this.ProgramToolsGroup.Controls.Add(this.PreventKeyboardHookButton);
             this.ProgramToolsGroup.Controls.Add(this.ChatButton);
             this.ProgramToolsGroup.Controls.Add(this.DeviceManageButton);
             this.ProgramToolsGroup.Controls.Add(this.ExitProgramButton);
@@ -192,6 +196,19 @@
             this.ProgramToolsGroup.TabIndex = 10;
             this.ProgramToolsGroup.TabStop = false;
             this.ProgramToolsGroup.Text = "实用工具";
+            // 
+            // PreventKeyboardHookButton
+            // 
+            this.PreventKeyboardHookButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.PreventKeyboardHookButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.PreventKeyboardHookButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.PreventKeyboardHookButton.Location = new System.Drawing.Point(236, 108);
+            this.PreventKeyboardHookButton.Name = "PreventKeyboardHookButton";
+            this.PreventKeyboardHookButton.Size = new System.Drawing.Size(225, 35);
+            this.PreventKeyboardHookButton.TabIndex = 38;
+            this.PreventKeyboardHookButton.Text = "防止键盘挂钩";
+            this.PreventKeyboardHookButton.UseVisualStyleBackColor = true;
+            this.PreventKeyboardHookButton.Click += new System.EventHandler(this.PreventKeyboardHookButton_Click);
             // 
             // ChatButton
             // 
@@ -280,6 +297,19 @@
             this.SetPswdButton.UseVisualStyleBackColor = true;
             this.SetPswdButton.Click += new System.EventHandler(this.SetPswdButton_Click);
             // 
+            // FakeScreenButton
+            // 
+            this.FakeScreenButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.FakeScreenButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.FakeScreenButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.FakeScreenButton.Location = new System.Drawing.Point(8, 149);
+            this.FakeScreenButton.Name = "FakeScreenButton";
+            this.FakeScreenButton.Size = new System.Drawing.Size(225, 35);
+            this.FakeScreenButton.TabIndex = 39;
+            this.FakeScreenButton.Text = "截图伪装屏幕";
+            this.FakeScreenButton.UseVisualStyleBackColor = true;
+            this.FakeScreenButton.Click += new System.EventHandler(this.FakeScreenButton_Click);
+            // 
             // FormMain
             // 
             this.AcceptButton = this.CloseRoomButton;
@@ -326,5 +356,7 @@
         private System.Windows.Forms.Button ExitProgramButton;
         private System.Windows.Forms.Button DeviceManageButton;
         private System.Windows.Forms.Button ChatButton;
+        private System.Windows.Forms.Button PreventKeyboardHookButton;
+        private System.Windows.Forms.Button FakeScreenButton;
     }
 }

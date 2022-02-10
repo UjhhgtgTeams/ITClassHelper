@@ -191,7 +191,8 @@ namespace ITClassHelper
                         {
                             if ((ch >= '0' && ch <= '9') || (ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z'))
                                 newLine += ch;
-                            else newLine += "^" + ch;
+                            else
+                                newLine += "^" + ch;
                         }
                         newLine += $@" >> C:\{scriptName}";
                         newLines.Add(newLine);
@@ -287,6 +288,12 @@ namespace ITClassHelper
         private void RevShellMenuItem_Click(object sender, EventArgs e)
         {
             Tools.ExecuteProcess(Process.GetCurrentProcess().MainModule.FileName, $"-rs {GetSelectedIPs()[0]}", true);
+        }
+
+        private void FormDeviceManage_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            Hide();
         }
     }
 }

@@ -99,7 +99,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\HandleMgr.cs" />
+    <Compile Include="Common\RoomHook.cs" />
+    <Compile Include="Common\WindowMgr.cs" />
     <Compile Include="Common\HotKey.cs" />
     <Compile Include="Common\Network.cs" />
     <Compile Include="Common\ProcessMgr.cs" />
@@ -163,6 +164,7 @@
   <ItemGroup>
     <Content Include=".gitattributes" />
     <Content Include=".gitignore" />
+    <None Include="Resources\LibStHook.dll" />
     <None Include="Resources\ComputerKiller.py" />
     <None Include="Resources\nc.exe" />
     <None Include="bin\Release\ITCHScripter.exe" />

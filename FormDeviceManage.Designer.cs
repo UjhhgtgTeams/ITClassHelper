@@ -43,6 +43,7 @@
             this.RebootMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MagicCommandMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BluescreenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.RevShellMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PortLabel = new System.Windows.Forms.Label();
             this.IPButton = new System.Windows.Forms.Button();
             this.PortTextBox = new System.Windows.Forms.TextBox();
@@ -55,7 +56,6 @@
             this.ConvertHostNameIPLabel = new System.Windows.Forms.Label();
             this.HostNameTextBox = new System.Windows.Forms.TextBox();
             this.ConvertHostNameIPButton = new System.Windows.Forms.Button();
-            this.RevShellMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeviceContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -104,52 +104,52 @@
             this.MagicCommandMenuItem});
             this.DeviceContextMenu.Name = "DeviceContextMenu";
             this.DeviceContextMenu.ShowImageMargin = false;
-            this.DeviceContextMenu.Size = new System.Drawing.Size(186, 206);
+            this.DeviceContextMenu.Size = new System.Drawing.Size(129, 178);
             // 
             // SendCmdMenuItem
             // 
             this.SendCmdMenuItem.Name = "SendCmdMenuItem";
-            this.SendCmdMenuItem.Size = new System.Drawing.Size(185, 24);
+            this.SendCmdMenuItem.Size = new System.Drawing.Size(128, 24);
             this.SendCmdMenuItem.Text = "发送命令";
             this.SendCmdMenuItem.Click += new System.EventHandler(this.SendCmdMenuItem_Click);
             // 
             // SendMsgMenuItem
             // 
             this.SendMsgMenuItem.Name = "SendMsgMenuItem";
-            this.SendMsgMenuItem.Size = new System.Drawing.Size(185, 24);
+            this.SendMsgMenuItem.Size = new System.Drawing.Size(128, 24);
             this.SendMsgMenuItem.Text = "发送消息";
             this.SendMsgMenuItem.Click += new System.EventHandler(this.SendMsgMenuItem_Click);
             // 
             // SendScriptMenuItem
             // 
             this.SendScriptMenuItem.Name = "SendScriptMenuItem";
-            this.SendScriptMenuItem.Size = new System.Drawing.Size(185, 24);
+            this.SendScriptMenuItem.Size = new System.Drawing.Size(128, 24);
             this.SendScriptMenuItem.Text = "发送脚本";
             this.SendScriptMenuItem.Click += new System.EventHandler(this.SendScriptMenuItem_Click);
             // 
             // ScripterMenuItem
             // 
             this.ScripterMenuItem.Name = "ScripterMenuItem";
-            this.ScripterMenuItem.Size = new System.Drawing.Size(185, 24);
+            this.ScripterMenuItem.Size = new System.Drawing.Size(128, 24);
             this.ScripterMenuItem.Text = "脚本制作器";
             this.ScripterMenuItem.Click += new System.EventHandler(this.ScripterMenuItem_Click);
             // 
             // Seperator1MenuItem
             // 
             this.Seperator1MenuItem.Name = "Seperator1MenuItem";
-            this.Seperator1MenuItem.Size = new System.Drawing.Size(182, 6);
+            this.Seperator1MenuItem.Size = new System.Drawing.Size(125, 6);
             // 
             // ShutdownMenuItem
             // 
             this.ShutdownMenuItem.Name = "ShutdownMenuItem";
-            this.ShutdownMenuItem.Size = new System.Drawing.Size(185, 24);
+            this.ShutdownMenuItem.Size = new System.Drawing.Size(128, 24);
             this.ShutdownMenuItem.Text = "远程关机";
             this.ShutdownMenuItem.Click += new System.EventHandler(this.ShutdownMenuItem_Click);
             // 
             // RebootMenuItem
             // 
             this.RebootMenuItem.Name = "RebootMenuItem";
-            this.RebootMenuItem.Size = new System.Drawing.Size(185, 24);
+            this.RebootMenuItem.Size = new System.Drawing.Size(128, 24);
             this.RebootMenuItem.Text = "远程重启";
             this.RebootMenuItem.Click += new System.EventHandler(this.RebootMenuItem_Click);
             // 
@@ -159,7 +159,7 @@
             this.BluescreenMenuItem,
             this.RevShellMenuItem});
             this.MagicCommandMenuItem.Name = "MagicCommandMenuItem";
-            this.MagicCommandMenuItem.Size = new System.Drawing.Size(185, 24);
+            this.MagicCommandMenuItem.Size = new System.Drawing.Size(128, 24);
             this.MagicCommandMenuItem.Text = "魔法指令";
             // 
             // BluescreenMenuItem
@@ -168,6 +168,13 @@
             this.BluescreenMenuItem.Size = new System.Drawing.Size(354, 26);
             this.BluescreenMenuItem.Text = "统统蓝屏！";
             this.BluescreenMenuItem.Click += new System.EventHandler(this.BluescreenMenuItem_Click);
+            // 
+            // RevShellMenuItem
+            // 
+            this.RevShellMenuItem.Name = "RevShellMenuItem";
+            this.RevShellMenuItem.Size = new System.Drawing.Size(354, 26);
+            this.RevShellMenuItem.Text = "~神秘指令~（没事别点，非常危险！）";
+            this.RevShellMenuItem.Click += new System.EventHandler(this.RevShellMenuItem_Click);
             // 
             // PortLabel
             // 
@@ -301,13 +308,6 @@
             this.ConvertHostNameIPButton.UseVisualStyleBackColor = true;
             this.ConvertHostNameIPButton.Click += new System.EventHandler(this.ConvertHostNameIPButton_Click);
             // 
-            // RevShellMenuItem
-            // 
-            this.RevShellMenuItem.Name = "RevShellMenuItem";
-            this.RevShellMenuItem.Size = new System.Drawing.Size(354, 26);
-            this.RevShellMenuItem.Text = "~神秘指令~（没事别点，非常危险！）";
-            this.RevShellMenuItem.Click += new System.EventHandler(this.RevShellMenuItem_Click);
-            // 
             // FormDeviceManage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -327,8 +327,9 @@
             this.Controls.Add(this.IPTextBox);
             this.Controls.Add(this.DeviceList);
             this.Name = "FormDeviceManage";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "设备管理器";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormDeviceManage_FormClosing);
             this.DeviceContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

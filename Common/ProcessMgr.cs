@@ -132,5 +132,15 @@ namespace ITClassHelper
                 Marshal.FreeHGlobal(argv);
             }
         }
+
+        public static void KillProcessTree(int procId)
+        {
+            ManagementObjectSearcher mos = new ManagementObjectSearcher("Select * From Win32_Process Where ParentProcessID=" + procId);
+            ManagementObjectCollection moc = mos.Get();
+            foreach (ManagementObject mo in moc)
+            {
+                TerminateProcess(Convert.ToInt32(mo["ProcessID"]));
+            }
+        }
     }
 }

