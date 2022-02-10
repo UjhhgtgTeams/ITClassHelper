@@ -99,33 +99,30 @@ namespace ITClassHelper
             }
         }
 
-        public static string GetCommandLineArgs(Process process)
+        public static string[] GetProcessArgs(Process proc)
         {
+            string args;
             using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(
-                "SELECT CommandLine FROM Win32_Process WHERE ProcessId = " + process.Id))
+                "SELECT CommandLine FROM Win32_Process WHERE ProcessId = " + proc.Id))
             using (ManagementObjectCollection objects = searcher.Get())
             {
                 ManagementBaseObject @object = objects.Cast<ManagementBaseObject>().SingleOrDefault();
-                return @object?["CommandLine"]?.ToString() ?? "";
+                args = @object?["CommandLine"]?.ToString() ?? "";
             }
-        }
-
-        public static string[] ConvertCommandLineArgs(string commandLine)
-        {
-            IntPtr argv = CommandLineToArgvW(commandLine, out var argc);
+            IntPtr argv = CommandLineToArgvW(args, out var argc);
             if (argv == IntPtr.Zero)
             {
                 return null;
             }
             try
             {
-                string[] args = new string[argc];
-                for (var i = 0; i < args.Length; i++)
+                string[] argsArray = new string[argc];
+                for (var i = 0; i < argsArray.Length; i++)
                 {
                     IntPtr p = Marshal.ReadIntPtr(argv, i * IntPtr.Size);
-                    args[i] = Marshal.PtrToStringUni(p);
+                    argsArray[i] = Marshal.PtrToStringUni(p);
                 }
-                return args;
+                return argsArray;
             }
             finally
             {

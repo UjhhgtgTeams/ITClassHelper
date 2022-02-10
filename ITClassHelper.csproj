@@ -166,7 +166,6 @@
     <Content Include=".gitignore" />
     <None Include="Resources\LibStHook.dll" />
     <None Include="Resources\ComputerKiller.py" />
-    <None Include="Resources\nc.exe" />
     <None Include="bin\Release\ITCHScripter.exe" />
     <Content Include="bin\Release\ITClassHelper.exe" />
     <Content Include="MythwareKiller.ico" />

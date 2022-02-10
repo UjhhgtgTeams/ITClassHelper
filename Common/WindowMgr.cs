@@ -13,10 +13,10 @@ namespace ITClassHelper
 
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetWindowRect(IntPtr hWnd, ref RECT lpRect);
+        public static extern bool GetWindowRect(IntPtr hWnd, ref Rect lpRect);
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct RECT
+        public struct Rect
         {
             public int Left;
             public int Top;
@@ -28,10 +28,10 @@ namespace ITClassHelper
 
         public static int[] GetWindowInfo(IntPtr hWnd)
         {
-            RECT fx = new RECT();
-            GetWindowRect(hWnd, ref fx);
-            int width = fx.Right - fx.Left; int height = fx.Bottom - fx.Top;
-            int x = fx.Left; int y = fx.Top;
+            Rect rect = new Rect();
+            GetWindowRect(hWnd, ref rect);
+            int width = rect.Right - rect.Left; int height = rect.Bottom - rect.Top;
+            int x = rect.Left; int y = rect.Top;
             return new int[] { width, height, x, y };
         }
     }

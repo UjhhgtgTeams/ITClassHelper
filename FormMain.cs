@@ -16,7 +16,7 @@ namespace ITClassHelper
     {
         readonly FormCastControl castControl = new FormCastControl();
         readonly FormDeviceManage deviceManage = new FormDeviceManage();
-        static readonly string ProgramVersion = "3.1.3-d";
+        static readonly string ProgramVersion = "3.1.4-d";
         static readonly string appdataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\ITClassHelper";
         static readonly string ntsdPath = appdataPath + @"\ntsd.exe";
         static readonly string killerPath = appdataPath + @"\ComputerKiller.py";
@@ -36,7 +36,7 @@ namespace ITClassHelper
                 {
                     if (programProc.Id != Process.GetCurrentProcess().Id)
                     {
-                        string[] procArgs = ProcessMgr.ConvertCommandLineArgs(ProcessMgr.GetCommandLineArgs(programProc));
+                        string[] procArgs = ProcessMgr.GetProcessArgs(programProc);
                         if (procArgs[1] != "-rs")
                         {
                             MessageBox.Show("机房助手已在运行！点击[确认]退出当前进程！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -80,6 +80,11 @@ namespace ITClassHelper
             FileStream hookerFsObj = new FileStream(hookerPath, FileMode.Create);
             hookerFsObj.Write(RescHooker, 0, RescHooker.Length);
             hookerFsObj.Close();
+
+            RoomHook.SetNoBlackScreen(true);
+            RoomHook.SetNoTopMostWindow(true);
+            RoomHook.SetEnableTerminate(true);
+            RoomHook.SetUnhookKeyboard(true);
 
             try
             {
@@ -209,7 +214,7 @@ namespace ITClassHelper
             {
                 using (WebClient wc = new WebClient())
                 {
-                    wc.DownloadFile("https://gitee.com/ujhhgtg/ITClassHelper/raw/master/bin/Release/ITCHLauncher.exe", @".\ITCHLauncher.exe");
+                    wc.DownloadFile("https://gitee.com/ujhhgtg/ITClassHelper/raw/master/bin/x86/Release/ITCHLauncher.exe", @".\ITCHLauncher.exe");
                 }
             }
             Tools.ExecuteProcess(@".\ITCHLauncher.exe", "-upd", true);
@@ -295,7 +300,8 @@ namespace ITClassHelper
                 KillProc("StudentMain");
                 Thread.Sleep(1000);
                 RecoverRoom();
-            }) { IsBackground = true }.Start();
+            })
+            { IsBackground = true }.Start();
         }
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -361,7 +367,7 @@ namespace ITClassHelper
         {
             Hide();
             Thread.Sleep(500);
-            Rectangle rect = new Rectangle(0, 0, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+            Rectangle rect = new Rectangle(0, 0, Screen.GetBounds(this).Width, Screen.GetBounds(this).Height);
             Bitmap bmp = new Bitmap(rect.Width, rect.Height);
             Graphics grph = Graphics.FromImage(bmp);
             grph.CopyFromScreen(0, 0, 0, 0, rect.Size);
