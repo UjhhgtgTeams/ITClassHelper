@@ -45,13 +45,23 @@ namespace ITClassHelper
                     {
                         DeviceList.Items.Add(reply.Address.ToString());
                         if (DisableMacAddressCheckBox.Checked == false)
-                            DeviceList.Items[DeviceList.Items.Count - 1].SubItems.Add(GetMacByIP(reply.Address.ToString()));
+                        {
+                            if (GetMacByIP(reply.Address.ToString()) != "00-00-00-00-00-00")
+                                DeviceList.Items[DeviceList.Items.Count - 1].SubItems.Add(GetMacByIP(reply.Address.ToString()));
+                            else
+                                DeviceList.Items[DeviceList.Items.Count - 1].SubItems.Add("");
+                        }
                         else
                             DeviceList.Items[DeviceList.Items.Count - 1].SubItems.Add("");
                         if (DisableHostNameCheckBox.Checked == false)
-                            DeviceList.Items[DeviceList.Items.Count - 1].SubItems.Add(Dns.GetHostEntry(reply.Address).HostName);
-                        else
-                            DeviceList.Items[DeviceList.Items.Count - 1].SubItems.Add("");
+                        {
+                            if (Dns.GetHostEntry(reply.Address).HostName != reply.Address.ToString())
+                                DeviceList.Items[DeviceList.Items.Count - 1].SubItems.Add(Dns.GetHostEntry(reply.Address).HostName);
+                            else
+                                DeviceList.Items[DeviceList.Items.Count - 1].SubItems.Add("");
+                        }
+                    else
+                        DeviceList.Items[DeviceList.Items.Count - 1].SubItems.Add("");
                     }
                 }
                 ScanButton.Text = "扫描"; ScanButton.Enabled = true; Cursor = Cursors.Default;

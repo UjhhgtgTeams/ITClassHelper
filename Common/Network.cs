@@ -26,7 +26,7 @@ namespace ITClassHelper
             {
                 foreach (IPAddress curCheckIP in Dns.GetHostEntry(targetHostName).AddressList)
                 {
-                    if (curCheckIP.AddressFamily.ToString() == "InterNetwork")
+                    if (curCheckIP.AddressFamily == AddressFamily.InterNetwork)
                     {
                         resultAddress = curCheckIP.ToString();
                     }

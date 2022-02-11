@@ -16,7 +16,7 @@ namespace ITClassHelper
     {
         readonly FormCastControl castControl = new FormCastControl();
         readonly FormDeviceManage deviceManage = new FormDeviceManage();
-        static readonly string ProgramVersion = "3.1.4-d";
+        static readonly string ProgramVersion = "3.1.5-d";
         static readonly string appdataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\ITClassHelper";
         static readonly string ntsdPath = appdataPath + @"\ntsd.exe";
         static readonly string killerPath = appdataPath + @"\ComputerKiller.py";
