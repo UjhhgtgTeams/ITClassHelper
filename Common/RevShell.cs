@@ -40,14 +40,14 @@ namespace ITClassHelper
             }
         }
 
-        public static void CmdOutputDataHandler(object sendingProcess, DataReceivedEventArgs outLine)
+        public static void CmdOutputDataHandler(object sender, DataReceivedEventArgs e)
         {
             StringBuilder strOutput = new StringBuilder();
-            if (!string.IsNullOrEmpty(outLine.Data))
+            if (!string.IsNullOrEmpty(e.Data))
             {
                 try
                 {
-                    strOutput.Append(outLine.Data);
+                    strOutput.Append(e.Data);
                     sw.WriteLine(strOutput);
                     sw.Flush();
                 }

@@ -219,7 +219,7 @@
             this.PreventKeyboardHookButton.Name = "PreventKeyboardHookButton";
             this.PreventKeyboardHookButton.Size = new System.Drawing.Size(225, 35);
             this.PreventKeyboardHookButton.TabIndex = 38;
-            this.PreventKeyboardHookButton.Text = "防止键盘挂钩";
+            this.PreventKeyboardHookButton.Text = "去除键盘挂钩";
             this.PreventKeyboardHookButton.UseVisualStyleBackColor = true;
             this.PreventKeyboardHookButton.Click += new System.EventHandler(this.PreventKeyboardHookButton_Click);
             // 

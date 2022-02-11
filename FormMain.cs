@@ -16,27 +16,27 @@ namespace ITClassHelper
     {
         readonly FormCastControl castControl = new FormCastControl();
         readonly FormDeviceManage deviceManage = new FormDeviceManage();
-        static readonly string ProgramVersion = "3.1.5-d";
-        static readonly string appdataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\ITClassHelper";
-        static readonly string ntsdPath = appdataPath + @"\ntsd.exe";
-        static readonly string killerPath = appdataPath + @"\ComputerKiller.py";
+        static readonly string ProgramVersion = "3.1.6-d";
+        static readonly string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\ITClassHelper";
+        static readonly string ntsdPath = appDataPath + @"\ntsd.exe";
+        static readonly string disableAttackFilePath = appDataPath + @"\disableAttack.txt";
         static readonly string curPath = Directory.GetCurrentDirectory();
+        static readonly string killerPath = curPath + @"\ComputerKiller.py";
         static readonly string hookerPath = curPath + @"\LibStHook.dll";
         static readonly string screenshotPath = curPath + @"\Screenshot.bmp";
-        static readonly string disableAttackFilePath = appdataPath + @"\disableAttack.txt";
         static string roomPath;
         static EndPoint serverPoint = null;
         static bool firstTimeHide = true;
 
         public FormMain()
         {
-            if (Process.GetProcessesByName("ITClassHelper").Length > 1)
+            if (GetProcs("ITClassHelper").Length > 1)
             {
-                foreach (Process programProc in Process.GetProcessesByName("ITClassHelper"))
+                foreach (Process programProc in GetProcs("ITClassHelper"))
                 {
                     if (programProc.Id != Process.GetCurrentProcess().Id)
                     {
-                        string[] procArgs = ProcessMgr.GetProcessArgs(programProc);
+                        string[] procArgs = ProcMgr.GetProcessArgs(programProc);
                         if (procArgs[1] != "-rs")
                         {
                             MessageBox.Show("机房助手已在运行！点击[确认]退出当前进程！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -55,7 +55,7 @@ namespace ITClassHelper
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            Directory.CreateDirectory(appdataPath);
+            Directory.CreateDirectory(appDataPath);
 
             if (File.Exists(disableAttackFilePath))
             {
@@ -149,8 +149,8 @@ namespace ITClassHelper
                     byte[] buffer = new byte[10240];
                     int length = Network.socket.ReceiveFrom(buffer, ref serverPoint);
                     string message = Encoding.UTF8.GetString(buffer, 0, length);
-                    string fullMessage = $"收到来自 {serverPoint} 的消息：";
-                    new Thread(x => MessageBox.Show(fullMessage, "消息", MessageBoxButtons.OK, MessageBoxIcon.None)).Start();
+                    string formattedMessage = $"收到来自 {serverPoint} 的消息：\n{message}";
+                    new Thread(x => MessageBox.Show(formattedMessage, "消息", MessageBoxButtons.OK, MessageBoxIcon.None)).Start();
                 }
             }
         }
@@ -160,22 +160,26 @@ namespace ITClassHelper
         private void PauseRoom()
         {
             if (GetProcs("StudentMain").Length > 0)
-                ProcessMgr.SuspendProcess(GetProcs("StudentMain")[0].Id);
+                ProcMgr.SuspendProcess(GetProcs("StudentMain")[0].Id);
         }
 
-        private void CloseRoomButton_Click(object sender, EventArgs e) => KillProc("StudentMain");
+        private void CloseRoomButton_Click(object sender, EventArgs e) => KillProcs("StudentMain");
 
-        private void KillProc(string procName)
+        private void KillProcs(string procName)
         {
             if (GetProcs(procName).Length > 0)
-                ProcessMgr.TerminateProcess(GetProcs(procName)[0].Id);
+            {
+                foreach (Process proc in GetProcs(procName))
+                    ProcMgr.TerminateProcess(proc.Id);
+            }
             if (GetProcs(procName).Length > 0)
             {
-                Tools.ExecuteProcess(ntsdPath, $"-c q -pn {procName}.exe");
+                foreach (Process proc in GetProcs(procName))
+                    Tools.ExecuteProcess(ntsdPath, $"-c q -p {proc.Id}");
                 new Thread(x =>
                 {
-                    Thread.Sleep(1000);
-                    foreach (Process ntsdProc in Process.GetProcessesByName("ntsd"))
+                    Thread.Sleep(1500);
+                    foreach (Process ntsdProc in GetProcs("ntsd"))
                         ntsdProc.Kill();
                 }).Start();
             }
@@ -191,7 +195,7 @@ namespace ITClassHelper
         private void RecoverRoom()
         {
             if (GetProcs("StudentMain").Length > 0)
-                ProcessMgr.ResumeProcess(GetProcs("StudentMain")[0].Id);
+                ProcMgr.ResumeProcess(GetProcs("StudentMain")[0].Id);
             else
             {
                 if (File.Exists(roomPath))
@@ -297,7 +301,7 @@ namespace ITClassHelper
             Registry.SetValue(keyDir, "UninstallPasswd", $@"Passwd{pswdText}");
             new Thread(x =>
             {
-                KillProc("StudentMain");
+                KillProcs("StudentMain");
                 Thread.Sleep(1000);
                 RecoverRoom();
             })
@@ -349,17 +353,18 @@ namespace ITClassHelper
 
         private void PreventKeyboardHookButton_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("开启防挂钩措施时将自动重启教室！\n按[确定]继续开启；\n按[取消]放弃开启。", "警告", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
+            if (MessageBox.Show("去除挂钩时将自动重启教室！\n按[确定]继续去除；\n按[取消]放弃开启。", "警告", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
                 return;
             GetRoomPath("manual");
             string baseRoomPath = roomPath.Replace(@"StudentMain.exe", "");
             string substitutePath = baseRoomPath + @"\MasterHelperSubstitute.exe";
             string masterHelperPath = baseRoomPath + @"\MasterHelper.exe";
             File.Create(substitutePath);
-            KillProc("StudentMain");
-            KillProc("MasterHelper");
+            KillProcs("StudentMain");
+            KillProcs("MasterHelper");
             File.Delete(masterHelperPath);
             File.Copy(substitutePath, masterHelperPath, true);
+            File.Delete(substitutePath);
             RecoverRoom();
         }
 

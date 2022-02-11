@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace ITClassHelper
 {
-    internal class ProcessMgr
+    internal class ProcMgr
     {
         [Flags]
         public enum ProcessAccess : uint
