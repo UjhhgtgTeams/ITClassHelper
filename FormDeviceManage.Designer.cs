@@ -56,6 +56,8 @@
             this.ConvertHostNameIPLabel = new System.Windows.Forms.Label();
             this.HostNameTextBox = new System.Windows.Forms.TextBox();
             this.ConvertHostNameIPButton = new System.Windows.Forms.Button();
+            this.MythwareRoomRadio = new System.Windows.Forms.RadioButton();
+            this.RedSpiderRoomRadio = new System.Windows.Forms.RadioButton();
             this.DeviceContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -308,11 +310,41 @@
             this.ConvertHostNameIPButton.UseVisualStyleBackColor = true;
             this.ConvertHostNameIPButton.Click += new System.EventHandler(this.ConvertHostNameIPButton_Click);
             // 
+            // MythwareRoomRadio
+            // 
+            this.MythwareRoomRadio.AutoSize = true;
+            this.MythwareRoomRadio.Checked = true;
+            this.MythwareRoomRadio.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.MythwareRoomRadio.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.MythwareRoomRadio.Location = new System.Drawing.Point(390, 441);
+            this.MythwareRoomRadio.Name = "MythwareRoomRadio";
+            this.MythwareRoomRadio.Size = new System.Drawing.Size(142, 28);
+            this.MythwareRoomRadio.TabIndex = 54;
+            this.MythwareRoomRadio.TabStop = true;
+            this.MythwareRoomRadio.Text = "极域电子教室";
+            this.MythwareRoomRadio.UseVisualStyleBackColor = true;
+            this.MythwareRoomRadio.CheckedChanged += new System.EventHandler(this.RoomTypeRadio_CheckedChanged);
+            // 
+            // RedSpiderRoomRadio
+            // 
+            this.RedSpiderRoomRadio.AutoSize = true;
+            this.RedSpiderRoomRadio.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.RedSpiderRoomRadio.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.RedSpiderRoomRadio.Location = new System.Drawing.Point(390, 475);
+            this.RedSpiderRoomRadio.Name = "RedSpiderRoomRadio";
+            this.RedSpiderRoomRadio.Size = new System.Drawing.Size(159, 28);
+            this.RedSpiderRoomRadio.TabIndex = 55;
+            this.RedSpiderRoomRadio.Text = "红蜘蛛电子教室";
+            this.RedSpiderRoomRadio.UseVisualStyleBackColor = true;
+            this.RedSpiderRoomRadio.CheckedChanged += new System.EventHandler(this.RoomTypeRadio_CheckedChanged);
+            // 
             // FormDeviceManage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(634, 550);
+            this.Controls.Add(this.RedSpiderRoomRadio);
+            this.Controls.Add(this.MythwareRoomRadio);
             this.Controls.Add(this.ConvertHostNameIPLabel);
             this.Controls.Add(this.HostNameTextBox);
             this.Controls.Add(this.ConvertHostNameIPButton);
@@ -364,5 +396,7 @@
         private System.Windows.Forms.ToolStripMenuItem BluescreenMenuItem;
         private System.Windows.Forms.TextBox IPTextBox;
         private System.Windows.Forms.ToolStripMenuItem RevShellMenuItem;
+        private System.Windows.Forms.RadioButton MythwareRoomRadio;
+        private System.Windows.Forms.RadioButton RedSpiderRoomRadio;
     }
 }

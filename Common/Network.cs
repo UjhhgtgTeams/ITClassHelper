@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 
@@ -34,6 +35,18 @@ namespace ITClassHelper
             }
             catch (SocketException) { resultAddress = "ERROR"; }
             return resultAddress;
+        }
+
+        public static bool GetPortInUse(int port)
+        {
+            IPGlobalProperties ipProp = IPGlobalProperties.GetIPGlobalProperties();
+            IPEndPoint[] endPoints = ipProp.GetActiveTcpListeners();
+            foreach (IPEndPoint endPoint in endPoints)
+            {
+                if (endPoint.Port == port)
+                    return true;
+            }
+            return false;
         }
     }
 }

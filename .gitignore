@@ -357,4 +357,6 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # User-specific codes
-/bin/Release/ITClassHelper.iss
+ITClassHelper.iss
+Screenshot.bmp
+ComputerKiller.py

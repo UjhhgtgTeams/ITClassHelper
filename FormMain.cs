@@ -16,14 +16,12 @@ namespace ITClassHelper
     {
         readonly FormCastControl castControl = new FormCastControl();
         readonly FormDeviceManage deviceManage = new FormDeviceManage();
-        static readonly string ProgramVersion = "3.1.6-d";
+        static readonly string ProgramVersion = "3.2.0-d";
         static readonly string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\ITClassHelper";
         static readonly string ntsdPath = appDataPath + @"\ntsd.exe";
         static readonly string disableAttackFilePath = appDataPath + @"\disableAttack.txt";
         static readonly string curPath = Directory.GetCurrentDirectory();
         static readonly string killerPath = curPath + @"\ComputerKiller.py";
-        static readonly string hookerPath = curPath + @"\LibStHook.dll";
-        static readonly string screenshotPath = curPath + @"\Screenshot.bmp";
         static string roomPath;
         static EndPoint serverPoint = null;
         static bool firstTimeHide = true;
@@ -49,6 +47,8 @@ namespace ITClassHelper
             CheckForIllegalCrossThreadCalls = false;
             ProgramAboutLabel.Text = ProgramAboutLabel.Text.Replace("X.Y.Z", ProgramVersion);
             HotKey.RegisterHotKey(Handle, 100, HotKey.KeyModifiers.Alt, Keys.H);
+            castControl.Show();
+            castControl.Hide();
             if (ProgramVersion.Contains("-d"))
                 MessageBox.Show("这是一个实验性版本，尚不稳定，请小心操作！", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
@@ -76,27 +76,21 @@ namespace ITClassHelper
             killerFsObj.Write(RescKiller, 0, RescKiller.Length);
             killerFsObj.Close();
 
-            byte[] RescHooker = Properties.Resources.LibStHook;
-            FileStream hookerFsObj = new FileStream(hookerPath, FileMode.Create);
-            hookerFsObj.Write(RescHooker, 0, RescHooker.Length);
-            hookerFsObj.Close();
-
-            RoomHook.SetNoBlackScreen(true);
-            RoomHook.SetNoTopMostWindow(true);
-            RoomHook.SetEnableTerminate(true);
-            RoomHook.SetUnhookKeyboard(true);
-
-            try
+            if (Network.GetPortInUse(6666) != true)
             {
-                if (Network.binded == false)
-                    Network.socket.Bind(new IPEndPoint(IPAddress.Parse(Network.GetIPAddress()), 6666));
-                Network.binded = true;
+                try
+                {
+                    if (Network.binded == false)
+                        Network.socket.Bind(new IPEndPoint(IPAddress.Parse(Network.GetIPAddress()), 6666));
+                    Network.binded = true;
+                }
+                catch (SocketException ex)
+                {
+                    MessageBox.Show($"本机 IP 地址绑定失败！将无法使用[简易内网聊天]功能！\n错因：{ex.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            catch (SocketException ex)
-            {
-                MessageBox.Show($"本机 IP 地址绑定失败！将无法使用[简易内网聊天]功能！\n错因：{ex.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+            else
+                MessageBox.Show($"本机聊天端口被占用！将无法使用[简易内网聊天]功能！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             new Thread(LoopThread) { IsBackground = true }.Start();
             new Thread(MessageRecieve) { IsBackground = true }.Start();
@@ -125,7 +119,7 @@ namespace ITClassHelper
                     WindowMgr.MoveWindow(studentWindow, castControl.Size.Width, castControl.Size.Height, 1000, 500, true);
                     castControl.Show();
                 }
-                if (GetProcs("StudentMain").Length == 0)
+                if (GetProcs("StudentMain").Length == 0 && GetProcs("REDAgent").Length == 0)
                 {
                     RoomStatusLabel.Text = "未在运行";
                     RoomStatusLabel.ForeColor = Color.Green;
@@ -274,13 +268,17 @@ namespace ITClassHelper
 
         private void GetPswdButton_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("友情提示：可在任何时候使用 mythware_super_password 密码！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (MessageBox.Show("友情提示：可在任何时候使用超级密码 mythware_super_password！\n按[确定]继续获取；\n按[取消]将其复制到剪贴板并放弃获取。", "信息", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.Cancel)
+            {
+                Clipboard.SetDataObject("mythware_super_password");
+                return;
+            }
             RegistryKey pswdKey = null;
             try
             { pswdKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\TopDomain\e-Learning Class Standard\1.00"); }
             catch
             {
-                if (MessageBox.Show("无法从默认位置获取到教室密码！\n按[确定]在下一个窗口手动输入由'SOFTWARE\\'开头的路径；\n按[取消]放弃读取。", "警告", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
+                if (MessageBox.Show("无法从默认位置获取到教室密码！\n按[确定]在下一个窗口手动输入由'SOFTWARE\\'开头的路径；\n按[取消]放弃获取。", "警告", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
                     return;
                 string inputSubKey = Interaction.InputBox("请手动输入由'SOFTWARE\\'开头的路径：", "信息");
                 try
@@ -295,7 +293,11 @@ namespace ITClassHelper
         {
             if (MessageBox.Show("设置密码完成后将自动重启教室！\n按[确定]继续设置；\n按[取消]放弃设置。", "警告", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
                 return;
-            MessageBox.Show("友情提示：可在任何时候使用 mythware_super_password 密码！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (MessageBox.Show("友情提示：可在任何时候使用超级密码 mythware_super_password！\n按[确定]继续设置；\n按[取消]将其复制到剪贴板并放弃设置。", "信息", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.Cancel)
+            {
+                Clipboard.SetDataObject("mythware_super_password");
+                return;
+            }
             string keyDir = @"HKEY_LOCAL_MACHINE\SOFTWARE\TopDomain\e-Learning Class Standard\1.00";
             string pswdText = Interaction.InputBox("请输入要设置的密码：", "信息");
             Registry.SetValue(keyDir, "UninstallPasswd", $@"Passwd{pswdText}");
@@ -314,7 +316,7 @@ namespace ITClassHelper
             Hide();
             if (firstTimeHide == true)
             {
-                MessageBox.Show("机房助手已自动隐藏到后台，按下 Alt+H 即可显示！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("机房助手已隐藏到后台，按下 Alt+H 即可显示！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 firstTimeHide = false;
             }
         }
@@ -322,7 +324,8 @@ namespace ITClassHelper
         private void ExitProgramButton_Click(object sender, EventArgs e)
         {
             Network.socket.Close();
-            Process.GetCurrentProcess().Kill(); ;
+            HotKey.UnregisterHotKey(Handle, 100);
+            Process.GetCurrentProcess().Kill();
         }
 
         private void DeviceManageButton_Click(object sender, EventArgs e) => deviceManage.Show();
@@ -353,33 +356,13 @@ namespace ITClassHelper
 
         private void PreventKeyboardHookButton_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("去除挂钩时将自动重启教室！\n按[确定]继续去除；\n按[取消]放弃开启。", "警告", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
+            if (MessageBox.Show("去除挂钩时将自动重启教室！\n按[确定]继续去除；\n按[取消]放弃去除。", "警告", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
                 return;
             GetRoomPath("manual");
-            string baseRoomPath = roomPath.Replace(@"StudentMain.exe", "");
-            string substitutePath = baseRoomPath + @"\MasterHelperSubstitute.exe";
-            string masterHelperPath = baseRoomPath + @"\MasterHelper.exe";
-            File.Create(substitutePath);
+            string masterHelperPath = roomPath.Replace(@"StudentMain.exe", "MasterHelper.exe");
             KillProcs("StudentMain");
             KillProcs("MasterHelper");
             File.Delete(masterHelperPath);
-            File.Copy(substitutePath, masterHelperPath, true);
-            File.Delete(substitutePath);
-            RecoverRoom();
-        }
-
-        private void FakeScreenButton_Click(object sender, EventArgs e)
-        {
-            Hide();
-            Thread.Sleep(500);
-            Rectangle rect = new Rectangle(0, 0, Screen.GetBounds(this).Width, Screen.GetBounds(this).Height);
-            Bitmap bmp = new Bitmap(rect.Width, rect.Height);
-            Graphics grph = Graphics.FromImage(bmp);
-            grph.CopyFromScreen(0, 0, 0, 0, rect.Size);
-            grph.DrawImage(bmp, 0, 0, rect, GraphicsUnit.Pixel);
-            Show();
-            bmp.Save(screenshotPath);
-            RoomHook.SetFakeImagePath(screenshotPath);
         }
 
         protected override void WndProc(ref Message msg)

@@ -7,8 +7,6 @@ namespace ITClassHelper
     {
         public FormCastControl() => InitializeComponent();
 
-        private void FormController_Load(object sender, EventArgs e) { }
-
         private void HideCastButton_Click(object sender, EventArgs e) => HideCast();
 
         private void ShowCastButton_Click(object sender, EventArgs e) => ShowCast();

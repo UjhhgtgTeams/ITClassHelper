@@ -39,7 +39,6 @@
             this.CloseRoomButton = new System.Windows.Forms.Button();
             this.PauseRoomButton = new System.Windows.Forms.Button();
             this.ProgramToolsGroup = new System.Windows.Forms.GroupBox();
-            this.FakeScreenButton = new System.Windows.Forms.Button();
             this.PreventKeyboardHookButton = new System.Windows.Forms.Button();
             this.ChatButton = new System.Windows.Forms.Button();
             this.ExitProgramButton = new System.Windows.Forms.Button();
@@ -137,7 +136,7 @@
             this.ProcessControlGroup.Size = new System.Drawing.Size(281, 99);
             this.ProcessControlGroup.TabIndex = 3;
             this.ProcessControlGroup.TabStop = false;
-            this.ProcessControlGroup.Text = "进程控制";
+            this.ProcessControlGroup.Text = "进程控制（极域）";
             // 
             // RecoverRoomButton
             // 
@@ -180,7 +179,6 @@
             // 
             // ProgramToolsGroup
             // 
-            this.ProgramToolsGroup.Controls.Add(this.FakeScreenButton);
             this.ProgramToolsGroup.Controls.Add(this.PreventKeyboardHookButton);
             this.ProgramToolsGroup.Controls.Add(this.ChatButton);
             this.ProgramToolsGroup.Controls.Add(this.DeviceManageButton);
@@ -195,20 +193,7 @@
             this.ProgramToolsGroup.Size = new System.Drawing.Size(472, 281);
             this.ProgramToolsGroup.TabIndex = 10;
             this.ProgramToolsGroup.TabStop = false;
-            this.ProgramToolsGroup.Text = "实用工具";
-            // 
-            // FakeScreenButton
-            // 
-            this.FakeScreenButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.FakeScreenButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.FakeScreenButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.FakeScreenButton.Location = new System.Drawing.Point(8, 149);
-            this.FakeScreenButton.Name = "FakeScreenButton";
-            this.FakeScreenButton.Size = new System.Drawing.Size(225, 35);
-            this.FakeScreenButton.TabIndex = 39;
-            this.FakeScreenButton.Text = "截图伪装屏幕";
-            this.FakeScreenButton.UseVisualStyleBackColor = true;
-            this.FakeScreenButton.Click += new System.EventHandler(this.FakeScreenButton_Click);
+            this.ProgramToolsGroup.Text = "实用工具（极域，除设备管理）";
             // 
             // PreventKeyboardHookButton
             // 
@@ -282,7 +267,7 @@
             this.PswdSettingsGroup.Size = new System.Drawing.Size(281, 84);
             this.PswdSettingsGroup.TabIndex = 7;
             this.PswdSettingsGroup.TabStop = false;
-            this.PswdSettingsGroup.Text = "密码设置";
+            this.PswdSettingsGroup.Text = "密码设置（极域）";
             // 
             // GetPswdButton
             // 
@@ -357,6 +342,5 @@
         private System.Windows.Forms.Button DeviceManageButton;
         private System.Windows.Forms.Button ChatButton;
         private System.Windows.Forms.Button PreventKeyboardHookButton;
-        private System.Windows.Forms.Button FakeScreenButton;
     }
 }

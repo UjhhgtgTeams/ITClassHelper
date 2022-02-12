@@ -99,7 +99,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\RoomHook.cs" />
     <Compile Include="Common\WindowMgr.cs" />
     <Compile Include="Common\HotKey.cs" />
     <Compile Include="Common\Network.cs" />

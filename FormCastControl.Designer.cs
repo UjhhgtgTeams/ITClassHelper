@@ -30,7 +30,7 @@
         {
             this.FormControllerLabel = new System.Windows.Forms.Label();
             this.HideCastButton = new System.Windows.Forms.Button();
-            this.SmallCastButton = new System.Windows.Forms.Button();
+            this.MinimizeCastButton = new System.Windows.Forms.Button();
             this.ShowCastButton = new System.Windows.Forms.Button();
             this.HideControllerButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -58,18 +58,18 @@
             this.HideCastButton.UseVisualStyleBackColor = true;
             this.HideCastButton.Click += new System.EventHandler(this.HideCastButton_Click);
             // 
-            // SmallCastButton
+            // MinimizeCastButton
             // 
-            this.SmallCastButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.SmallCastButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.SmallCastButton.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.SmallCastButton.Location = new System.Drawing.Point(119, 36);
-            this.SmallCastButton.Name = "SmallCastButton";
-            this.SmallCastButton.Size = new System.Drawing.Size(100, 66);
-            this.SmallCastButton.TabIndex = 10;
-            this.SmallCastButton.Text = "缩小\r\n广播";
-            this.SmallCastButton.UseVisualStyleBackColor = true;
-            this.SmallCastButton.Click += new System.EventHandler(this.HideTimeCastButton_Click);
+            this.MinimizeCastButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.MinimizeCastButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.MinimizeCastButton.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.MinimizeCastButton.Location = new System.Drawing.Point(119, 36);
+            this.MinimizeCastButton.Name = "MinimizeCastButton";
+            this.MinimizeCastButton.Size = new System.Drawing.Size(100, 66);
+            this.MinimizeCastButton.TabIndex = 10;
+            this.MinimizeCastButton.Text = "缩小\r\n广播";
+            this.MinimizeCastButton.UseVisualStyleBackColor = true;
+            this.MinimizeCastButton.Click += new System.EventHandler(this.HideTimeCastButton_Click);
             // 
             // ShowCastButton
             // 
@@ -106,7 +106,7 @@
             this.ControlBox = false;
             this.Controls.Add(this.HideControllerButton);
             this.Controls.Add(this.ShowCastButton);
-            this.Controls.Add(this.SmallCastButton);
+            this.Controls.Add(this.MinimizeCastButton);
             this.Controls.Add(this.HideCastButton);
             this.Controls.Add(this.FormControllerLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -116,9 +116,8 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "FormController";
+            this.Text = "FormCastControl";
             this.TopMost = true;
-            this.Load += new System.EventHandler(this.FormController_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -128,7 +127,7 @@
 
         private System.Windows.Forms.Label FormControllerLabel;
         private System.Windows.Forms.Button HideCastButton;
-        private System.Windows.Forms.Button SmallCastButton;
+        private System.Windows.Forms.Button MinimizeCastButton;
         private System.Windows.Forms.Button ShowCastButton;
         private System.Windows.Forms.Button HideControllerButton;
     }
