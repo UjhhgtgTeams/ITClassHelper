@@ -37,6 +37,9 @@ namespace ITClassHelper
         [DllImport("ntdll.dll")]
         private static extern uint NtTerminateProcess([In] IntPtr processHandle);
 
+        [DllImport("user32.dll")]
+        public static extern bool EndTask(IntPtr hWnd, bool fShutDown, bool fForce);
+
         [DllImport("kernel32.dll")]
         private static extern IntPtr OpenProcess(
             ProcessAccess desiredAccess,
@@ -99,45 +102,42 @@ namespace ITClassHelper
             }
         }
 
-        public static string[] GetProcessArgs(Process proc)
+        public static string[] GetProcessArgs(int procId)
         {
-            string args;
-            using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(
-                "SELECT CommandLine FROM Win32_Process WHERE ProcessId = " + proc.Id))
-            using (ManagementObjectCollection objects = searcher.Get())
+            string argsString;
+            using (ManagementObjectSearcher mos = new ManagementObjectSearcher("Select CommandLine From Win32_Process Where ProcessId = " + procId))
             {
-                ManagementBaseObject @object = objects.Cast<ManagementBaseObject>().SingleOrDefault();
-                args = @object?["CommandLine"]?.ToString() ?? "";
+                using (ManagementObjectCollection moc = mos.Get())
+                {
+                    ManagementBaseObject @object = moc.Cast<ManagementBaseObject>().SingleOrDefault();
+                    argsString = @object?["CommandLine"]?.ToString() ?? "";
+                }
             }
-            IntPtr argv = CommandLineToArgvW(args, out var argc);
-            if (argv == IntPtr.Zero)
-            {
+            IntPtr argsRaw = CommandLineToArgvW(argsString, out var argc);
+            if (argsRaw == IntPtr.Zero)
                 return null;
-            }
             try
             {
                 string[] argsArray = new string[argc];
                 for (var i = 0; i < argsArray.Length; i++)
                 {
-                    IntPtr p = Marshal.ReadIntPtr(argv, i * IntPtr.Size);
+                    IntPtr p = Marshal.ReadIntPtr(argsRaw, i * IntPtr.Size);
                     argsArray[i] = Marshal.PtrToStringUni(p);
                 }
                 return argsArray;
             }
             finally
             {
-                Marshal.FreeHGlobal(argv);
+                Marshal.FreeHGlobal(argsRaw);
             }
         }
 
-        public static void KillProcessTree(int procId)
+        public static void KillProcessTree(int parentProcId)
         {
-            ManagementObjectSearcher mos = new ManagementObjectSearcher("Select * From Win32_Process Where ParentProcessID=" + procId);
+            ManagementObjectSearcher mos = new ManagementObjectSearcher("Select * From Win32_Process Where ParentProcessID = " + parentProcId);
             ManagementObjectCollection moc = mos.Get();
             foreach (ManagementObject mo in moc)
-            {
                 TerminateProcess(Convert.ToInt32(mo["ProcessID"]));
-            }
         }
     }
 }

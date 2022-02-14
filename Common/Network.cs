@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
@@ -37,7 +38,7 @@ namespace ITClassHelper
             return resultAddress;
         }
 
-        public static bool GetPortInUse(int port)
+        public static bool GetIfPortInUse(int port)
         {
             IPGlobalProperties ipProp = IPGlobalProperties.GetIPGlobalProperties();
             IPEndPoint[] endPoints = ipProp.GetActiveTcpListeners();
@@ -47,6 +48,25 @@ namespace ITClassHelper
                     return true;
             }
             return false;
+        }
+
+        public static string GetMacByIP(string ip)
+        {
+            int ldest = inet_addr(ip);
+            string mac = "";
+            try
+            {
+                long macinfo = 0;
+                int len = 6;
+                int result = SendARP(ldest, 0, ref macinfo, ref len);
+                mac = Convert.ToString(macinfo, 16);
+            }
+            catch { }
+            mac = "000000000000" + mac;
+            mac = mac.Substring(mac.Length - 12);
+            return mac.Substring(10, 2).ToUpper() + "-" + mac.Substring(8, 2).ToUpper() + "-"
+                + mac.Substring(6, 2).ToUpper() + "-" + mac.Substring(4, 2).ToUpper() + "-"
+                + mac.Substring(2, 2).ToUpper() + "-" + mac.Substring(0, 2).ToUpper();
         }
     }
 }

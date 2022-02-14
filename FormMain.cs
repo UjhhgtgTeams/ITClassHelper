@@ -16,12 +16,11 @@ namespace ITClassHelper
     {
         readonly FormCastControl castControl = new FormCastControl();
         readonly FormDeviceManage deviceManage = new FormDeviceManage();
-        static readonly string ProgramVersion = "3.2.0-d";
+        static readonly string ProgramVersion = "3.2.1-d";
         static readonly string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\ITClassHelper";
         static readonly string ntsdPath = appDataPath + @"\ntsd.exe";
         static readonly string disableAttackFilePath = appDataPath + @"\disableAttack.txt";
-        static readonly string curPath = Directory.GetCurrentDirectory();
-        static readonly string killerPath = curPath + @"\ComputerKiller.py";
+        static readonly string killerPath = @".\ComputerKiller.py";
         static string roomPath;
         static EndPoint serverPoint = null;
         static bool firstTimeHide = true;
@@ -32,9 +31,10 @@ namespace ITClassHelper
             {
                 foreach (Process programProc in GetProcs("ITClassHelper"))
                 {
-                    if (programProc.Id != Process.GetCurrentProcess().Id)
+                    int procId = programProc.Id;
+                    if (procId != Process.GetCurrentProcess().Id)
                     {
-                        string[] procArgs = ProcMgr.GetProcessArgs(programProc);
+                        string[] procArgs = ProcMgr.GetProcessArgs(procId);
                         if (procArgs[1] != "-rs")
                         {
                             MessageBox.Show("机房助手已在运行！点击[确认]退出当前进程！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -66,17 +66,19 @@ namespace ITClassHelper
             if (!File.Exists(ntsdPath))
             {
                 byte[] RescNtsd = Properties.Resources.Ntsd;
-                FileStream ntsdFsObj = new FileStream(ntsdPath, FileMode.CreateNew);
-                ntsdFsObj.Write(RescNtsd, 0, RescNtsd.Length);
-                ntsdFsObj.Close();
+                using (FileStream ntsdFsObj = new FileStream(ntsdPath, FileMode.CreateNew))
+                {
+                    ntsdFsObj.Write(RescNtsd, 0, RescNtsd.Length);
+                }
             }
 
             byte[] RescKiller = Properties.Resources.ComputerKiller;
-            FileStream killerFsObj = new FileStream(killerPath, FileMode.Create);
-            killerFsObj.Write(RescKiller, 0, RescKiller.Length);
-            killerFsObj.Close();
+            using (FileStream killerFsObj = new FileStream(killerPath, FileMode.Create))
+            {
+                killerFsObj.Write(RescKiller, 0, RescKiller.Length);
+            }
 
-            if (Network.GetPortInUse(6666) != true)
+            if (Network.GetIfPortInUse(6666) != true)
             {
                 try
                 {
@@ -87,10 +89,14 @@ namespace ITClassHelper
                 catch (SocketException ex)
                 {
                     MessageBox.Show($"本机 IP 地址绑定失败！将无法使用[简易内网聊天]功能！\n错因：{ex.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ChatButton.Enabled = false;
                 }
             }
             else
+            {
                 MessageBox.Show($"本机聊天端口被占用！将无法使用[简易内网聊天]功能！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ChatButton.Enabled = false;
+            }
 
             new Thread(LoopThread) { IsBackground = true }.Start();
             new Thread(MessageRecieve) { IsBackground = true }.Start();
@@ -164,7 +170,17 @@ namespace ITClassHelper
             if (GetProcs(procName).Length > 0)
             {
                 foreach (Process proc in GetProcs(procName))
+                    proc.Kill();
+            }
+            if (GetProcs(procName).Length > 0)
+            {
+                foreach (Process proc in GetProcs(procName))
                     ProcMgr.TerminateProcess(proc.Id);
+            }
+            if (GetProcs(procName).Length > 0)
+            {
+                foreach (Process proc in GetProcs(procName))
+                    ProcMgr.EndTask(proc.Handle, true, true);
             }
             if (GetProcs(procName).Length > 0)
             {

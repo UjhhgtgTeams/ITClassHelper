@@ -14,12 +14,9 @@ namespace ITClassHelper
 {
     public partial class FormDeviceManage : Form
     {
-        static PackAttacker.RoomType roomType;
+        static PackAttacker.RoomType roomType = PackAttacker.RoomType.Mythware;
 
-        public FormDeviceManage()
-        {
-            InitializeComponent();
-        }
+        public FormDeviceManage() => InitializeComponent();
 
         private void ScanButton_Click(object sender, EventArgs e)
         {
@@ -28,7 +25,8 @@ namespace ITClassHelper
             string ipStart = IPTextBox.Text;
             if (rangeEnd - rangeStart + 1 >= 5)
             {
-                if (MessageBox.Show("扫描数量大于或等于 10 个，扫描速度可能较慢！\n按[确定]继续扫描；\n按[取消]放弃扫描。", "警告", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel) return;
+                if (MessageBox.Show("扫描数量大于或等于 10 个，扫描速度可能较慢！\n按[确定]继续扫描；\n按[取消]放弃扫描。", "警告", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
+                    return;
             }
             DeviceList.Items.Clear();
             ScanButton.Text = "扫描中！"; ScanButton.Enabled = false; Cursor = Cursors.WaitCursor;
@@ -42,14 +40,16 @@ namespace ITClassHelper
                     {
                         reply = ping.Send($"{ipStart.Substring(0, ipStart.Length - (1 + rangeStart.ToString().Length))}.{i}", 1000);
                     }
-                    catch (PingException) { return; }
+                    catch (PingException) { continue; }
                     if (reply.Status == IPStatus.Success)
                     {
-                        DeviceList.Items.Add(reply.Address.ToString());
+                        string ip = reply.Address.ToString();
+                        DeviceList.Items.Add(ip);
                         if (DisableMacAddressCheckBox.Checked == false)
                         {
-                            if (GetMacByIP(reply.Address.ToString()) != "00-00-00-00-00-00")
-                                DeviceList.Items[DeviceList.Items.Count - 1].SubItems.Add(GetMacByIP(reply.Address.ToString()));
+                            string mac = Network.GetMacByIP(ip);
+                            if (mac != "00-00-00-00-00-00")
+                                DeviceList.Items[DeviceList.Items.Count - 1].SubItems.Add(mac);
                             else
                                 DeviceList.Items[DeviceList.Items.Count - 1].SubItems.Add("");
                         }
@@ -57,37 +57,23 @@ namespace ITClassHelper
                             DeviceList.Items[DeviceList.Items.Count - 1].SubItems.Add("");
                         if (DisableHostNameCheckBox.Checked == false)
                         {
-                            if (Dns.GetHostEntry(reply.Address).HostName != reply.Address.ToString())
-                                DeviceList.Items[DeviceList.Items.Count - 1].SubItems.Add(Dns.GetHostEntry(reply.Address).HostName);
-                            else
-                                DeviceList.Items[DeviceList.Items.Count - 1].SubItems.Add("");
+                            try
+                            {
+                                string hostName = Dns.GetHostEntry(reply.Address).HostName;
+                                if (hostName != reply.Address.ToString())
+                                    DeviceList.Items[DeviceList.Items.Count - 1].SubItems.Add(hostName);
+                                else
+                                    DeviceList.Items[DeviceList.Items.Count - 1].SubItems.Add("");
+                            }
+                            catch (SocketException) { DeviceList.Items[DeviceList.Items.Count - 1].SubItems.Add(""); }
                         }
-                    else
-                        DeviceList.Items[DeviceList.Items.Count - 1].SubItems.Add("");
+                        else
+                            DeviceList.Items[DeviceList.Items.Count - 1].SubItems.Add("");
                     }
                 }
                 ScanButton.Text = "扫描"; ScanButton.Enabled = true; Cursor = Cursors.Default;
             })
             { IsBackground = true }.Start();
-        }
-
-        private static string GetMacByIP(string ip)
-        {
-            int ldest = Network.inet_addr(ip);
-            string mac = "";
-            try
-            {
-                long macinfo = 0;
-                int len = 6;
-                int result = Network.SendARP(ldest, 0, ref macinfo, ref len);
-                mac = Convert.ToString(macinfo, 16);
-            }
-            catch { }
-            mac = "000000000000" + mac;
-            mac = mac.Substring(mac.Length - 12);
-            return mac.Substring(10, 2).ToUpper() + "-" + mac.Substring(8, 2).ToUpper() + "-"
-                + mac.Substring(6, 2).ToUpper() + "-" + mac.Substring(4, 2).ToUpper() + "-"
-                + mac.Substring(2, 2).ToUpper() + "-" + mac.Substring(0, 2).ToUpper();
         }
 
         private string[] GetSelectedIPs()
@@ -183,15 +169,19 @@ namespace ITClassHelper
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
                 string scriptPath = fileDialog.FileName;
-                int lines = 0;
-                FileStream fs = new FileStream(scriptPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
-                StreamReader lineSr = new StreamReader(fs);
-                while (lineSr.ReadLine() != null)
-                    lines++;
-                fs.Close();
-                lineSr.Close();
+
+                int lineCnt = 0;
+                using (FileStream lineFs = new FileStream(scriptPath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+                {
+                    using (StreamReader lineSr = new StreamReader(lineFs))
+                    {
+                        while (lineSr.ReadLine() != null)
+                            lineCnt++;
+                    }
+                }
+
                 string scriptName = Interaction.InputBox("请输入脚本文件名：", "信息");
-                List<string> newLines = new List<string>(lines + 2);
+                List<string> newLines = new List<string>(lineCnt + 2);
                 using (StreamReader sr = new StreamReader(scriptPath))
                 {
                     newLines.Add($@"del /f /q C:\{scriptName}");
@@ -211,6 +201,7 @@ namespace ITClassHelper
                     }
                     newLines.Add($@"start C:\{scriptName}");
                 }
+
                 string newScriptName = scriptName.Split('.')[0] + ".iscp";
                 string newScriptPath = $@"{Directory.GetCurrentDirectory()}\{newScriptName}";
                 using (StreamWriter sw = new StreamWriter(newScriptPath))
@@ -218,6 +209,7 @@ namespace ITClassHelper
                     foreach (string s in newLines)
                         sw.WriteLine(s);
                 }
+
                 MessageBox.Show($@"脚本已保存到 {newScriptPath}！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
