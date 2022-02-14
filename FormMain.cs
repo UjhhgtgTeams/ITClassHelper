@@ -228,7 +228,7 @@ namespace ITClassHelper
             {
                 using (WebClient wc = new WebClient())
                 {
-                    wc.DownloadFile("https://gitee.com/ujhhgtg/ITClassHelper/raw/master/bin/x86/Release/ITCHLauncher.exe", @".\ITCHLauncher.exe");
+                    wc.DownloadFile("https://gitee.com/ujhhgtg/ITClassHelper/raw/master/bin/Release/ITCHLauncher.exe", @".\ITCHLauncher.exe");
                 }
             }
             Tools.ExecuteProcess(@".\ITCHLauncher.exe", "-upd", true);
