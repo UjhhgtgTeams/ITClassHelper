@@ -16,13 +16,12 @@ namespace ITClassHelper
     {
         readonly FormCastControl castControl = new FormCastControl();
         readonly FormDeviceManage deviceManage = new FormDeviceManage();
-        static readonly string ProgramVersion = "3.2.1-d";
+        static readonly string ProgramVersion = "3.2.2-d";
         static readonly string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\ITClassHelper";
         static readonly string ntsdPath = appDataPath + @"\ntsd.exe";
         static readonly string disableAttackFilePath = appDataPath + @"\disableAttack.txt";
         static readonly string killerPath = @".\ComputerKiller.py";
         static string roomPath;
-        static EndPoint serverPoint = null;
         static bool firstTimeHide = true;
 
         public FormMain()
@@ -78,13 +77,13 @@ namespace ITClassHelper
                 killerFsObj.Write(RescKiller, 0, RescKiller.Length);
             }
 
-            if (Network.GetIfPortInUse(6666) != true)
+            if (Network.GetPortIsUsed(6666) != true)
             {
                 try
                 {
-                    if (Network.binded == false)
-                        Network.socket.Bind(new IPEndPoint(IPAddress.Parse(Network.GetIPAddress()), 6666));
-                    Network.binded = true;
+                    if (Network.socketBound == false)
+                        Network.socket.Bind(new IPEndPoint(IPAddress.Parse(Network.GetIPAddress(Dns.GetHostName())), 6666));
+                    Network.socketBound = true;
                 }
                 catch (SocketException ex)
                 {
@@ -144,14 +143,12 @@ namespace ITClassHelper
         {
             while (true)
             {
-                if (serverPoint != null)
-                {
-                    byte[] buffer = new byte[10240];
-                    int length = Network.socket.ReceiveFrom(buffer, ref serverPoint);
-                    string message = Encoding.UTF8.GetString(buffer, 0, length);
-                    string formattedMessage = $"收到来自 {serverPoint} 的消息：\n{message}";
-                    new Thread(x => MessageBox.Show(formattedMessage, "消息", MessageBoxButtons.OK, MessageBoxIcon.None)).Start();
-                }
+                EndPoint serverPoint = new IPEndPoint(IPAddress.Any, 0);
+                byte[] buffer = new byte[10240];
+                int length = Network.socket.ReceiveFrom(buffer, ref serverPoint);
+                string message = Encoding.UTF8.GetString(buffer, 0, length);
+                string formattedMessage = $"收到来自 {serverPoint} 的消息：\n{message}";
+                new Thread(x => MessageBox.Show(formattedMessage, "消息", MessageBoxButtons.OK, MessageBoxIcon.None)).Start();
             }
         }
 
@@ -180,12 +177,7 @@ namespace ITClassHelper
             if (GetProcs(procName).Length > 0)
             {
                 foreach (Process proc in GetProcs(procName))
-                    ProcMgr.EndTask(proc.Handle, true, true);
-            }
-            if (GetProcs(procName).Length > 0)
-            {
-                foreach (Process proc in GetProcs(procName))
-                    Tools.ExecuteProcess(ntsdPath, $"-c q -p {proc.Id}");
+                    ProcMgr.Run(ntsdPath, $"-c q -p {proc.Id}");
                 new Thread(x =>
                 {
                     Thread.Sleep(1500);
@@ -209,7 +201,7 @@ namespace ITClassHelper
             else
             {
                 if (File.Exists(roomPath))
-                    Tools.ExecuteProcess(roomPath, "", true);
+                    ProcMgr.Run(roomPath, "", true);
                 else
                     GetRoomPath("manual");
             }
@@ -231,7 +223,7 @@ namespace ITClassHelper
                     wc.DownloadFile("https://gitee.com/ujhhgtg/ITClassHelper/raw/master/bin/Release/ITCHLauncher.exe", @".\ITCHLauncher.exe");
                 }
             }
-            Tools.ExecuteProcess(@".\ITCHLauncher.exe", "-upd", true);
+            ProcMgr.Run(@".\ITCHLauncher.exe", "-upd", true);
             Process.GetCurrentProcess().Kill();
         }
 
@@ -289,17 +281,13 @@ namespace ITClassHelper
                 Clipboard.SetDataObject("mythware_super_password");
                 return;
             }
-            RegistryKey pswdKey = null;
+            RegistryKey pswdKey;
             try
             { pswdKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\TopDomain\e-Learning Class Standard\1.00"); }
             catch
             {
-                if (MessageBox.Show("无法从默认位置获取到教室密码！\n按[确定]在下一个窗口手动输入由'SOFTWARE\\'开头的路径；\n按[取消]放弃获取。", "警告", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
-                    return;
-                string inputSubKey = Interaction.InputBox("请手动输入由'SOFTWARE\\'开头的路径：", "信息");
-                try
-                { pswdKey = Registry.LocalMachine.OpenSubKey(inputSubKey); }
-                catch { MessageBox.Show("无法从此位置获取到教室密码！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                MessageBox.Show("无法获取到教室密码！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
             string fullPswd = (string)pswdKey.GetValue("UninstallPasswd");
             MessageBox.Show($"密码为：{fullPswd.Substring(6)}", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -348,26 +336,17 @@ namespace ITClassHelper
 
         private void ChatButton_Click(object sender, EventArgs e)
         {
-            string chatType = Interaction.InputBox("请选择聊天模式：\n1：发送    2：接收", "信息");
-            if (chatType == "1")
+            string clientIP = Interaction.InputBox("请输入接收者的 IP 地址：", "信息");
+            EndPoint clientPoint = new IPEndPoint(IPAddress.Parse(clientIP), 6666);
+            byte[] bytes = Encoding.UTF8.GetBytes(Interaction.InputBox("请输入要发送的消息：", "信息"));
+            try
+            { Network.socket.SendTo(bytes, clientPoint); }
+            catch (SocketException ex)
             {
-                string clientIP = Interaction.InputBox("请输入接收者的 IP 地址：", "信息");
-                EndPoint clientPoint = new IPEndPoint(IPAddress.Parse(clientIP), 6666);
-                byte[] bytes = Encoding.UTF8.GetBytes(Interaction.InputBox("请输入要发送的消息：", "信息"));
-                try
-                { Network.socket.SendTo(bytes, clientPoint); }
-                catch (SocketException ex)
-                {
-                    MessageBox.Show($"发送消息失败！\n错因：{ex.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                MessageBox.Show("发送消息成功！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"发送消息失败！\n错因：{ex.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-            else if (chatType == "2")
-            {
-                string serverIP = Interaction.InputBox("请输入发送者的 IP 地址：", "信息");
-                serverPoint = new IPEndPoint(IPAddress.Parse(serverIP), 6666);
-            }
+            MessageBox.Show("发送消息成功！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void PreventKeyboardHookButton_Click(object sender, EventArgs e)
@@ -379,6 +358,7 @@ namespace ITClassHelper
             KillProcs("StudentMain");
             KillProcs("MasterHelper");
             File.Delete(masterHelperPath);
+            File.Create(masterHelperPath);
         }
 
         protected override void WndProc(ref Message msg)

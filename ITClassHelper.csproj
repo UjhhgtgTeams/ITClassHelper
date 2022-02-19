@@ -125,7 +125,6 @@
     <Compile Include="Common\PackAttacker.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Common\Tools.cs" />
     <EmbeddedResource Include="FormCastControl.resx">
       <DependentUpon>FormCastControl.cs</DependentUpon>
     </EmbeddedResource>

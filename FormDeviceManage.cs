@@ -38,7 +38,7 @@ namespace ITClassHelper
                     PingReply reply;
                     try
                     {
-                        reply = ping.Send($"{ipStart.Substring(0, ipStart.Length - (1 + rangeStart.ToString().Length))}.{i}", 1000);
+                        reply = ping.Send($"{ipStart.Substring(0, ipStart.Length - (rangeStart.ToString().Length + 1))}.{i}", 1000);
                     }
                     catch (PingException) { continue; }
                     if (reply.Status == IPStatus.Success)
@@ -59,8 +59,8 @@ namespace ITClassHelper
                         {
                             try
                             {
-                                string hostName = Dns.GetHostEntry(reply.Address).HostName;
-                                if (hostName != reply.Address.ToString())
+                                string hostName = Network.GetHostName(ip);
+                                if (hostName != reply.Address.ToString() && hostName != "ERROR")
                                     DeviceList.Items[DeviceList.Items.Count - 1].SubItems.Add(hostName);
                                 else
                                     DeviceList.Items[DeviceList.Items.Count - 1].SubItems.Add("");
@@ -102,14 +102,15 @@ namespace ITClassHelper
 
                 case "2":
                     foreach (string ip in GetSelectedIPs())
-                        Tools.ExecuteProcess("msg", $"/server:{Network.GetIPAddress(false, ip)} * {message}");
+                        ProcMgr.Run("msg", $"/server:{Network.GetHostName(ip)} * {message}");
                     break;
 
                 case "3":
                     try
                     {
-                        if (Network.binded == false) Network.socket.Bind(new IPEndPoint(IPAddress.Parse(Network.GetIPAddress()), 6666));
-                        Network.binded = true;
+                        if (Network.socketBound == false)
+                            Network.socket.Bind(new IPEndPoint(IPAddress.Parse(Network.GetIPAddress(Dns.GetHostName())), 6666));
+                        Network.socketBound = true;
                     }
                     catch (SocketException ex)
                     {
@@ -144,17 +145,23 @@ namespace ITClassHelper
             };
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
-                try
+                new Thread(x =>
                 {
-                    using (StreamReader sr = new StreamReader(fileDialog.FileName))
+                    try
                     {
-                        string fileLine;
-                        while ((fileLine = sr.ReadLine()) != null)
-                            PackAttacker.SendPack(fileLine, GetSelectedIPs(), int.Parse(PortTextBox.Text), roomType);
+                        using (StreamReader sr = new StreamReader(fileDialog.FileName))
+                        {
+                            string fileLine;
+                            while ((fileLine = sr.ReadLine()) != null)
+                            {
+                                PackAttacker.SendPack(fileLine, GetSelectedIPs(), int.Parse(PortTextBox.Text), roomType);
+                                Thread.Sleep(1000);
+                            }
+                        }
                     }
-                }
-                catch (ArgumentNullException)
-                { MessageBox.Show("还没有选择脚本！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                    catch (ArgumentNullException)
+                    { MessageBox.Show("还没有选择脚本！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                }) { IsBackground = true }.Start();
             }
         }
 
@@ -216,15 +223,15 @@ namespace ITClassHelper
 
         private void ShutdownMenuItem_Click(object sender, EventArgs e)
         {
-            ShutdownRebootInteractor("shutdown");
+            ShutdownSender("shutdown");
         }
 
         private void RebootMenuItem_Click(object sender, EventArgs e)
         {
-            ShutdownRebootInteractor("reboot");
+            ShutdownSender("reboot");
         }
 
-        private void ShutdownRebootInteractor(string shutdownType)
+        private void ShutdownSender(string shutdownType)
         {
             string shutdownMethod;
             if (shutdownType == "shutdown")
@@ -237,14 +244,14 @@ namespace ITClassHelper
                     foreach (string ip in GetSelectedIPs())
                     {
                         if (shutdownType == "shutdown")
-                            Tools.ExecuteProcess("shutdown", $"/m \\\\{Dns.GetHostEntry(ip).HostName} /s /t 0");
+                            ProcMgr.Run("shutdown", $"/m \\\\{Dns.GetHostEntry(ip).HostName} /s /t 0");
                         else
-                            Tools.ExecuteProcess("shutdown", $"/m \\\\{Dns.GetHostEntry(ip).HostName} /r /t 0");
+                            ProcMgr.Run("shutdown", $"/m \\\\{Dns.GetHostEntry(ip).HostName} /r /t 0");
                     }
                     break;
 
                 case "2":
-                    Tools.ExecuteProcess("shutdown", "/i", true);
+                    ProcMgr.Run("shutdown", "/i", true);
                     break;
 
                 case "3":
@@ -259,7 +266,7 @@ namespace ITClassHelper
         private void ConvertHostNameIPButton_Click(object sender, EventArgs e)
         {
             string result;
-            result = Network.GetIPAddress(false, HostNameTextBox.Text);
+            result = Network.GetIPAddress(HostNameTextBox.Text);
             if (result != "ERROR")
                 MessageBox.Show($"目标 IP 地址为：{result}", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
@@ -269,7 +276,7 @@ namespace ITClassHelper
         private void IPButton_Click(object sender, EventArgs e)
         {
             string result;
-            result = Network.GetIPAddress();
+            result = Network.GetIPAddress(Dns.GetHostName());
             if (result != "ERROR")
                 MessageBox.Show($"本机 IP 地址为：{result}", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
@@ -291,7 +298,7 @@ namespace ITClassHelper
 
         private void RevShellMenuItem_Click(object sender, EventArgs e)
         {
-            Tools.ExecuteProcess(Process.GetCurrentProcess().MainModule.FileName, $"-rs {GetSelectedIPs()[0]}", true);
+            ProcMgr.Run(Process.GetCurrentProcess().MainModule.FileName, $"-rs {GetSelectedIPs()[0]}", true);
         }
 
         private void FormDeviceManage_FormClosing(object sender, FormClosingEventArgs e)

@@ -37,8 +37,8 @@ namespace ITClassHelper
         [DllImport("ntdll.dll")]
         private static extern uint NtTerminateProcess([In] IntPtr processHandle);
 
-        [DllImport("user32.dll")]
-        public static extern bool EndTask(IntPtr hWnd, bool fShutDown, bool fForce);
+        //[DllImport("user32.dll")]
+        //public static extern bool EndTask(IntPtr hWnd, bool fShutDown, bool fForce);
 
         [DllImport("kernel32.dll")]
         private static extern IntPtr OpenProcess(
@@ -102,6 +102,22 @@ namespace ITClassHelper
             }
         }
 
+        public static void Run(string fileName, string arguments, bool noHide = false, bool waitForExit = false)
+        {
+            Process process = new Process();
+            ProcessStartInfo processInfo = new ProcessStartInfo
+            {
+                FileName = fileName,
+                Arguments = arguments
+            };
+            if (noHide == false)
+                processInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            process.StartInfo = processInfo;
+            process.Start();
+            if (waitForExit == true)
+                process.WaitForExit();
+        }
+
         public static string[] GetProcessArgs(int procId)
         {
             string argsString;
@@ -132,12 +148,12 @@ namespace ITClassHelper
             }
         }
 
-        public static void KillProcessTree(int parentProcId)
-        {
-            ManagementObjectSearcher mos = new ManagementObjectSearcher("Select * From Win32_Process Where ParentProcessID = " + parentProcId);
-            ManagementObjectCollection moc = mos.Get();
-            foreach (ManagementObject mo in moc)
-                TerminateProcess(Convert.ToInt32(mo["ProcessID"]));
-        }
+        //public static void KillProcessTree(int parentProcId)
+        //{
+        //    ManagementObjectSearcher mos = new ManagementObjectSearcher("Select * From Win32_Process Where ParentProcessID = " + parentProcId);
+        //    ManagementObjectCollection moc = mos.Get();
+        //    foreach (ManagementObject mo in moc)
+        //        TerminateProcess(Convert.ToInt32(mo["ProcessID"]));
+        //}
     }
 }
