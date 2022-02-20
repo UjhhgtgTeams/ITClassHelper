@@ -99,7 +99,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\WindowMgr.cs" />
+    <Compile Include="Common\WndMgr.cs" />
     <Compile Include="Common\HotKey.cs" />
     <Compile Include="Common\Network.cs" />
     <Compile Include="Common\ProcMgr.cs" />

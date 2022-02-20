@@ -54,7 +54,7 @@ namespace ITClassHelper
         [DllImport("shell32.dll")]
         private static extern IntPtr CommandLineToArgvW([MarshalAs(UnmanagedType.LPWStr)] string lpCmdLine, out int pNumArgs);
 
-        public static void TerminateProcess(int processId)
+        public static void NtTerminateProcess(int processId)
         {
             IntPtr hProc = IntPtr.Zero;
             try
@@ -70,7 +70,7 @@ namespace ITClassHelper
             }
         }
 
-        public static void SuspendProcess(int processId)
+        public static void NtSuspendProcess(int processId)
         {
             IntPtr hProc = IntPtr.Zero;
             try
@@ -86,7 +86,7 @@ namespace ITClassHelper
             }
         }
 
-        public static void ResumeProcess(int processId)
+        public static void NtResumeProcess(int processId)
         {
             IntPtr hProc = IntPtr.Zero;
             try

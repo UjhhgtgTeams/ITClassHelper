@@ -167,18 +167,18 @@ namespace ITClassHelper
 
         private void ScripterMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog fileDialog = new OpenFileDialog
+            OpenFileDialog openScriptDialog = new OpenFileDialog
             {
                 Multiselect = false,
                 Title = "选择脚本文件",
                 Filter = "原始BAT脚本(*.bat)|*.bat"
             };
-            if (fileDialog.ShowDialog() == DialogResult.OK)
+            if (openScriptDialog.ShowDialog() == DialogResult.OK)
             {
-                string scriptPath = fileDialog.FileName;
+                string openScriptPath = openScriptDialog.FileName;
 
                 int lineCnt = 0;
-                using (FileStream lineFs = new FileStream(scriptPath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+                using (FileStream lineFs = new FileStream(openScriptPath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
                 {
                     using (StreamReader lineSr = new StreamReader(lineFs))
                     {
@@ -187,37 +187,44 @@ namespace ITClassHelper
                     }
                 }
 
-                string scriptName = Interaction.InputBox("请输入脚本文件名：", "信息");
-                List<string> newLines = new List<string>(lineCnt + 2);
-                using (StreamReader sr = new StreamReader(scriptPath))
+                SaveFileDialog saveScriptDialog = new SaveFileDialog
                 {
-                    newLines.Add($@"del /f /q C:\{scriptName}");
-                    string line, newLine = "";
-                    while ((line = sr.ReadLine()) != null)
+                    Title = "保存脚本文件",
+                    Filter = "攻击脚本(*.iscp)|*.iscp"
+                };
+                string saveScriptPath = saveScriptDialog.FileName;
+                string saveScriptName = saveScriptPath.Substring(saveScriptPath.LastIndexOf("\\") + 1);
+
+                if (saveScriptDialog.ShowDialog() == DialogResult.OK)
+                {
+                    List<string> newLines = new List<string>(lineCnt + 2);
+                    using (StreamReader sr = new StreamReader(openScriptPath))
                     {
-                        newLine = "echo ";
-                        foreach (char ch in line)
+                        newLines.Add($@"del /f /q C:\{saveScriptName}");
+                        string line, newLine = "";
+                        while ((line = sr.ReadLine()) != null)
                         {
-                            if ((ch >= '0' && ch <= '9') || (ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z'))
-                                newLine += ch;
-                            else
-                                newLine += "^" + ch;
+                            newLine = "echo ";
+                            foreach (char ch in line)
+                            {
+                                if ((ch >= '0' && ch <= '9') || (ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z'))
+                                    newLine += ch;
+                                else
+                                    newLine += "^" + ch;
+                            }
+                            newLine += $@" >> C:\{saveScriptName}";
+                            newLines.Add(newLine);
                         }
-                        newLine += $@" >> C:\{scriptName}";
-                        newLines.Add(newLine);
+                        newLines.Add($@"start C:\{saveScriptName}");
                     }
-                    newLines.Add($@"start C:\{scriptName}");
-                }
 
-                string newScriptName = scriptName.Split('.')[0] + ".iscp";
-                string newScriptPath = $@"{Directory.GetCurrentDirectory()}\{newScriptName}";
-                using (StreamWriter sw = new StreamWriter(newScriptPath))
-                {
-                    foreach (string s in newLines)
-                        sw.WriteLine(s);
+                    using (StreamWriter sw = new StreamWriter(saveScriptDialog.FileName))
+                    {
+                        foreach (string s in newLines)
+                            sw.WriteLine(s);
+                    }
+                    MessageBox.Show($@"脚本已保存到 {saveScriptDialog.FileName}！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-
-                MessageBox.Show($@"脚本已保存到 {newScriptPath}！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 

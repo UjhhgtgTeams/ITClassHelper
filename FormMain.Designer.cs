@@ -39,7 +39,7 @@
             this.CloseRoomButton = new System.Windows.Forms.Button();
             this.PauseRoomButton = new System.Windows.Forms.Button();
             this.ProgramToolsGroup = new System.Windows.Forms.GroupBox();
-            this.PreventKeyboardHookButton = new System.Windows.Forms.Button();
+            this.RemoveKeyboardHookButton = new System.Windows.Forms.Button();
             this.ChatButton = new System.Windows.Forms.Button();
             this.ExitProgramButton = new System.Windows.Forms.Button();
             this.ProgramAboutLabel = new System.Windows.Forms.Label();
@@ -179,7 +179,7 @@
             // 
             // ProgramToolsGroup
             // 
-            this.ProgramToolsGroup.Controls.Add(this.PreventKeyboardHookButton);
+            this.ProgramToolsGroup.Controls.Add(this.RemoveKeyboardHookButton);
             this.ProgramToolsGroup.Controls.Add(this.ChatButton);
             this.ProgramToolsGroup.Controls.Add(this.DeviceManageButton);
             this.ProgramToolsGroup.Controls.Add(this.ExitProgramButton);
@@ -195,18 +195,18 @@
             this.ProgramToolsGroup.TabStop = false;
             this.ProgramToolsGroup.Text = "实用工具（极域，除设备管理）";
             // 
-            // PreventKeyboardHookButton
+            // RemoveKeyboardHookButton
             // 
-            this.PreventKeyboardHookButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.PreventKeyboardHookButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.PreventKeyboardHookButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.PreventKeyboardHookButton.Location = new System.Drawing.Point(236, 108);
-            this.PreventKeyboardHookButton.Name = "PreventKeyboardHookButton";
-            this.PreventKeyboardHookButton.Size = new System.Drawing.Size(225, 35);
-            this.PreventKeyboardHookButton.TabIndex = 38;
-            this.PreventKeyboardHookButton.Text = "去除键盘挂钩";
-            this.PreventKeyboardHookButton.UseVisualStyleBackColor = true;
-            this.PreventKeyboardHookButton.Click += new System.EventHandler(this.PreventKeyboardHookButton_Click);
+            this.RemoveKeyboardHookButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.RemoveKeyboardHookButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.RemoveKeyboardHookButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.RemoveKeyboardHookButton.Location = new System.Drawing.Point(236, 108);
+            this.RemoveKeyboardHookButton.Name = "RemoveKeyboardHookButton";
+            this.RemoveKeyboardHookButton.Size = new System.Drawing.Size(225, 35);
+            this.RemoveKeyboardHookButton.TabIndex = 38;
+            this.RemoveKeyboardHookButton.Text = "去除键盘挂钩";
+            this.RemoveKeyboardHookButton.UseVisualStyleBackColor = true;
+            this.RemoveKeyboardHookButton.Click += new System.EventHandler(this.RemoveKeyboardHookButton_Click);
             // 
             // ChatButton
             // 
@@ -341,6 +341,6 @@
         private System.Windows.Forms.Button ExitProgramButton;
         private System.Windows.Forms.Button DeviceManageButton;
         private System.Windows.Forms.Button ChatButton;
-        private System.Windows.Forms.Button PreventKeyboardHookButton;
+        private System.Windows.Forms.Button RemoveKeyboardHookButton;
     }
 }

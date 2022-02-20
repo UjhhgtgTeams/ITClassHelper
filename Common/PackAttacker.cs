@@ -1132,7 +1132,6 @@ namespace ITClassHelper
 
         public static byte[] BuildPack(string msg)
         {
-
             ArrayList msgPack = new ArrayList();
             foreach (char ch in msg)
             {
@@ -1206,7 +1205,7 @@ namespace ITClassHelper
                 foreach (string ip in ips)
                 {
                     server.SendTo(pack, new IPEndPoint(IPAddress.Parse(ip), port));
-                    Thread.Sleep(1000);
+                    Thread.Sleep(750);
                 }
                 server.Close();
             }
@@ -1219,9 +1218,11 @@ namespace ITClassHelper
                     byte[] pack2 = packs[1];
                     UdpClient server = new UdpClient();
                     server.Send(pack, pack.Length, new IPEndPoint(IPAddress.Parse(ip), 1689));
-                    Thread.Sleep(1000);
-                    server.Send(pack2, pack2.Length, new IPEndPoint(IPAddress.Parse(ip), 1689));
-                    server.Close();
+                    Thread.Sleep(500);
+                    UdpClient server2 = new UdpClient();
+                    server2.Send(pack2, pack2.Length, new IPEndPoint(IPAddress.Parse(ip), 1689));
+                    server2.Close();
+                    Thread.Sleep(750);
                 }
             }
         }

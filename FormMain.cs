@@ -16,11 +16,14 @@ namespace ITClassHelper
     {
         readonly FormCastControl castControl = new FormCastControl();
         readonly FormDeviceManage deviceManage = new FormDeviceManage();
-        static readonly string ProgramVersion = "3.2.2-d";
+        static readonly string ProgramVersion = "3.2.3-d";
         static readonly string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\ITClassHelper";
         static readonly string ntsdPath = appDataPath + @"\ntsd.exe";
         static readonly string disableAttackFilePath = appDataPath + @"\disableAttack.txt";
         static readonly string killerPath = @".\ComputerKiller.py";
+        static readonly string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+        static readonly string programLinkPath = desktopPath + @"\机房助手.lnk";
+        static readonly string programPath = Process.GetCurrentProcess().MainModule.FileName;
         static string roomPath;
         static bool firstTimeHide = true;
 
@@ -105,7 +108,7 @@ namespace ITClassHelper
         {
             while (true)
             {
-                IntPtr studentWindow = WindowMgr.GetStudentWindow();
+                IntPtr studentWindow = WndMgr.GetStudentWindow();
                 if (studentWindow != IntPtr.Zero)
                 {
                     if (Visible == true)
@@ -121,7 +124,7 @@ namespace ITClassHelper
                 }
                 if (MousePosition == new Point(0, 0))
                 {
-                    WindowMgr.MoveWindow(studentWindow, castControl.Size.Width, castControl.Size.Height, 1000, 500, true);
+                    WndMgr.MoveWindow(studentWindow, castControl.Size.Width, castControl.Size.Height, 1000, 500, true);
                     castControl.Show();
                 }
                 if (GetProcs("StudentMain").Length == 0 && GetProcs("REDAgent").Length == 0)
@@ -157,7 +160,7 @@ namespace ITClassHelper
         private void PauseRoom()
         {
             if (GetProcs("StudentMain").Length > 0)
-                ProcMgr.SuspendProcess(GetProcs("StudentMain")[0].Id);
+                ProcMgr.NtSuspendProcess(GetProcs("StudentMain")[0].Id);
         }
 
         private void CloseRoomButton_Click(object sender, EventArgs e) => KillProcs("StudentMain");
@@ -172,7 +175,7 @@ namespace ITClassHelper
             if (GetProcs(procName).Length > 0)
             {
                 foreach (Process proc in GetProcs(procName))
-                    ProcMgr.TerminateProcess(proc.Id);
+                    ProcMgr.NtTerminateProcess(proc.Id);
             }
             if (GetProcs(procName).Length > 0)
             {
@@ -197,7 +200,7 @@ namespace ITClassHelper
         private void RecoverRoom()
         {
             if (GetProcs("StudentMain").Length > 0)
-                ProcMgr.ResumeProcess(GetProcs("StudentMain")[0].Id);
+                ProcMgr.NtResumeProcess(GetProcs("StudentMain")[0].Id);
             else
             {
                 if (File.Exists(roomPath))
@@ -349,7 +352,7 @@ namespace ITClassHelper
             MessageBox.Show("发送消息成功！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void PreventKeyboardHookButton_Click(object sender, EventArgs e)
+        private void RemoveKeyboardHookButton_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("去除挂钩时将自动重启教室！\n按[确定]继续去除；\n按[取消]放弃去除。", "警告", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
                 return;

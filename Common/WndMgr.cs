@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace ITClassHelper
 {
-    internal class WindowMgr
+    internal class WndMgr
     {
         [DllImport("user32.dll")]
         public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
