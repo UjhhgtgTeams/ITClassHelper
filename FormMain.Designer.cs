@@ -35,15 +35,15 @@
             this.RoomStatusLabel = new System.Windows.Forms.Label();
             this.RoomStatusButton = new System.Windows.Forms.Button();
             this.ProcessControlGroup = new System.Windows.Forms.GroupBox();
-            this.RecoverRoomButton = new System.Windows.Forms.Button();
+            this.ResumeRoomButton = new System.Windows.Forms.Button();
             this.CloseRoomButton = new System.Windows.Forms.Button();
-            this.PauseRoomButton = new System.Windows.Forms.Button();
+            this.SuspendRoomButton = new System.Windows.Forms.Button();
             this.ProgramToolsGroup = new System.Windows.Forms.GroupBox();
             this.RemoveKeyboardHookButton = new System.Windows.Forms.Button();
             this.ChatButton = new System.Windows.Forms.Button();
             this.ExitProgramButton = new System.Windows.Forms.Button();
             this.ProgramAboutLabel = new System.Windows.Forms.Label();
-            this.GetRoomPathButton = new System.Windows.Forms.Button();
+            this.GetMythwarePathButton = new System.Windows.Forms.Button();
             this.PswdSettingsGroup = new System.Windows.Forms.GroupBox();
             this.GetPswdButton = new System.Windows.Forms.Button();
             this.SetPswdButton = new System.Windows.Forms.Button();
@@ -127,29 +127,29 @@
             // 
             // ProcessControlGroup
             // 
-            this.ProcessControlGroup.Controls.Add(this.RecoverRoomButton);
+            this.ProcessControlGroup.Controls.Add(this.ResumeRoomButton);
             this.ProcessControlGroup.Controls.Add(this.CloseRoomButton);
-            this.ProcessControlGroup.Controls.Add(this.PauseRoomButton);
+            this.ProcessControlGroup.Controls.Add(this.SuspendRoomButton);
             this.ProcessControlGroup.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.ProcessControlGroup.Location = new System.Drawing.Point(12, 99);
             this.ProcessControlGroup.Name = "ProcessControlGroup";
             this.ProcessControlGroup.Size = new System.Drawing.Size(281, 99);
             this.ProcessControlGroup.TabIndex = 3;
             this.ProcessControlGroup.TabStop = false;
-            this.ProcessControlGroup.Text = "进程控制（极域）";
+            this.ProcessControlGroup.Text = "进程控制";
             // 
-            // RecoverRoomButton
+            // ResumeRoomButton
             // 
-            this.RecoverRoomButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.RecoverRoomButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.RecoverRoomButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.RecoverRoomButton.Location = new System.Drawing.Point(190, 26);
-            this.RecoverRoomButton.Name = "RecoverRoomButton";
-            this.RecoverRoomButton.Size = new System.Drawing.Size(85, 67);
-            this.RecoverRoomButton.TabIndex = 6;
-            this.RecoverRoomButton.Text = "恢复";
-            this.RecoverRoomButton.UseVisualStyleBackColor = true;
-            this.RecoverRoomButton.Click += new System.EventHandler(this.RecoverRoomButton_Click);
+            this.ResumeRoomButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ResumeRoomButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.ResumeRoomButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ResumeRoomButton.Location = new System.Drawing.Point(190, 26);
+            this.ResumeRoomButton.Name = "ResumeRoomButton";
+            this.ResumeRoomButton.Size = new System.Drawing.Size(85, 67);
+            this.ResumeRoomButton.TabIndex = 6;
+            this.ResumeRoomButton.Text = "恢复";
+            this.ResumeRoomButton.UseVisualStyleBackColor = true;
+            this.ResumeRoomButton.Click += new System.EventHandler(this.ResumeRoomButton_Click);
             // 
             // CloseRoomButton
             // 
@@ -164,18 +164,18 @@
             this.CloseRoomButton.UseVisualStyleBackColor = true;
             this.CloseRoomButton.Click += new System.EventHandler(this.CloseRoomButton_Click);
             // 
-            // PauseRoomButton
+            // SuspendRoomButton
             // 
-            this.PauseRoomButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.PauseRoomButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.PauseRoomButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.PauseRoomButton.Location = new System.Drawing.Point(99, 26);
-            this.PauseRoomButton.Name = "PauseRoomButton";
-            this.PauseRoomButton.Size = new System.Drawing.Size(85, 67);
-            this.PauseRoomButton.TabIndex = 5;
-            this.PauseRoomButton.Text = "挂起";
-            this.PauseRoomButton.UseVisualStyleBackColor = true;
-            this.PauseRoomButton.Click += new System.EventHandler(this.PauseRoomButton_Click);
+            this.SuspendRoomButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.SuspendRoomButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.SuspendRoomButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.SuspendRoomButton.Location = new System.Drawing.Point(99, 26);
+            this.SuspendRoomButton.Name = "SuspendRoomButton";
+            this.SuspendRoomButton.Size = new System.Drawing.Size(85, 67);
+            this.SuspendRoomButton.TabIndex = 5;
+            this.SuspendRoomButton.Text = "挂起";
+            this.SuspendRoomButton.UseVisualStyleBackColor = true;
+            this.SuspendRoomButton.Click += new System.EventHandler(this.SuspendRoomButton_Click);
             // 
             // ProgramToolsGroup
             // 
@@ -184,7 +184,7 @@
             this.ProgramToolsGroup.Controls.Add(this.DeviceManageButton);
             this.ProgramToolsGroup.Controls.Add(this.ExitProgramButton);
             this.ProgramToolsGroup.Controls.Add(this.ProgramAboutLabel);
-            this.ProgramToolsGroup.Controls.Add(this.GetRoomPathButton);
+            this.ProgramToolsGroup.Controls.Add(this.GetMythwarePathButton);
             this.ProgramToolsGroup.Controls.Add(this.UpdateProgramButton);
             this.ProgramToolsGroup.Controls.Add(this.DisableAttackButton);
             this.ProgramToolsGroup.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -244,18 +244,18 @@
             this.ProgramAboutLabel.TabIndex = 14;
             this.ProgramAboutLabel.Text = "版本号：X.Y.Z\r\n作者：Ujhhgtg";
             // 
-            // GetRoomPathButton
+            // GetMythwarePathButton
             // 
-            this.GetRoomPathButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.GetRoomPathButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.GetRoomPathButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.GetRoomPathButton.Location = new System.Drawing.Point(8, 67);
-            this.GetRoomPathButton.Name = "GetRoomPathButton";
-            this.GetRoomPathButton.Size = new System.Drawing.Size(225, 35);
-            this.GetRoomPathButton.TabIndex = 13;
-            this.GetRoomPathButton.Text = "选择教室程序";
-            this.GetRoomPathButton.UseVisualStyleBackColor = true;
-            this.GetRoomPathButton.Click += new System.EventHandler(this.GetRoomPathButton_Click);
+            this.GetMythwarePathButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.GetMythwarePathButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.GetMythwarePathButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.GetMythwarePathButton.Location = new System.Drawing.Point(8, 67);
+            this.GetMythwarePathButton.Name = "GetMythwarePathButton";
+            this.GetMythwarePathButton.Size = new System.Drawing.Size(225, 35);
+            this.GetMythwarePathButton.TabIndex = 13;
+            this.GetMythwarePathButton.Text = "选择极域位置";
+            this.GetMythwarePathButton.UseVisualStyleBackColor = true;
+            this.GetMythwarePathButton.Click += new System.EventHandler(this.GetMythwarePathButton_Click);
             // 
             // PswdSettingsGroup
             // 
@@ -328,12 +328,12 @@
         private System.Windows.Forms.GroupBox RoomStatusGroup;
         private System.Windows.Forms.Label RoomStatusLabel;
         private System.Windows.Forms.GroupBox ProcessControlGroup;
-        private System.Windows.Forms.Button RecoverRoomButton;
+        private System.Windows.Forms.Button ResumeRoomButton;
         private System.Windows.Forms.Button CloseRoomButton;
-        private System.Windows.Forms.Button PauseRoomButton;
+        private System.Windows.Forms.Button SuspendRoomButton;
         private System.Windows.Forms.GroupBox ProgramToolsGroup;
         private System.Windows.Forms.Label ProgramAboutLabel;
-        private System.Windows.Forms.Button GetRoomPathButton;
+        private System.Windows.Forms.Button GetMythwarePathButton;
         private System.Windows.Forms.Button RoomStatusButton;
         private System.Windows.Forms.GroupBox PswdSettingsGroup;
         private System.Windows.Forms.Button GetPswdButton;

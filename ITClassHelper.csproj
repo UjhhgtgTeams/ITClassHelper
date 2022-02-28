@@ -158,6 +158,7 @@
     </Compile>
     <None Include="README.md" />
     <None Include="UjhhgtgSign.pfx" />
+    <None Include="updateConfig.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitattributes" />

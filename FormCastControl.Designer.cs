@@ -69,7 +69,7 @@
             this.MinimizeCastButton.TabIndex = 10;
             this.MinimizeCastButton.Text = "缩小\r\n广播";
             this.MinimizeCastButton.UseVisualStyleBackColor = true;
-            this.MinimizeCastButton.Click += new System.EventHandler(this.HideTimeCastButton_Click);
+            this.MinimizeCastButton.Click += new System.EventHandler(this.MinimizeCastButton_Click);
             // 
             // ShowCastButton
             // 

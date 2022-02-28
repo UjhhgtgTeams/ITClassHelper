@@ -19,21 +19,25 @@ namespace ITClassHelper
                     {
                         sw = new StreamWriter(s);
                         StringBuilder str = new StringBuilder();
-                        Process p = new Process();
-                        p.StartInfo.FileName = "cmd.exe";
-                        p.StartInfo.CreateNoWindow = true;
-                        p.StartInfo.UseShellExecute = false;
-                        p.StartInfo.RedirectStandardOutput = true;
-                        p.StartInfo.RedirectStandardInput = true;
-                        p.StartInfo.RedirectStandardError = true;
-                        p.OutputDataReceived += new DataReceivedEventHandler(CmdOutputDataHandler);
-                        p.Start();
-                        p.BeginOutputReadLine();
+                        Process proc = new Process();
+                        proc.StartInfo.FileName = "cmd.exe";
+                        proc.StartInfo.CreateNoWindow = true;
+                        proc.StartInfo.UseShellExecute = false;
+                        proc.StartInfo.RedirectStandardOutput = true;
+                        proc.StartInfo.RedirectStandardInput = true;
+                        proc.StartInfo.RedirectStandardError = true;
+                        proc.OutputDataReceived += new DataReceivedEventHandler(CmdOutputDataHandler);
+                        proc.Start();
+                        proc.BeginOutputReadLine();
                         while (true)
                         {
-                            str.Append(sr.ReadLine());
-                            p.StandardInput.WriteLine(str);
-                            str.Remove(0, str.Length);
+                            try
+                            {
+                                str.Append(sr.ReadLine());
+                                proc.StandardInput.WriteLine(str);
+                                str.Remove(0, str.Length);
+                            }
+                            catch { continue; }
                         }
                     }
                 }

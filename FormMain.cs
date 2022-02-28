@@ -9,6 +9,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using static ITClassHelper.ProcMgr;
 
 namespace ITClassHelper
 {
@@ -16,16 +17,14 @@ namespace ITClassHelper
     {
         readonly FormCastControl castControl = new FormCastControl();
         readonly FormDeviceManage deviceManage = new FormDeviceManage();
-        static readonly string ProgramVersion = "3.2.3-d";
+        static readonly string ProgramVersion = "3.2.4-d";
         static readonly string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\ITClassHelper";
         static readonly string ntsdPath = appDataPath + @"\ntsd.exe";
         static readonly string disableAttackFilePath = appDataPath + @"\disableAttack.txt";
         static readonly string killerPath = @".\ComputerKiller.py";
-        static readonly string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-        static readonly string programLinkPath = desktopPath + @"\机房助手.lnk";
-        static readonly string programPath = Process.GetCurrentProcess().MainModule.FileName;
         static string roomPath;
         static bool firstTimeHide = true;
+        static bool killRedSpider = false;
 
         public FormMain()
         {
@@ -36,7 +35,7 @@ namespace ITClassHelper
                     int procId = programProc.Id;
                     if (procId != Process.GetCurrentProcess().Id)
                     {
-                        string[] procArgs = ProcMgr.GetProcessArgs(procId);
+                        string[] procArgs = GetProcessArgs(procId);
                         if (procArgs[1] != "-rs")
                         {
                             MessageBox.Show("机房助手已在运行！点击[确认]退出当前进程！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -102,6 +101,7 @@ namespace ITClassHelper
 
             new Thread(LoopThread) { IsBackground = true }.Start();
             new Thread(MessageRecieve) { IsBackground = true }.Start();
+            new Thread(RedSpiderTerminator) { IsBackground = true }.Start();
         }
 
         private void LoopThread()
@@ -137,7 +137,7 @@ namespace ITClassHelper
                     RoomStatusLabel.Text = "正在运行";
                     RoomStatusLabel.ForeColor = Color.Red;
                 }
-                GetRoomPath("quiet");
+                GetMythwarePath("quiet");
                 Thread.Sleep(1500);
             }
         }
@@ -155,15 +155,24 @@ namespace ITClassHelper
             }
         }
 
-        private void PauseRoomButton_Click(object sender, EventArgs e) => PauseRoom();
+        private void SuspendRoomButton_Click(object sender, EventArgs e) => SuspendRoom();
 
-        private void PauseRoom()
+        private void SuspendRoom()
         {
             if (GetProcs("StudentMain").Length > 0)
-                ProcMgr.NtSuspendProcess(GetProcs("StudentMain")[0].Id);
+                NtSuspendProcess(GetProcs("StudentMain")[0].Id);
+            if (GetProcs("REDAgent").Length > 0)
+            {
+                killRedSpider = false;
+                NtSuspendProcess(GetProcs("REDAgent")[0].Id);
+            }
         }
 
-        private void CloseRoomButton_Click(object sender, EventArgs e) => KillProcs("StudentMain");
+        private void CloseRoomButton_Click(object sender, EventArgs e)
+        {
+            KillProcs("StudentMain");
+            killRedSpider = true;
+        }
 
         private void KillProcs(string procName)
         {
@@ -175,18 +184,23 @@ namespace ITClassHelper
             if (GetProcs(procName).Length > 0)
             {
                 foreach (Process proc in GetProcs(procName))
-                    ProcMgr.NtTerminateProcess(proc.Id);
+                    NtTerminateProcess(proc.Id);
             }
             if (GetProcs(procName).Length > 0)
             {
                 foreach (Process proc in GetProcs(procName))
-                    ProcMgr.Run(ntsdPath, $"-c q -p {proc.Id}");
+                    Run(ntsdPath, $"-c q -p {proc.Id}");
                 new Thread(x =>
                 {
                     Thread.Sleep(1500);
                     foreach (Process ntsdProc in GetProcs("ntsd"))
                         ntsdProc.Kill();
                 }).Start();
+            }
+            if (GetProcs(procName).Length > 0)
+            {
+                foreach (Process proc in GetProcs(procName))
+                    EndTask(proc.Handle, true, true);
             }
         }
 
@@ -195,18 +209,21 @@ namespace ITClassHelper
             return Process.GetProcessesByName(procName);
         }
 
-        private void RecoverRoomButton_Click(object sender, EventArgs e) => RecoverRoom();
+        private void ResumeRoomButton_Click(object sender, EventArgs e) => ResumeRoom();
 
-        private void RecoverRoom()
+        private void ResumeRoom()
         {
+            killRedSpider = false;
             if (GetProcs("StudentMain").Length > 0)
-                ProcMgr.NtResumeProcess(GetProcs("StudentMain")[0].Id);
+                NtResumeProcess(GetProcs("StudentMain")[0].Id);
+            if (GetProcs("REDAgent").Length > 0)
+                NtResumeProcess(GetProcs("REDAgent")[0].Id);
             else
             {
                 if (File.Exists(roomPath))
-                    ProcMgr.Run(roomPath, "", true);
+                    Run(roomPath, "", true);
                 else
-                    GetRoomPath("manual");
+                    GetMythwarePath("manual");
             }
         }
 
@@ -226,13 +243,13 @@ namespace ITClassHelper
                     wc.DownloadFile("https://gitee.com/ujhhgtg/ITClassHelper/raw/master/bin/Release/ITCHLauncher.exe", @".\ITCHLauncher.exe");
                 }
             }
-            ProcMgr.Run(@".\ITCHLauncher.exe", "-upd", true);
+            Run(@".\ITCHLauncher.exe", "-upd", true);
             Process.GetCurrentProcess().Kill();
         }
 
-        private void GetRoomPathButton_Click(object sender, EventArgs e) => GetRoomPath("manual");
+        private void GetMythwarePathButton_Click(object sender, EventArgs e) => GetMythwarePath("manual");
 
-        private void GetRoomPath(string getMethod)
+        private void GetMythwarePath(string getMethod)
         {
             if (roomPath != null)
             {
@@ -312,7 +329,7 @@ namespace ITClassHelper
             {
                 KillProcs("StudentMain");
                 Thread.Sleep(1000);
-                RecoverRoom();
+                ResumeRoom();
             })
             { IsBackground = true }.Start();
         }
@@ -356,12 +373,22 @@ namespace ITClassHelper
         {
             if (MessageBox.Show("去除挂钩时将自动重启教室！\n按[确定]继续去除；\n按[取消]放弃去除。", "警告", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
                 return;
-            GetRoomPath("manual");
+            GetMythwarePath("manual");
             string masterHelperPath = roomPath.Replace(@"StudentMain.exe", "MasterHelper.exe");
             KillProcs("StudentMain");
             KillProcs("MasterHelper");
             File.Delete(masterHelperPath);
             File.Create(masterHelperPath);
+        }
+
+        private void RedSpiderTerminator()
+        {
+            while (true)
+            {
+                if (killRedSpider == true)
+                    KillProcs("REDAgent");
+                Thread.Sleep(1000);
+            }
         }
 
         protected override void WndProc(ref Message msg)

@@ -37,8 +37,8 @@ namespace ITClassHelper
         [DllImport("ntdll.dll")]
         private static extern uint NtTerminateProcess([In] IntPtr processHandle);
 
-        //[DllImport("user32.dll")]
-        //public static extern bool EndTask(IntPtr hWnd, bool fShutDown, bool fForce);
+        [DllImport("user32.dll")]
+        public static extern bool EndTask(IntPtr hWnd, bool fShutDown, bool fForce);
 
         [DllImport("kernel32.dll")]
         private static extern IntPtr OpenProcess(
@@ -153,7 +153,7 @@ namespace ITClassHelper
         //    ManagementObjectSearcher mos = new ManagementObjectSearcher("Select * From Win32_Process Where ParentProcessID = " + parentProcId);
         //    ManagementObjectCollection moc = mos.Get();
         //    foreach (ManagementObject mo in moc)
-        //        TerminateProcess(Convert.ToInt32(mo["ProcessID"]));
+        //        NtTerminateProcess(Convert.ToInt32(mo["ProcessID"]));
         //}
     }
 }

