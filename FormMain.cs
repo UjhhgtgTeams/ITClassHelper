@@ -17,7 +17,7 @@ namespace ITClassHelper
     {
         readonly FormCastControl castControl = new FormCastControl();
         readonly FormDeviceManage deviceManage = new FormDeviceManage();
-        static readonly string ProgramVersion = "3.2.4-d";
+        static readonly string ProgramVersion = "3.2.5-d";
         static readonly string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\ITClassHelper";
         static readonly string ntsdPath = appDataPath + @"\ntsd.exe";
         static readonly string disableAttackFilePath = appDataPath + @"\disableAttack.txt";
@@ -163,7 +163,7 @@ namespace ITClassHelper
                 NtSuspendProcess(GetProcs("StudentMain")[0].Id);
             if (GetProcs("REDAgent").Length > 0)
             {
-                killRedSpider = false;
+                // killRedSpider = false;
                 NtSuspendProcess(GetProcs("REDAgent")[0].Id);
             }
         }
@@ -171,7 +171,7 @@ namespace ITClassHelper
         private void CloseRoomButton_Click(object sender, EventArgs e)
         {
             KillProcs("StudentMain");
-            killRedSpider = true;
+            // killRedSpider = true;
         }
 
         private void KillProcs(string procName)
@@ -213,7 +213,7 @@ namespace ITClassHelper
 
         private void ResumeRoom()
         {
-            killRedSpider = false;
+            // killRedSpider = false;
             if (GetProcs("StudentMain").Length > 0)
                 NtResumeProcess(GetProcs("StudentMain")[0].Id);
             if (GetProcs("REDAgent").Length > 0)
