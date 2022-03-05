@@ -56,8 +56,6 @@
             this.ConvertHostNameIPLabel = new System.Windows.Forms.Label();
             this.HostNameTextBox = new System.Windows.Forms.TextBox();
             this.ConvertHostNameIPButton = new System.Windows.Forms.Button();
-            this.MythwareRoomRadio = new System.Windows.Forms.RadioButton();
-            this.RedSpiderRoomRadio = new System.Windows.Forms.RadioButton();
             this.DeviceContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -107,52 +105,52 @@
             this.DeviceContextMenu.Name = "DeviceContextMenu";
             this.DeviceContextMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.DeviceContextMenu.ShowImageMargin = false;
-            this.DeviceContextMenu.Size = new System.Drawing.Size(186, 206);
+            this.DeviceContextMenu.Size = new System.Drawing.Size(129, 178);
             // 
             // SendCmdMenuItem
             // 
             this.SendCmdMenuItem.Name = "SendCmdMenuItem";
-            this.SendCmdMenuItem.Size = new System.Drawing.Size(185, 24);
+            this.SendCmdMenuItem.Size = new System.Drawing.Size(128, 24);
             this.SendCmdMenuItem.Text = "发送命令";
             this.SendCmdMenuItem.Click += new System.EventHandler(this.SendCmdMenuItem_Click);
             // 
             // SendMsgMenuItem
             // 
             this.SendMsgMenuItem.Name = "SendMsgMenuItem";
-            this.SendMsgMenuItem.Size = new System.Drawing.Size(185, 24);
+            this.SendMsgMenuItem.Size = new System.Drawing.Size(128, 24);
             this.SendMsgMenuItem.Text = "发送消息";
             this.SendMsgMenuItem.Click += new System.EventHandler(this.SendMsgMenuItem_Click);
             // 
             // SendScriptMenuItem
             // 
             this.SendScriptMenuItem.Name = "SendScriptMenuItem";
-            this.SendScriptMenuItem.Size = new System.Drawing.Size(185, 24);
+            this.SendScriptMenuItem.Size = new System.Drawing.Size(128, 24);
             this.SendScriptMenuItem.Text = "发送脚本";
             this.SendScriptMenuItem.Click += new System.EventHandler(this.SendScriptMenuItem_Click);
             // 
             // ScripterMenuItem
             // 
             this.ScripterMenuItem.Name = "ScripterMenuItem";
-            this.ScripterMenuItem.Size = new System.Drawing.Size(185, 24);
+            this.ScripterMenuItem.Size = new System.Drawing.Size(128, 24);
             this.ScripterMenuItem.Text = "脚本制作器";
             this.ScripterMenuItem.Click += new System.EventHandler(this.ScripterMenuItem_Click);
             // 
             // Seperator1MenuItem
             // 
             this.Seperator1MenuItem.Name = "Seperator1MenuItem";
-            this.Seperator1MenuItem.Size = new System.Drawing.Size(182, 6);
+            this.Seperator1MenuItem.Size = new System.Drawing.Size(125, 6);
             // 
             // ShutdownMenuItem
             // 
             this.ShutdownMenuItem.Name = "ShutdownMenuItem";
-            this.ShutdownMenuItem.Size = new System.Drawing.Size(185, 24);
+            this.ShutdownMenuItem.Size = new System.Drawing.Size(128, 24);
             this.ShutdownMenuItem.Text = "远程关机";
             this.ShutdownMenuItem.Click += new System.EventHandler(this.ShutdownMenuItem_Click);
             // 
             // RebootMenuItem
             // 
             this.RebootMenuItem.Name = "RebootMenuItem";
-            this.RebootMenuItem.Size = new System.Drawing.Size(185, 24);
+            this.RebootMenuItem.Size = new System.Drawing.Size(128, 24);
             this.RebootMenuItem.Text = "远程重启";
             this.RebootMenuItem.Click += new System.EventHandler(this.RebootMenuItem_Click);
             // 
@@ -162,7 +160,7 @@
             this.BluescreenMenuItem,
             this.RevShellMenuItem});
             this.MagicCommandMenuItem.Name = "MagicCommandMenuItem";
-            this.MagicCommandMenuItem.Size = new System.Drawing.Size(185, 24);
+            this.MagicCommandMenuItem.Size = new System.Drawing.Size(128, 24);
             this.MagicCommandMenuItem.Text = "魔法指令";
             // 
             // BluescreenMenuItem
@@ -311,41 +309,11 @@
             this.ConvertHostNameIPButton.UseVisualStyleBackColor = true;
             this.ConvertHostNameIPButton.Click += new System.EventHandler(this.ConvertHostNameIPButton_Click);
             // 
-            // MythwareRoomRadio
-            // 
-            this.MythwareRoomRadio.AutoSize = true;
-            this.MythwareRoomRadio.Checked = true;
-            this.MythwareRoomRadio.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.MythwareRoomRadio.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.MythwareRoomRadio.Location = new System.Drawing.Point(390, 441);
-            this.MythwareRoomRadio.Name = "MythwareRoomRadio";
-            this.MythwareRoomRadio.Size = new System.Drawing.Size(142, 28);
-            this.MythwareRoomRadio.TabIndex = 54;
-            this.MythwareRoomRadio.TabStop = true;
-            this.MythwareRoomRadio.Text = "极域电子教室";
-            this.MythwareRoomRadio.UseVisualStyleBackColor = true;
-            this.MythwareRoomRadio.CheckedChanged += new System.EventHandler(this.RoomTypeRadio_CheckedChanged);
-            // 
-            // RedSpiderRoomRadio
-            // 
-            this.RedSpiderRoomRadio.AutoSize = true;
-            this.RedSpiderRoomRadio.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.RedSpiderRoomRadio.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.RedSpiderRoomRadio.Location = new System.Drawing.Point(390, 475);
-            this.RedSpiderRoomRadio.Name = "RedSpiderRoomRadio";
-            this.RedSpiderRoomRadio.Size = new System.Drawing.Size(159, 28);
-            this.RedSpiderRoomRadio.TabIndex = 55;
-            this.RedSpiderRoomRadio.Text = "红蜘蛛电子教室";
-            this.RedSpiderRoomRadio.UseVisualStyleBackColor = true;
-            this.RedSpiderRoomRadio.CheckedChanged += new System.EventHandler(this.RoomTypeRadio_CheckedChanged);
-            // 
             // FormDeviceManage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(634, 550);
-            this.Controls.Add(this.RedSpiderRoomRadio);
-            this.Controls.Add(this.MythwareRoomRadio);
             this.Controls.Add(this.ConvertHostNameIPLabel);
             this.Controls.Add(this.HostNameTextBox);
             this.Controls.Add(this.ConvertHostNameIPButton);
@@ -397,7 +365,5 @@
         private System.Windows.Forms.ToolStripMenuItem BluescreenMenuItem;
         private System.Windows.Forms.TextBox IPTextBox;
         private System.Windows.Forms.ToolStripMenuItem RevShellMenuItem;
-        private System.Windows.Forms.RadioButton MythwareRoomRadio;
-        private System.Windows.Forms.RadioButton RedSpiderRoomRadio;
     }
 }

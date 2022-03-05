@@ -10,14 +10,13 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using static ITClassHelper.ProcMgr;
-using static ITClassHelper.PackAttacker;
+using static ITClassHelper.NetAttack;
+using static ITClassHelper.Rooms;
 
 namespace ITClassHelper
 {
     public partial class FormDeviceManage : Form
     {
-        static RoomType roomType = RoomType.Mythware;
-
         public FormDeviceManage() => InitializeComponent();
 
         private void ScanButton_Click(object sender, EventArgs e)
@@ -314,22 +313,6 @@ namespace ITClassHelper
         {
             e.Cancel = true;
             Hide();
-        }
-
-        private void RoomTypeRadio_CheckedChanged(object sender, EventArgs e)
-        {
-            if (MythwareRoomRadio.Checked == true)
-            {
-                PortTextBox.Enabled = true;
-                PortTextBox.Text = "4605";
-                roomType = RoomType.Mythware;
-            }
-            else
-            {
-                PortTextBox.Enabled = false;
-                PortTextBox.Text = "1689";
-                roomType = RoomType.RedSpider;
-            }
         }
     }
 }

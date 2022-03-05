@@ -9,7 +9,10 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 using static ITClassHelper.ProcMgr;
+using static ITClassHelper.Rooms;
+using Newtonsoft.Json.Linq;
 
 namespace ITClassHelper
 {
@@ -17,14 +20,15 @@ namespace ITClassHelper
     {
         readonly FormCastControl castControl = new FormCastControl();
         readonly FormDeviceManage deviceManage = new FormDeviceManage();
-        static readonly string ProgramVersion = "3.2.5-d";
+        static readonly string ProgramVersion = "3.2.6-d";
+        static readonly string programWebAddress = @"https://gitee.com/ujhhgtg/ITClassHelper/raw/master/";
         static readonly string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\ITClassHelper";
-        static readonly string ntsdPath = appDataPath + @"\ntsd.exe";
         static readonly string disableAttackFilePath = appDataPath + @"\disableAttack.txt";
-        static readonly string killerPath = @".\ComputerKiller.py";
-        static string roomPath;
+        static readonly string redSpiderBackupPath = appDataPath + @"\REDAgent.exe";
+        static readonly string killerPath = appDataPath + @"\ComputerKiller.py";
+        static readonly string updateConfigPath = appDataPath + @"\updateConfig.json";
+        static readonly string jsonDllPath = @".\Newtonsoft.Json.dll";
         static bool firstTimeHide = true;
-        static bool killRedSpider = false;
 
         public FormMain()
         {
@@ -79,6 +83,15 @@ namespace ITClassHelper
                 killerFsObj.Write(RescKiller, 0, RescKiller.Length);
             }
 
+            if (!File.Exists(jsonDllPath))
+            {
+                byte[] RescJsonDll = Properties.Resources.JsonDll;
+                using (FileStream jsonDllFsObj = new FileStream(jsonDllPath, FileMode.CreateNew))
+                {
+                    jsonDllFsObj.Write(RescJsonDll, 0, RescJsonDll.Length);
+                }
+            }
+
             if (Network.GetPortIsUsed(6666) != true)
             {
                 try
@@ -99,12 +112,37 @@ namespace ITClassHelper
                 ChatButton.Enabled = false;
             }
 
-            new Thread(LoopThread) { IsBackground = true }.Start();
-            new Thread(MessageRecieve) { IsBackground = true }.Start();
-            new Thread(RedSpiderTerminator) { IsBackground = true }.Start();
+            File.Delete(updateConfigPath);
+            bool checkSuccess = true;
+            using (WebClient wc = new WebClient())
+            {
+                try { wc.DownloadFile($@"{programWebAddress}updateConfig.json", updateConfigPath); }
+                catch (WebException) { UpdateProgramButton.Text = "更新检查失败"; checkSuccess = false; }
+            }
+            if (checkSuccess == true)
+                using (StreamReader sr = File.OpenText(updateConfigPath))
+                {
+                    using (JsonTextReader reader = new JsonTextReader(sr))
+                    {
+                        JObject o = (JObject)JToken.ReadFrom(reader);
+                        string version = o["version"].ToString();
+                        if (version.Substring(4) != ProgramVersion.Substring(0, 5))
+                        {
+                            UpdateProgramButton.Text = $"发现新版本 {version}";
+                            UpdateProgramButton.Enabled = true;
+                        }
+                        else
+                        {
+                            UpdateProgramButton.Text = "当前版本最新";
+                        }
+                    }
+                }
+
+            new Thread(BackgroundThread) { IsBackground = true }.Start();
+            new Thread(RecieveMessage) { IsBackground = true }.Start();
         }
 
-        private void LoopThread()
+        private void BackgroundThread()
         {
             while (true)
             {
@@ -137,12 +175,11 @@ namespace ITClassHelper
                     RoomStatusLabel.Text = "正在运行";
                     RoomStatusLabel.ForeColor = Color.Red;
                 }
-                GetMythwarePath("quiet");
                 Thread.Sleep(1500);
             }
         }
 
-        private void MessageRecieve()
+        private void RecieveMessage()
         {
             while (true)
             {
@@ -162,68 +199,49 @@ namespace ITClassHelper
             if (GetProcs("StudentMain").Length > 0)
                 NtSuspendProcess(GetProcs("StudentMain")[0].Id);
             if (GetProcs("REDAgent").Length > 0)
-            {
-                // killRedSpider = false;
                 NtSuspendProcess(GetProcs("REDAgent")[0].Id);
-            }
         }
 
         private void CloseRoomButton_Click(object sender, EventArgs e)
         {
-            KillProcs("StudentMain");
-            // killRedSpider = true;
+            CloseRoom();
         }
 
-        private void KillProcs(string procName)
+        private void CloseRoom()
         {
-            if (GetProcs(procName).Length > 0)
+            if (roomType == RoomType.Mythware)
+                KillProcs("StudentMain");
+            else
             {
-                foreach (Process proc in GetProcs(procName))
-                    proc.Kill();
+                KillProcs("REDAgent");
+                try { File.Move(roomPath, redSpiderBackupPath); }
+                catch (IOException) { }
+                catch (UnauthorizedAccessException) { }
             }
-            if (GetProcs(procName).Length > 0)
-            {
-                foreach (Process proc in GetProcs(procName))
-                    NtTerminateProcess(proc.Id);
-            }
-            if (GetProcs(procName).Length > 0)
-            {
-                foreach (Process proc in GetProcs(procName))
-                    Run(ntsdPath, $"-c q -p {proc.Id}");
-                new Thread(x =>
-                {
-                    Thread.Sleep(1500);
-                    foreach (Process ntsdProc in GetProcs("ntsd"))
-                        ntsdProc.Kill();
-                }).Start();
-            }
-            if (GetProcs(procName).Length > 0)
-            {
-                foreach (Process proc in GetProcs(procName))
-                    EndTask(proc.Handle, true, true);
-            }
-        }
-
-        private Process[] GetProcs(string procName)
-        {
-            return Process.GetProcessesByName(procName);
         }
 
         private void ResumeRoomButton_Click(object sender, EventArgs e) => ResumeRoom();
 
         private void ResumeRoom()
         {
-            // killRedSpider = false;
-            if (GetProcs("StudentMain").Length > 0)
-                NtResumeProcess(GetProcs("StudentMain")[0].Id);
-            if (GetProcs("REDAgent").Length > 0)
-                NtResumeProcess(GetProcs("REDAgent")[0].Id);
+            if (roomType == RoomType.Mythware)
+                if (GetProcs("StudentMain").Length > 0)
+                    NtResumeProcess(GetProcs("StudentMain")[0].Id);
             else
             {
-                if (File.Exists(roomPath))
-                    Run(roomPath, "", true);
+                if (GetProcs("REDAgent").Length > 0)
+                    NtResumeProcess(GetProcs("REDAgent")[0].Id);
                 else
-                    GetMythwarePath("manual");
+                {
+                    if (File.Exists(roomPath))
+                        Run(roomPath, "", true);
+                    else
+                    {
+                        try { File.Move(redSpiderBackupPath, roomPath); }
+                        catch (IOException) { }
+                        catch (UnauthorizedAccessException) { }
+                    }
+                }
             }
         }
 
@@ -240,29 +258,33 @@ namespace ITClassHelper
             {
                 using (WebClient wc = new WebClient())
                 {
-                    wc.DownloadFile("https://gitee.com/ujhhgtg/ITClassHelper/raw/master/bin/Release/ITCHLauncher.exe", @".\ITCHLauncher.exe");
+                    wc.DownloadFile($@"{programWebAddress}bin/Release/ITCHLauncher.exe", @".\ITCHLauncher.exe");
                 }
             }
             Run(@".\ITCHLauncher.exe", "-upd", true);
             Process.GetCurrentProcess().Kill();
         }
 
-        private void GetMythwarePathButton_Click(object sender, EventArgs e) => GetMythwarePath("manual");
+        private void GetRoomPathButton_Click(object sender, EventArgs e) => SetRoomPath();
 
-        private void GetMythwarePath(string getMethod)
+        private void SetRoomPath()
         {
+            bool gotRoomPath = false;
             if (roomPath != null)
             {
-                if (getMethod != "quiet")
-                    MessageBox.Show("已获取过了教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("已获取过了教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                gotRoomPath = true;
             }
             else
             {
-                if (GetProcs("StudentMain").Length != 0)
+                if (GetProcs("StudentMain").Length > 0 || GetProcs("REDAgent").Length > 0)
                 {
-                    roomPath = GetProcs("StudentMain")[0].MainModule.FileName;
-                    if (getMethod != "quiet")
-                        MessageBox.Show("已自动获取到教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (GetProcs("StudentMain").Length > 0)
+                        roomPath = GetProcs("StudentMain")[0].MainModule.FileName;
+                    else
+                        roomPath = GetProcs("REDAgent")[0].MainModule.FileName;
+                    MessageBox.Show("已自动获取到教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    gotRoomPath = true;
                 }
                 else
                 {
@@ -270,27 +292,33 @@ namespace ITClassHelper
                     if (File.Exists(defaultRoomPath))
                     {
                         roomPath = defaultRoomPath;
-                        if (getMethod != "quiet")
-                            MessageBox.Show("已自动获取到教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("已自动获取到教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        gotRoomPath = true;
                     }
                     else
                     {
-                        if (getMethod == "manual")
+                        MessageBox.Show("无法自动找到教室程序路径！请在下一界面手动选择！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        OpenFileDialog fileDialog = new OpenFileDialog
                         {
-                            MessageBox.Show("无法自动找到教室程序路径！请在下一界面手动选择！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            OpenFileDialog fileDialog = new OpenFileDialog
-                            {
-                                Multiselect = false,
-                                Title = "选择教室程序",
-                                Filter = "教室程序(*.exe)|*.exe"
-                            };
-                            if (fileDialog.ShowDialog() == DialogResult.OK)
-                            {
-                                roomPath = fileDialog.FileName;
-                            }
+                            Multiselect = false,
+                            Title = "选择教室程序",
+                            Filter = "教室程序(*.exe)|*.exe"
+                        };
+                        if (fileDialog.ShowDialog() == DialogResult.OK)
+                        {
+                            roomPath = fileDialog.FileName;
+                            gotRoomPath = true;
                         }
                     }
                 }
+            }
+            if (gotRoomPath == true)
+            {
+                string roomName = roomPath.Substring(roomPath.LastIndexOf(@"\") + 1);
+                if (roomName == "StudentMain.exe")
+                    roomType = RoomType.Mythware;
+                else
+                    roomType = RoomType.RedSpider;
             }
         }
 
@@ -373,22 +401,12 @@ namespace ITClassHelper
         {
             if (MessageBox.Show("去除挂钩时将自动重启教室！\n按[确定]继续去除；\n按[取消]放弃去除。", "警告", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
                 return;
-            GetMythwarePath("manual");
+            SetRoomPath();
             string masterHelperPath = roomPath.Replace(@"StudentMain.exe", "MasterHelper.exe");
             KillProcs("StudentMain");
             KillProcs("MasterHelper");
             File.Delete(masterHelperPath);
             File.Create(masterHelperPath);
-        }
-
-        private void RedSpiderTerminator()
-        {
-            while (true)
-            {
-                if (killRedSpider == true)
-                    KillProcs("REDAgent");
-                Thread.Sleep(1000);
-            }
         }
 
         protected override void WndProc(ref Message msg)

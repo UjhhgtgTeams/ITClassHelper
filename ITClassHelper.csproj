@@ -87,6 +87,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management" />
@@ -99,11 +102,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\WndMgr.cs" />
-    <Compile Include="Common\HotKey.cs" />
-    <Compile Include="Common\Network.cs" />
-    <Compile Include="Common\ProcMgr.cs" />
-    <Compile Include="Common\RevShell.cs" />
+    <Compile Include="Libs\Rooms.cs" />
+    <Compile Include="Libs\WndMgr.cs" />
+    <Compile Include="Libs\HotKey.cs" />
+    <Compile Include="Libs\Network.cs" />
+    <Compile Include="Libs\ProcMgr.cs" />
+    <Compile Include="Libs\RevShell.cs" />
     <Compile Include="FormDeviceManage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -122,7 +126,7 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Common\PackAttacker.cs" />
+    <Compile Include="Libs\NetAttack.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormCastControl.resx">
@@ -147,6 +151,7 @@
     <None Include="app.config" />
     <None Include="app.manifest" />
     <None Include="LICENSE" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -167,6 +172,7 @@
     <None Include="Resources\ComputerKiller.py" />
     <None Include="bin\Release\ITCHScripter.exe" />
     <Content Include="bin\Release\ITClassHelper.exe" />
+    <None Include="bin\Release\Newtonsoft.Json.dll" />
     <Content Include="MythwareKiller.ico" />
     <None Include="Resources\ntsd.exe" />
   </ItemGroup>

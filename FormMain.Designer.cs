@@ -43,7 +43,7 @@
             this.ChatButton = new System.Windows.Forms.Button();
             this.ExitProgramButton = new System.Windows.Forms.Button();
             this.ProgramAboutLabel = new System.Windows.Forms.Label();
-            this.GetMythwarePathButton = new System.Windows.Forms.Button();
+            this.GetRoomPathButton = new System.Windows.Forms.Button();
             this.PswdSettingsGroup = new System.Windows.Forms.GroupBox();
             this.GetPswdButton = new System.Windows.Forms.Button();
             this.SetPswdButton = new System.Windows.Forms.Button();
@@ -69,13 +69,14 @@
             // UpdateProgramButton
             // 
             this.UpdateProgramButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UpdateProgramButton.Enabled = false;
             this.UpdateProgramButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.UpdateProgramButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.UpdateProgramButton.Location = new System.Drawing.Point(8, 26);
             this.UpdateProgramButton.Name = "UpdateProgramButton";
             this.UpdateProgramButton.Size = new System.Drawing.Size(225, 35);
             this.UpdateProgramButton.TabIndex = 11;
-            this.UpdateProgramButton.Text = "更新软件";
+            this.UpdateProgramButton.Text = "获取更新配置中";
             this.UpdateProgramButton.UseVisualStyleBackColor = true;
             this.UpdateProgramButton.Click += new System.EventHandler(this.UpdateProgramButton_Click);
             // 
@@ -184,7 +185,7 @@
             this.ProgramToolsGroup.Controls.Add(this.DeviceManageButton);
             this.ProgramToolsGroup.Controls.Add(this.ExitProgramButton);
             this.ProgramToolsGroup.Controls.Add(this.ProgramAboutLabel);
-            this.ProgramToolsGroup.Controls.Add(this.GetMythwarePathButton);
+            this.ProgramToolsGroup.Controls.Add(this.GetRoomPathButton);
             this.ProgramToolsGroup.Controls.Add(this.UpdateProgramButton);
             this.ProgramToolsGroup.Controls.Add(this.DisableAttackButton);
             this.ProgramToolsGroup.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -244,18 +245,18 @@
             this.ProgramAboutLabel.TabIndex = 14;
             this.ProgramAboutLabel.Text = "版本号：X.Y.Z\r\n作者：Ujhhgtg";
             // 
-            // GetMythwarePathButton
+            // GetRoomPathButton
             // 
-            this.GetMythwarePathButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.GetMythwarePathButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.GetMythwarePathButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.GetMythwarePathButton.Location = new System.Drawing.Point(8, 67);
-            this.GetMythwarePathButton.Name = "GetMythwarePathButton";
-            this.GetMythwarePathButton.Size = new System.Drawing.Size(225, 35);
-            this.GetMythwarePathButton.TabIndex = 13;
-            this.GetMythwarePathButton.Text = "选择极域位置";
-            this.GetMythwarePathButton.UseVisualStyleBackColor = true;
-            this.GetMythwarePathButton.Click += new System.EventHandler(this.GetMythwarePathButton_Click);
+            this.GetRoomPathButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.GetRoomPathButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.GetRoomPathButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.GetRoomPathButton.Location = new System.Drawing.Point(8, 67);
+            this.GetRoomPathButton.Name = "GetRoomPathButton";
+            this.GetRoomPathButton.Size = new System.Drawing.Size(225, 35);
+            this.GetRoomPathButton.TabIndex = 13;
+            this.GetRoomPathButton.Text = "选择教室位置";
+            this.GetRoomPathButton.UseVisualStyleBackColor = true;
+            this.GetRoomPathButton.Click += new System.EventHandler(this.GetRoomPathButton_Click);
             // 
             // PswdSettingsGroup
             // 
@@ -333,7 +334,7 @@
         private System.Windows.Forms.Button SuspendRoomButton;
         private System.Windows.Forms.GroupBox ProgramToolsGroup;
         private System.Windows.Forms.Label ProgramAboutLabel;
-        private System.Windows.Forms.Button GetMythwarePathButton;
+        private System.Windows.Forms.Button GetRoomPathButton;
         private System.Windows.Forms.Button RoomStatusButton;
         private System.Windows.Forms.GroupBox PswdSettingsGroup;
         private System.Windows.Forms.Button GetPswdButton;

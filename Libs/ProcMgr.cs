@@ -3,11 +3,14 @@ using System.Diagnostics;
 using System.Linq;
 using System.Management;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace ITClassHelper
 {
     internal class ProcMgr
     {
+        public static readonly string ntsdPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\ITClassHelper" + @"\ntsd.exe";
+
         [Flags]
         public enum ProcessAccess : uint
         {
@@ -148,12 +151,50 @@ namespace ITClassHelper
             }
         }
 
-        //public static void KillProcessTree(int parentProcId)
-        //{
-        //    ManagementObjectSearcher mos = new ManagementObjectSearcher("Select * From Win32_Process Where ParentProcessID = " + parentProcId);
-        //    ManagementObjectCollection moc = mos.Get();
-        //    foreach (ManagementObject mo in moc)
-        //        NtTerminateProcess(Convert.ToInt32(mo["ProcessID"]));
-        //}
+        public static void KillProcs(string procName)
+        {
+            if (GetProcs(procName).Length > 0)
+            {
+                foreach (Process proc in GetProcs(procName))
+                    proc.Kill();
+            }
+            if (GetProcs(procName).Length > 0)
+            {
+                foreach (Process proc in GetProcs(procName))
+                    NtTerminateProcess(proc.Id);
+            }
+            if (GetProcs(procName).Length > 0)
+            {
+                foreach (Process proc in GetProcs(procName))
+                    Run(ntsdPath, $"-c q -p {proc.Id}");
+                new Thread(x =>
+                {
+                    Thread.Sleep(1500);
+                    foreach (Process ntsdProc in GetProcs("ntsd"))
+                        ntsdProc.Kill();
+                }).Start();
+            }
+            if (GetProcs(procName).Length > 0)
+            {
+                foreach (Process proc in GetProcs(procName))
+                {
+                    try { EndTask(proc.Handle, true, true); }
+                    catch { }
+                }
+            }
+        }
+
+        public static Process[] GetProcs(string procName)
+        {
+            return Process.GetProcessesByName(procName);
+        }
+
+        public static void KillChildProcs(int parentProcId)
+        {
+            ManagementObjectSearcher mos = new ManagementObjectSearcher("Select * From Win32_Process Where ParentProcessID = " + parentProcId);
+            ManagementObjectCollection moc = mos.Get();
+            foreach (ManagementObject mo in moc)
+                NtTerminateProcess(Convert.ToInt32(mo["ProcessID"]));
+        }
     }
 }
