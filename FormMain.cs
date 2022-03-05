@@ -1,5 +1,7 @@
 ﻿using Microsoft.VisualBasic;
 using Microsoft.Win32;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Diagnostics;
 using System.Drawing;
@@ -9,10 +11,8 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using Newtonsoft.Json;
 using static ITClassHelper.ProcMgr;
 using static ITClassHelper.Rooms;
-using Newtonsoft.Json.Linq;
 
 namespace ITClassHelper
 {
@@ -20,14 +20,13 @@ namespace ITClassHelper
     {
         readonly FormCastControl castControl = new FormCastControl();
         readonly FormDeviceManage deviceManage = new FormDeviceManage();
-        static readonly string ProgramVersion = "3.2.6-d";
+        static readonly string ProgramVersion = "3.2.7-d";
         static readonly string programWebAddress = @"https://gitee.com/ujhhgtg/ITClassHelper/raw/master/";
         static readonly string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\ITClassHelper";
         static readonly string disableAttackFilePath = appDataPath + @"\disableAttack.txt";
         static readonly string redSpiderBackupPath = appDataPath + @"\REDAgent.exe";
         static readonly string killerPath = appDataPath + @"\ComputerKiller.py";
         static readonly string updateConfigPath = appDataPath + @"\updateConfig.json";
-        static readonly string jsonDllPath = @".\Newtonsoft.Json.dll";
         static bool firstTimeHide = true;
 
         public FormMain()
@@ -81,15 +80,6 @@ namespace ITClassHelper
             using (FileStream killerFsObj = new FileStream(killerPath, FileMode.Create))
             {
                 killerFsObj.Write(RescKiller, 0, RescKiller.Length);
-            }
-
-            if (!File.Exists(jsonDllPath))
-            {
-                byte[] RescJsonDll = Properties.Resources.JsonDll;
-                using (FileStream jsonDllFsObj = new FileStream(jsonDllPath, FileMode.CreateNew))
-                {
-                    jsonDllFsObj.Write(RescJsonDll, 0, RescJsonDll.Length);
-                }
             }
 
             if (Network.GetPortIsUsed(6666) != true)
@@ -227,22 +217,22 @@ namespace ITClassHelper
             if (roomType == RoomType.Mythware)
                 if (GetProcs("StudentMain").Length > 0)
                     NtResumeProcess(GetProcs("StudentMain")[0].Id);
-            else
-            {
-                if (GetProcs("REDAgent").Length > 0)
-                    NtResumeProcess(GetProcs("REDAgent")[0].Id);
                 else
                 {
-                    if (File.Exists(roomPath))
-                        Run(roomPath, "", true);
+                    if (GetProcs("REDAgent").Length > 0)
+                        NtResumeProcess(GetProcs("REDAgent")[0].Id);
                     else
                     {
-                        try { File.Move(redSpiderBackupPath, roomPath); }
-                        catch (IOException) { }
-                        catch (UnauthorizedAccessException) { }
+                        if (File.Exists(roomPath))
+                            Run(roomPath, "", true);
+                        else
+                        {
+                            try { File.Move(redSpiderBackupPath, roomPath); }
+                            catch (IOException) { }
+                            catch (UnauthorizedAccessException) { }
+                        }
                     }
                 }
-            }
         }
 
         private void DisableAttackButton_Click(object sender, EventArgs e)

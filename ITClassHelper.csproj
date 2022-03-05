@@ -168,9 +168,7 @@
   <ItemGroup>
     <Content Include=".gitattributes" />
     <Content Include=".gitignore" />
-    <None Include="Resources\LibStHook.dll" />
     <None Include="Resources\ComputerKiller.py" />
-    <None Include="bin\Release\ITCHScripter.exe" />
     <Content Include="bin\Release\ITClassHelper.exe" />
     <None Include="bin\Release\Newtonsoft.Json.dll" />
     <Content Include="MythwareKiller.ico" />
