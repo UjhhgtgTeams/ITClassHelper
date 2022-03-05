@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualBasic;
 using Microsoft.Win32;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+//using Newtonsoft.Json;
+//using Newtonsoft.Json.Linq;
 using System;
 using System.Diagnostics;
 using System.Drawing;
@@ -20,13 +20,13 @@ namespace ITClassHelper
     {
         readonly FormCastControl castControl = new FormCastControl();
         readonly FormDeviceManage deviceManage = new FormDeviceManage();
-        static readonly string ProgramVersion = "3.2.7-d";
+        static readonly string ProgramVersion = "3.2.8-d";
         static readonly string programWebAddress = @"https://gitee.com/ujhhgtg/ITClassHelper/raw/master/";
         static readonly string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\ITClassHelper";
         static readonly string disableAttackFilePath = appDataPath + @"\disableAttack.txt";
         static readonly string redSpiderBackupPath = appDataPath + @"\REDAgent.exe";
         static readonly string killerPath = appDataPath + @"\ComputerKiller.py";
-        static readonly string updateConfigPath = appDataPath + @"\updateConfig.json";
+        //static readonly string updateConfigPath = appDataPath + @"\updateConfig.json";
         static bool firstTimeHide = true;
 
         public FormMain()
@@ -102,31 +102,31 @@ namespace ITClassHelper
                 ChatButton.Enabled = false;
             }
 
-            File.Delete(updateConfigPath);
-            bool checkSuccess = true;
-            using (WebClient wc = new WebClient())
-            {
-                try { wc.DownloadFile($@"{programWebAddress}updateConfig.json", updateConfigPath); }
-                catch (WebException) { UpdateProgramButton.Text = "更新检查失败"; checkSuccess = false; }
-            }
-            if (checkSuccess == true)
-                using (StreamReader sr = File.OpenText(updateConfigPath))
-                {
-                    using (JsonTextReader reader = new JsonTextReader(sr))
-                    {
-                        JObject o = (JObject)JToken.ReadFrom(reader);
-                        string version = o["version"].ToString();
-                        if (version.Substring(4) != ProgramVersion.Substring(0, 5))
-                        {
-                            UpdateProgramButton.Text = $"发现新版本 {version}";
-                            UpdateProgramButton.Enabled = true;
-                        }
-                        else
-                        {
-                            UpdateProgramButton.Text = "当前版本最新";
-                        }
-                    }
-                }
+            //File.Delete(updateConfigPath);
+            //bool checkSuccess = true;
+            //using (WebClient wc = new WebClient())
+            //{
+            //    try { wc.DownloadFile($@"{programWebAddress}updateConfig.json", updateConfigPath); }
+            //    catch (WebException) { UpdateProgramButton.Text = "更新检查失败"; checkSuccess = false; }
+            //}
+            //if (checkSuccess == true)
+            //using (StreamReader sr = File.OpenText(updateConfigPath))
+            //{
+            //    using (JsonTextReader reader = new JsonTextReader(sr))
+            //    {
+            //        JObject o = (JObject)JToken.ReadFrom(reader);
+            //        string version = o["version"].ToString();
+            //        if (version.Substring(4) != ProgramVersion.Substring(0, 5))
+            //        {
+            //            UpdateProgramButton.Text = $"发现新版本 {version}";
+            //            UpdateProgramButton.Enabled = true;
+            //        }
+            //        else
+            //        {
+            //            UpdateProgramButton.Text = "当前版本最新";
+            //        }
+            //    }
+            //}
 
             new Thread(BackgroundThread) { IsBackground = true }.Start();
             new Thread(RecieveMessage) { IsBackground = true }.Start();
