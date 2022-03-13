@@ -37,7 +37,6 @@
             this.SendCmdMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SendMsgMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SendScriptMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ScripterMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Seperator1MenuItem = new System.Windows.Forms.ToolStripSeparator();
             this.ShutdownMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RebootMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -97,7 +96,6 @@
             this.SendCmdMenuItem,
             this.SendMsgMenuItem,
             this.SendScriptMenuItem,
-            this.ScripterMenuItem,
             this.Seperator1MenuItem,
             this.ShutdownMenuItem,
             this.RebootMenuItem,
@@ -105,52 +103,45 @@
             this.DeviceContextMenu.Name = "DeviceContextMenu";
             this.DeviceContextMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.DeviceContextMenu.ShowImageMargin = false;
-            this.DeviceContextMenu.Size = new System.Drawing.Size(129, 178);
+            this.DeviceContextMenu.Size = new System.Drawing.Size(186, 182);
             // 
             // SendCmdMenuItem
             // 
             this.SendCmdMenuItem.Name = "SendCmdMenuItem";
-            this.SendCmdMenuItem.Size = new System.Drawing.Size(128, 24);
+            this.SendCmdMenuItem.Size = new System.Drawing.Size(185, 24);
             this.SendCmdMenuItem.Text = "发送命令";
             this.SendCmdMenuItem.Click += new System.EventHandler(this.SendCmdMenuItem_Click);
             // 
             // SendMsgMenuItem
             // 
             this.SendMsgMenuItem.Name = "SendMsgMenuItem";
-            this.SendMsgMenuItem.Size = new System.Drawing.Size(128, 24);
+            this.SendMsgMenuItem.Size = new System.Drawing.Size(185, 24);
             this.SendMsgMenuItem.Text = "发送消息";
             this.SendMsgMenuItem.Click += new System.EventHandler(this.SendMsgMenuItem_Click);
             // 
             // SendScriptMenuItem
             // 
             this.SendScriptMenuItem.Name = "SendScriptMenuItem";
-            this.SendScriptMenuItem.Size = new System.Drawing.Size(128, 24);
+            this.SendScriptMenuItem.Size = new System.Drawing.Size(185, 24);
             this.SendScriptMenuItem.Text = "发送脚本";
             this.SendScriptMenuItem.Click += new System.EventHandler(this.SendScriptMenuItem_Click);
-            // 
-            // ScripterMenuItem
-            // 
-            this.ScripterMenuItem.Name = "ScripterMenuItem";
-            this.ScripterMenuItem.Size = new System.Drawing.Size(128, 24);
-            this.ScripterMenuItem.Text = "脚本制作器";
-            this.ScripterMenuItem.Click += new System.EventHandler(this.ScripterMenuItem_Click);
             // 
             // Seperator1MenuItem
             // 
             this.Seperator1MenuItem.Name = "Seperator1MenuItem";
-            this.Seperator1MenuItem.Size = new System.Drawing.Size(125, 6);
+            this.Seperator1MenuItem.Size = new System.Drawing.Size(182, 6);
             // 
             // ShutdownMenuItem
             // 
             this.ShutdownMenuItem.Name = "ShutdownMenuItem";
-            this.ShutdownMenuItem.Size = new System.Drawing.Size(128, 24);
+            this.ShutdownMenuItem.Size = new System.Drawing.Size(185, 24);
             this.ShutdownMenuItem.Text = "远程关机";
             this.ShutdownMenuItem.Click += new System.EventHandler(this.ShutdownMenuItem_Click);
             // 
             // RebootMenuItem
             // 
             this.RebootMenuItem.Name = "RebootMenuItem";
-            this.RebootMenuItem.Size = new System.Drawing.Size(128, 24);
+            this.RebootMenuItem.Size = new System.Drawing.Size(185, 24);
             this.RebootMenuItem.Text = "远程重启";
             this.RebootMenuItem.Click += new System.EventHandler(this.RebootMenuItem_Click);
             // 
@@ -160,21 +151,21 @@
             this.BluescreenMenuItem,
             this.RevShellMenuItem});
             this.MagicCommandMenuItem.Name = "MagicCommandMenuItem";
-            this.MagicCommandMenuItem.Size = new System.Drawing.Size(128, 24);
+            this.MagicCommandMenuItem.Size = new System.Drawing.Size(185, 24);
             this.MagicCommandMenuItem.Text = "魔法指令";
             // 
             // BluescreenMenuItem
             // 
             this.BluescreenMenuItem.Name = "BluescreenMenuItem";
-            this.BluescreenMenuItem.Size = new System.Drawing.Size(354, 26);
-            this.BluescreenMenuItem.Text = "统统蓝屏！";
+            this.BluescreenMenuItem.Size = new System.Drawing.Size(317, 26);
+            this.BluescreenMenuItem.Text = "快速蓝屏";
             this.BluescreenMenuItem.Click += new System.EventHandler(this.BluescreenMenuItem_Click);
             // 
             // RevShellMenuItem
             // 
             this.RevShellMenuItem.Name = "RevShellMenuItem";
-            this.RevShellMenuItem.Size = new System.Drawing.Size(354, 26);
-            this.RevShellMenuItem.Text = "~神秘指令~（没事别点，非常危险！）";
+            this.RevShellMenuItem.Size = new System.Drawing.Size(317, 26);
+            this.RevShellMenuItem.Text = "终端反射（非常危险，不要手欠）";
             this.RevShellMenuItem.Click += new System.EventHandler(this.RevShellMenuItem_Click);
             // 
             // PortLabel
@@ -357,7 +348,6 @@
         private System.Windows.Forms.CheckBox DisableHostNameCheckBox;
         private System.Windows.Forms.CheckBox DisableMacAddressCheckBox;
         private System.Windows.Forms.ToolStripMenuItem SendScriptMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ScripterMenuItem;
         private System.Windows.Forms.Label ConvertHostNameIPLabel;
         private System.Windows.Forms.TextBox HostNameTextBox;
         private System.Windows.Forms.Button ConvertHostNameIPButton;

@@ -1,9 +1,12 @@
-﻿namespace ITClassHelper
+﻿using System;
+
+namespace ITClassHelper
 {
-    internal class Rooms
+    internal class Shared
     {
         public static RoomType roomType = RoomType.Mythware;
         public static string roomPath;
+        public static readonly string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\ITClassHelper";
 
         public enum RoomType
         {

