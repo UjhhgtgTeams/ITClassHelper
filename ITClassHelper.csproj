@@ -159,7 +159,7 @@
     </Compile>
     <None Include="README.md" />
     <None Include="UjhhgtgSign.pfx" />
-    <None Include="updateConfig.csv" />
+    <None Include="Resources\LocalUpdateInfo.csv" />
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitattributes" />

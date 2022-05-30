@@ -110,7 +110,7 @@ namespace ITClassHelper
                     try
                     {
                         if (Network.socketBound == false)
-                            Network.socket.Bind(new IPEndPoint(IPAddress.Parse(Network.GetIPAddress(Dns.GetHostName())), 6666));
+                            Network.socket.Bind(new IPEndPoint(IPAddress.Parse(Network.GetIPAddress()), 6666));
                         Network.socketBound = true;
                     }
                     catch (SocketException ex)
@@ -302,7 +302,7 @@ namespace ITClassHelper
         private void IPButton_Click(object sender, EventArgs e)
         {
             string result;
-            result = Network.GetIPAddress(Dns.GetHostName());
+            result = Network.GetIPAddress();
             if (result != "ERROR")
                 MessageBox.Show($"本机 IP 地址为：{result}", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else

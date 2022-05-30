@@ -1131,7 +1131,7 @@ namespace ITClassHelper
             0
         };
 
-        public static byte[] BuildPack(string msg)
+        public static byte[] BuildMythwarePack(string msg)
         {
             ArrayList msgPack = new ArrayList();
             foreach (char ch in msg)
@@ -1166,7 +1166,7 @@ namespace ITClassHelper
             return result;
         }
 
-        public static byte[][] BuildPack(string msg, string studentIp, string teacherIp)
+        public static byte[][] BuildRedSpiderPack(string msg, string studentIp, string teacherIp)
         {
             byte[] result = redSpiderPack;
             byte[] result2 = redSpiderPack2;
@@ -1201,7 +1201,7 @@ namespace ITClassHelper
         {
             if (roomType == RoomType.Mythware)
             {
-                byte[] pack = BuildPack(msg);
+                byte[] pack = BuildMythwarePack(msg);
                 Socket server = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
                 foreach (string ip in ips)
                 {
@@ -1214,7 +1214,7 @@ namespace ITClassHelper
             {
                 foreach (string ip in ips)
                 {
-                    byte[][] packs = BuildPack(msg, ip, "192.168.0.1");
+                    byte[][] packs = BuildRedSpiderPack(msg, ip, $"192.168.{Network.GetIPAddress().Split('.')[2]}.1");
                     byte[] pack = packs[0];
                     byte[] pack2 = packs[1];
                     UdpClient server = new UdpClient();

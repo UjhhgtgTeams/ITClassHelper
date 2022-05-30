@@ -17,8 +17,10 @@ namespace ITClassHelper
         [DllImport("Ws2_32.dll")]
         public static extern int inet_addr(string ip);
 
-        public static string GetIPAddress(string hostName)
+        public static string GetIPAddress(string hostName = "")
         {
+            if (hostName == "")
+                hostName = Dns.GetHostName();
             string resultAddress = null;
             try
             {
@@ -34,7 +36,7 @@ namespace ITClassHelper
             return resultAddress;
         }
 
-        public static bool GetPortIsUsed(int port)
+        public static bool GetPortInUse(int port)
         {
             IPGlobalProperties ipProp = IPGlobalProperties.GetIPGlobalProperties();
             IPEndPoint[] endPoints = ipProp.GetActiveTcpListeners();

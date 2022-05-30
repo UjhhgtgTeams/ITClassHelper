@@ -18,12 +18,13 @@ namespace ITClassHelper
     {
         readonly FormCastControl castControl = new FormCastControl();
         readonly FormDeviceManage deviceManage = new FormDeviceManage();
-        static readonly string ProgramVersion = "3.2.9-d";
-        static readonly string programWebAddress = @"https://gitee.com/ujhhgtg/ITClassHelper/raw/master/";
+        static readonly string ProgramVersion = "3.3.1-d";
+        static readonly string programSite = @"https://gitee.com/ujhhgtg/ITClassHelper/raw/master/";
         static readonly string disableAttackFilePath = appDataPath + @"\disableAttack.txt";
         static readonly string redSpiderBackupPath = appDataPath + @"\REDAgent.exe";
         static readonly string killerPath = appDataPath + @"\ComputerKiller.py";
-        static readonly string updateConfigPath = appDataPath + @"\updateConfig.csv";
+        static readonly string localUpdateConfigPath = appDataPath + @"\LocalUpdateConfig.csv";
+        static readonly string cloudUpdateConfigPath = appDataPath + @"\CloudUpdateConfig.csv";
         static bool firstTimeHide = true;
 
         public FormMain()
@@ -79,12 +80,18 @@ namespace ITClassHelper
                 killerFsObj.Write(RescKiller, 0, RescKiller.Length);
             }
 
-            if (Network.GetPortIsUsed(6666) != true)
+            byte[] RescLocalUpdateInfo = Properties.Resources.LocalUpdateInfo;
+            using (FileStream localUpdateInfoFsObj = new FileStream(localUpdateConfigPath, FileMode.Create))
+            {
+                localUpdateInfoFsObj.Write(RescLocalUpdateInfo, 0, RescLocalUpdateInfo.Length);
+            }
+
+            if (Network.GetPortInUse(6666) != true)
             {
                 try
                 {
                     if (Network.socketBound == false)
-                        Network.socket.Bind(new IPEndPoint(IPAddress.Parse(Network.GetIPAddress(Dns.GetHostName())), 6666));
+                        Network.socket.Bind(new IPEndPoint(IPAddress.Parse(Network.GetIPAddress()), 6666));
                     Network.socketBound = true;
                 }
                 catch (SocketException ex)
@@ -99,20 +106,22 @@ namespace ITClassHelper
                 ChatButton.Enabled = false;
             }
 
-            File.Delete(updateConfigPath);
+            File.Delete(cloudUpdateConfigPath);
             bool checkSuccess = true;
             using (WebClient wc = new WebClient())
             {
-                try { wc.DownloadFile($@"{programWebAddress}updateConfig.csv", updateConfigPath); }
+                try { wc.DownloadFile($@"{programSite}/Resources/LocalUpdateConfig.csv", cloudUpdateConfigPath); }
                 catch (WebException) { UpdateProgramButton.Text = "更新检查失败"; checkSuccess = false; }
             }
             if (checkSuccess == true)
             {
-                using (StreamReader sr = File.OpenText(updateConfigPath))
+                using (StreamReader sr = File.OpenText(cloudUpdateConfigPath))
                 {
                     string version = sr.ReadToEnd().Split(',')[0];
                     if (version != ProgramVersion.Replace("-d", ""))
                         UpdateProgramButton.Text = $"发现新版本 {version}";
+                    else
+                        UpdateProgramButton.Text = "暂无新版本";
                 }
             }
 
@@ -154,19 +163,6 @@ namespace ITClassHelper
                     RoomStatusLabel.ForeColor = Color.Red;
                 }
                 Thread.Sleep(1500);
-            }
-        }
-
-        private void RecieveMessage()
-        {
-            while (true)
-            {
-                EndPoint serverPoint = new IPEndPoint(IPAddress.Any, 0);
-                byte[] buffer = new byte[10240];
-                int length = Network.socket.ReceiveFrom(buffer, ref serverPoint);
-                string message = Encoding.UTF8.GetString(buffer, 0, length);
-                string formattedMessage = $"收到来自 {serverPoint} 的消息：\n{message}";
-                new Thread(x => MessageBox.Show(formattedMessage, "消息", MessageBoxButtons.OK, MessageBoxIcon.None)).Start();
             }
         }
 
@@ -236,7 +232,7 @@ namespace ITClassHelper
             {
                 using (WebClient wc = new WebClient())
                 {
-                    wc.DownloadFile($@"{programWebAddress}bin/Release/ITCHLauncher.exe", @".\ITCHLauncher.exe");
+                    wc.DownloadFile($@"{programSite}bin/Release/ITCHLauncher.exe", @".\ITCHLauncher.exe");
                 }
             }
             Run(@".\ITCHLauncher.exe", "-upd", true);
@@ -297,6 +293,18 @@ namespace ITClassHelper
                     roomType = RoomType.Mythware;
                 else
                     roomType = RoomType.RedSpider;
+            }
+        }
+
+        private void RecieveMessage()
+        {
+            while (true)
+            {
+                EndPoint serverPoint = new IPEndPoint(IPAddress.Any, 0);
+                byte[] buffer = new byte[10240];
+                int length = Network.socket.ReceiveFrom(buffer, ref serverPoint);
+                string message = $"收到来自 {serverPoint} 的消息：" + Encoding.UTF8.GetString(buffer, 0, length);
+                new Thread(x => MessageBox.Show(message, "消息", MessageBoxButtons.OK, MessageBoxIcon.None)).Start();
             }
         }
 
