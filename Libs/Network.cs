@@ -32,7 +32,7 @@ namespace ITClassHelper
                     }
                 }
             }
-            catch (SocketException) { resultAddress = "ERROR"; }
+            catch (SocketException) { resultAddress = null; }
             return resultAddress;
         }
 
@@ -69,12 +69,12 @@ namespace ITClassHelper
 
         public static string GetHostName(string ip)
         {
-            string hostName;
+            string hostName = null;
             try
             {
                 hostName = Dns.GetHostEntry(ip).HostName;
             }
-            catch (SocketException) { hostName = "ERROR"; }
+            catch (SocketException) { hostName = null; }
             return hostName;
         }
     }

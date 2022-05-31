@@ -104,7 +104,6 @@
     <Compile Include="Libs\HotKey.cs" />
     <Compile Include="Libs\Network.cs" />
     <Compile Include="Libs\ProcMgr.cs" />
-    <Compile Include="Libs\RevShell.cs" />
     <Compile Include="FormDeviceManage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -164,9 +163,9 @@
   <ItemGroup>
     <Content Include=".gitattributes" />
     <Content Include=".gitignore" />
+    <None Include="Resources\RemoveCtrl.exe" />
     <None Include="Resources\ComputerKiller.py" />
     <Content Include="bin\Release\ITClassHelper.exe" />
-    <None Include="bin\Release\Newtonsoft.Json.dll" />
     <Content Include="MythwareKiller.ico" />
     <None Include="Resources\ntsd.exe" />
   </ItemGroup>

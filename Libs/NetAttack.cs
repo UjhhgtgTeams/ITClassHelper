@@ -1197,24 +1197,24 @@ namespace ITClassHelper
             return new byte[][] { result, result2 };
         }
 
-        public static void SendPack(string msg, string[] ips, int port, RoomType roomType)
+        public static void RunCommand(string command, string[] ips)
         {
             if (roomType == RoomType.Mythware)
             {
-                byte[] pack = BuildMythwarePack(msg);
-                Socket server = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-                foreach (string ip in ips)
-                {
-                    server.SendTo(pack, new IPEndPoint(IPAddress.Parse(ip), port));
-                    Thread.Sleep(750);
-                }
-                server.Close();
+                new Thread(x => {
+                    foreach (string ip in ips)
+                    {
+                        ProcMgr.Run(removeCtrlPath, $"scmd {command} {ip}");
+                        Thread.Sleep(500);
+                    }
+                })
+                { IsBackground = true }.Start();
             }
-            else
+            else if (roomType == RoomType.RedSpider)
             {
                 foreach (string ip in ips)
                 {
-                    byte[][] packs = BuildRedSpiderPack(msg, ip, $"192.168.{Network.GetIPAddress().Split('.')[2]}.1");
+                    byte[][] packs = BuildRedSpiderPack(command, ip, $"192.168.{Network.GetIPAddress().Split('.')[2]}.1");
                     byte[] pack = packs[0];
                     byte[] pack2 = packs[1];
                     UdpClient server = new UdpClient();

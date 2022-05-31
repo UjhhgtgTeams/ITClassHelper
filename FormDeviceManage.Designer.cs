@@ -42,7 +42,6 @@
             this.RebootMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MagicCommandMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BluescreenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.RevShellMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PortLabel = new System.Windows.Forms.Label();
             this.IPButton = new System.Windows.Forms.Button();
             this.PortTextBox = new System.Windows.Forms.TextBox();
@@ -148,8 +147,7 @@
             // MagicCommandMenuItem
             // 
             this.MagicCommandMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.BluescreenMenuItem,
-            this.RevShellMenuItem});
+            this.BluescreenMenuItem});
             this.MagicCommandMenuItem.Name = "MagicCommandMenuItem";
             this.MagicCommandMenuItem.Size = new System.Drawing.Size(185, 24);
             this.MagicCommandMenuItem.Text = "魔法指令";
@@ -157,16 +155,9 @@
             // BluescreenMenuItem
             // 
             this.BluescreenMenuItem.Name = "BluescreenMenuItem";
-            this.BluescreenMenuItem.Size = new System.Drawing.Size(317, 26);
+            this.BluescreenMenuItem.Size = new System.Drawing.Size(224, 26);
             this.BluescreenMenuItem.Text = "快速蓝屏";
             this.BluescreenMenuItem.Click += new System.EventHandler(this.BluescreenMenuItem_Click);
-            // 
-            // RevShellMenuItem
-            // 
-            this.RevShellMenuItem.Name = "RevShellMenuItem";
-            this.RevShellMenuItem.Size = new System.Drawing.Size(317, 26);
-            this.RevShellMenuItem.Text = "终端反射（非常危险，不要手欠）";
-            this.RevShellMenuItem.Click += new System.EventHandler(this.RevShellMenuItem_Click);
             // 
             // PortLabel
             // 
@@ -354,6 +345,5 @@
         private System.Windows.Forms.ToolStripMenuItem MagicCommandMenuItem;
         private System.Windows.Forms.ToolStripMenuItem BluescreenMenuItem;
         private System.Windows.Forms.TextBox IPTextBox;
-        private System.Windows.Forms.ToolStripMenuItem RevShellMenuItem;
     }
 }

@@ -18,13 +18,6 @@ namespace ITClassHelper
     {
         readonly FormCastControl castControl = new FormCastControl();
         readonly FormDeviceManage deviceManage = new FormDeviceManage();
-        static readonly string ProgramVersion = "3.3.1-d";
-        static readonly string programSite = @"https://gitee.com/ujhhgtg/ITClassHelper/raw/master/";
-        static readonly string disableAttackFilePath = appDataPath + @"\disableAttack.txt";
-        static readonly string redSpiderBackupPath = appDataPath + @"\REDAgent.exe";
-        static readonly string killerPath = appDataPath + @"\ComputerKiller.py";
-        static readonly string localUpdateConfigPath = appDataPath + @"\LocalUpdateConfig.csv";
-        static readonly string cloudUpdateConfigPath = appDataPath + @"\CloudUpdateConfig.csv";
         static bool firstTimeHide = true;
 
         public FormMain()
@@ -36,12 +29,8 @@ namespace ITClassHelper
                     int procId = programProc.Id;
                     if (procId != Process.GetCurrentProcess().Id)
                     {
-                        string[] procArgs = GetProcessArgs(procId);
-                        if (procArgs[1] != "-rs")
-                        {
-                            MessageBox.Show("机房助手已在运行！点击[确认]退出当前进程！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            Process.GetCurrentProcess().Kill();
-                        }
+                        MessageBox.Show("机房助手已在运行！点击[确认]退出当前进程！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Process.GetCurrentProcess().Kill();
                     }
                 }
             }
@@ -86,6 +75,12 @@ namespace ITClassHelper
                 localUpdateInfoFsObj.Write(RescLocalUpdateInfo, 0, RescLocalUpdateInfo.Length);
             }
 
+            byte[] RescRemoveCtrl = Properties.Resources.RemoveCtrl;
+            using (FileStream removeCtrlFsObj = new FileStream(removeCtrlPath, FileMode.Create))
+            {
+                removeCtrlFsObj.Write(RescRemoveCtrl, 0, RescRemoveCtrl.Length);
+            }
+
             if (Network.GetPortInUse(6666) != true)
             {
                 try
@@ -117,9 +112,10 @@ namespace ITClassHelper
             {
                 using (StreamReader sr = File.OpenText(cloudUpdateConfigPath))
                 {
-                    string version = sr.ReadToEnd().Split(',')[0];
-                    if (version != ProgramVersion.Replace("-d", ""))
-                        UpdateProgramButton.Text = $"发现新版本 {version}";
+                    string cloudVersion = sr.ReadToEnd().Split(',')[0];
+                    string localVersion = ProgramVersion.Replace("-d", "");
+                    if (cloudVersion != localVersion)
+                        UpdateProgramButton.Text = $"发现新版本 {cloudVersion}";
                     else
                         UpdateProgramButton.Text = "暂无新版本";
                 }
@@ -152,17 +148,17 @@ namespace ITClassHelper
                     WndMgr.MoveWindow(studentWindow, castControl.Size.Width, castControl.Size.Height, 1000, 500, true);
                     castControl.Show();
                 }
-                if (GetProcs("StudentMain").Length == 0 && GetProcs("REDAgent").Length == 0)
-                {
-                    RoomStatusLabel.Text = "未在运行";
-                    RoomStatusLabel.ForeColor = Color.Green;
-                }
-                else
+                if (GetProcs("StudentMain").Length > 0 || GetProcs("REDAgent").Length > 0)
                 {
                     RoomStatusLabel.Text = "正在运行";
                     RoomStatusLabel.ForeColor = Color.Red;
                 }
-                Thread.Sleep(1500);
+                else
+                {
+                    RoomStatusLabel.Text = "未在运行";
+                    RoomStatusLabel.ForeColor = Color.Green;
+                }
+                Thread.Sleep(1000);
             }
         }
 
@@ -176,12 +172,12 @@ namespace ITClassHelper
                 NtSuspendProcess(GetProcs("REDAgent")[0].Id);
         }
 
-        private void CloseRoomButton_Click(object sender, EventArgs e)
+        private void KillRoomButton_Click(object sender, EventArgs e)
         {
-            CloseRoom();
+            KillRoom();
         }
 
-        private void CloseRoom()
+        private void KillRoom()
         {
             if (roomType == RoomType.Mythware)
                 KillProcs("StudentMain");
@@ -239,7 +235,7 @@ namespace ITClassHelper
             Process.GetCurrentProcess().Kill();
         }
 
-        private void GetRoomPathButton_Click(object sender, EventArgs e) => SetRoomPath();
+        private void SetRoomPathButton_Click(object sender, EventArgs e) => SetRoomPath();
 
         private void SetRoomPath()
         {
@@ -291,7 +287,7 @@ namespace ITClassHelper
                 string roomName = roomPath.Substring(roomPath.LastIndexOf(@"\") + 1);
                 if (roomName == "StudentMain.exe")
                     roomType = RoomType.Mythware;
-                else
+                else if (roomName == "REDAgent.exe")
                     roomType = RoomType.RedSpider;
             }
         }
@@ -393,6 +389,27 @@ namespace ITClassHelper
             KillProcs("MasterHelper");
             File.Delete(masterHelperPath);
             File.Create(masterHelperPath);
+        }
+
+        private void ProgramSettingsCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ProgramSettingsCheckBox.Checked == true)
+            {
+                UpdateProgramButton.Visible = false;
+                DisableAttackButton.Visible = false;
+                SetRoomPathButton.Visible = false;
+                DeviceManageButton.Visible = false;
+                ChatButton.Visible = false;
+            }
+            else
+            {
+
+                UpdateProgramButton.Visible = true;
+                DisableAttackButton.Visible = true;
+                SetRoomPathButton.Visible = true;
+                DeviceManageButton.Visible = true;
+                ChatButton.Visible = true;
+            }
         }
 
         protected override void WndProc(ref Message msg)

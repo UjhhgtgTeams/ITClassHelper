@@ -13,13 +13,7 @@ namespace ITClassHelper
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            if (args.Length == 2)
-            {
-                if (args[0] == "-rs")
-                    RevShell.Reverse(args[1]);
-            }
-            else
-                Application.Run(new FormMain());
+            Application.Run(new FormMain());
         }
     }
 }

