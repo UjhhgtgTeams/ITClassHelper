@@ -21,14 +21,15 @@ namespace ITClassHelper
         private void ShowCast()
         {
             IntPtr studentWindow = GetStudentWindow();
-            MoveWindow(studentWindow, 0, 0, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, true);
+            MoveWindow(studentWindow, WndPos.NoTopMost, 0, 0, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, SetWindowPosFlags.SWP_NOMOVE);
             Hide();
         }
 
         private void HideCast()
         {
             IntPtr studentWindow = GetStudentWindow();
-            MoveWindow(studentWindow, Size.Width, Size.Height, 0, 0, true);
+            MoveWindow(studentWindow, WndPos.NoTopMost, Size.Width, Size.Height, 0, 0, SetWindowPosFlags.SWP_NOMOVE);
+
         }
 
         private void MinimizeCastButton_Click(object sender, EventArgs e) => Hide();

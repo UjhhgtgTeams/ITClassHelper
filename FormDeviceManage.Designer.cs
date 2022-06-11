@@ -102,45 +102,45 @@
             this.DeviceContextMenu.Name = "DeviceContextMenu";
             this.DeviceContextMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.DeviceContextMenu.ShowImageMargin = false;
-            this.DeviceContextMenu.Size = new System.Drawing.Size(186, 182);
+            this.DeviceContextMenu.Size = new System.Drawing.Size(114, 154);
             // 
             // SendCmdMenuItem
             // 
             this.SendCmdMenuItem.Name = "SendCmdMenuItem";
-            this.SendCmdMenuItem.Size = new System.Drawing.Size(185, 24);
+            this.SendCmdMenuItem.Size = new System.Drawing.Size(113, 24);
             this.SendCmdMenuItem.Text = "发送命令";
             this.SendCmdMenuItem.Click += new System.EventHandler(this.SendCmdMenuItem_Click);
             // 
             // SendMsgMenuItem
             // 
             this.SendMsgMenuItem.Name = "SendMsgMenuItem";
-            this.SendMsgMenuItem.Size = new System.Drawing.Size(185, 24);
+            this.SendMsgMenuItem.Size = new System.Drawing.Size(113, 24);
             this.SendMsgMenuItem.Text = "发送消息";
             this.SendMsgMenuItem.Click += new System.EventHandler(this.SendMsgMenuItem_Click);
             // 
             // SendScriptMenuItem
             // 
             this.SendScriptMenuItem.Name = "SendScriptMenuItem";
-            this.SendScriptMenuItem.Size = new System.Drawing.Size(185, 24);
+            this.SendScriptMenuItem.Size = new System.Drawing.Size(113, 24);
             this.SendScriptMenuItem.Text = "发送脚本";
             this.SendScriptMenuItem.Click += new System.EventHandler(this.SendScriptMenuItem_Click);
             // 
             // Seperator1MenuItem
             // 
             this.Seperator1MenuItem.Name = "Seperator1MenuItem";
-            this.Seperator1MenuItem.Size = new System.Drawing.Size(182, 6);
+            this.Seperator1MenuItem.Size = new System.Drawing.Size(110, 6);
             // 
             // ShutdownMenuItem
             // 
             this.ShutdownMenuItem.Name = "ShutdownMenuItem";
-            this.ShutdownMenuItem.Size = new System.Drawing.Size(185, 24);
+            this.ShutdownMenuItem.Size = new System.Drawing.Size(113, 24);
             this.ShutdownMenuItem.Text = "远程关机";
             this.ShutdownMenuItem.Click += new System.EventHandler(this.ShutdownMenuItem_Click);
             // 
             // RebootMenuItem
             // 
             this.RebootMenuItem.Name = "RebootMenuItem";
-            this.RebootMenuItem.Size = new System.Drawing.Size(185, 24);
+            this.RebootMenuItem.Size = new System.Drawing.Size(113, 24);
             this.RebootMenuItem.Text = "远程重启";
             this.RebootMenuItem.Click += new System.EventHandler(this.RebootMenuItem_Click);
             // 
@@ -149,13 +149,13 @@
             this.MagicCommandMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.BluescreenMenuItem});
             this.MagicCommandMenuItem.Name = "MagicCommandMenuItem";
-            this.MagicCommandMenuItem.Size = new System.Drawing.Size(185, 24);
+            this.MagicCommandMenuItem.Size = new System.Drawing.Size(113, 24);
             this.MagicCommandMenuItem.Text = "魔法指令";
             // 
             // BluescreenMenuItem
             // 
             this.BluescreenMenuItem.Name = "BluescreenMenuItem";
-            this.BluescreenMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.BluescreenMenuItem.Size = new System.Drawing.Size(152, 26);
             this.BluescreenMenuItem.Text = "快速蓝屏";
             this.BluescreenMenuItem.Click += new System.EventHandler(this.BluescreenMenuItem_Click);
             // 
@@ -163,7 +163,7 @@
             // 
             this.PortLabel.AutoSize = true;
             this.PortLabel.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.PortLabel.Location = new System.Drawing.Point(386, 20);
+            this.PortLabel.Location = new System.Drawing.Point(386, 16);
             this.PortLabel.Name = "PortLabel";
             this.PortLabel.Size = new System.Drawing.Size(14, 23);
             this.PortLabel.TabIndex = 46;
@@ -206,7 +206,7 @@
             // 
             this.IPLabel3.AutoSize = true;
             this.IPLabel3.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.IPLabel3.Location = new System.Drawing.Point(304, 20);
+            this.IPLabel3.Location = new System.Drawing.Point(304, 16);
             this.IPLabel3.Name = "IPLabel3";
             this.IPLabel3.Size = new System.Drawing.Size(17, 23);
             this.IPLabel3.TabIndex = 43;

@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using static ITClassHelper.ProcMgr;
+using static ITClassHelper.WndMgr;
 using static ITClassHelper.Shared;
 
 namespace ITClassHelper
@@ -61,12 +62,6 @@ namespace ITClassHelper
                 {
                     ntsdFsObj.Write(RescNtsd, 0, RescNtsd.Length);
                 }
-            }
-
-            byte[] RescKiller = Properties.Resources.ComputerKiller;
-            using (FileStream killerFsObj = new FileStream(killerPath, FileMode.Create))
-            {
-                killerFsObj.Write(RescKiller, 0, RescKiller.Length);
             }
 
             byte[] RescLocalUpdateInfo = Properties.Resources.LocalUpdateInfo;
@@ -129,14 +124,14 @@ namespace ITClassHelper
         {
             while (true)
             {
-                IntPtr studentWindow = WndMgr.GetStudentWindow();
+                SetRoomPath(false);
+                IntPtr studentWindow = GetStudentWindow();
                 if (studentWindow != IntPtr.Zero)
                 {
+                    int[] studentWndInfo = GetWindowInfo(studentWindow);
+                    MoveWindow(studentWindow, WndPos.NoTopMost, studentWndInfo[2], studentWndInfo[3], studentWndInfo[0], studentWndInfo[1], SetWindowPosFlags.SWP_NOMOVE);
                     if (Visible == true)
-                    {
                         TopMost = true;
-                        Activate();
-                    }
                 }
                 else
                 {
@@ -145,7 +140,7 @@ namespace ITClassHelper
                 }
                 if (MousePosition == new Point(0, 0))
                 {
-                    WndMgr.MoveWindow(studentWindow, castControl.Size.Width, castControl.Size.Height, 1000, 500, true);
+                    MoveWindow(studentWindow, WndPos.NoTopMost, castControl.Size.Width, castControl.Size.Height, 1000, 500, SetWindowPosFlags.SWP_NOMOVE);
                     castControl.Show();
                 }
                 if (GetProcs("StudentMain").Length > 0 || GetProcs("REDAgent").Length > 0)
@@ -187,6 +182,7 @@ namespace ITClassHelper
                 try { File.Move(roomPath, redSpiderBackupPath); }
                 catch (IOException) { }
                 catch (UnauthorizedAccessException) { }
+                catch (ArgumentNullException) { }
             }
         }
 
@@ -237,12 +233,12 @@ namespace ITClassHelper
 
         private void SetRoomPathButton_Click(object sender, EventArgs e) => SetRoomPath();
 
-        private void SetRoomPath()
+        private void SetRoomPath(bool noHide = true)
         {
             bool gotRoomPath = false;
             if (roomPath != null)
             {
-                MessageBox.Show("已获取过了教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (noHide == true) MessageBox.Show("已获取过了教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 gotRoomPath = true;
             }
             else
@@ -253,7 +249,7 @@ namespace ITClassHelper
                         roomPath = GetProcs("StudentMain")[0].MainModule.FileName;
                     else
                         roomPath = GetProcs("REDAgent")[0].MainModule.FileName;
-                    MessageBox.Show("已自动获取到教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (noHide == true) MessageBox.Show("已自动获取到教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     gotRoomPath = true;
                 }
                 else
@@ -262,22 +258,25 @@ namespace ITClassHelper
                     if (File.Exists(defaultRoomPath))
                     {
                         roomPath = defaultRoomPath;
-                        MessageBox.Show("已自动获取到教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (noHide == true) MessageBox.Show("已自动获取到教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         gotRoomPath = true;
                     }
                     else
                     {
-                        MessageBox.Show("无法自动找到教室程序路径！请在下一界面手动选择！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        OpenFileDialog fileDialog = new OpenFileDialog
+                        if (noHide == true)
                         {
-                            Multiselect = false,
-                            Title = "选择教室程序",
-                            Filter = "教室程序(*.exe)|*.exe"
-                        };
-                        if (fileDialog.ShowDialog() == DialogResult.OK)
-                        {
-                            roomPath = fileDialog.FileName;
-                            gotRoomPath = true;
+                            MessageBox.Show("无法自动找到教室程序路径！\n按[确定]在下一界面手动选择；\n按[取消]放弃。", "错误", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
+                            OpenFileDialog fileDialog = new OpenFileDialog
+                            {
+                                Multiselect = false,
+                                Title = "选择教室程序",
+                                Filter = "教室程序(*.exe)|*.exe"
+                            };
+                            if (fileDialog.ShowDialog() == DialogResult.OK)
+                            {
+                                roomPath = fileDialog.FileName;
+                                gotRoomPath = true;
+                            }
                         }
                     }
                 }
@@ -313,14 +312,16 @@ namespace ITClassHelper
             }
             RegistryKey pswdKey;
             try
-            { pswdKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\TopDomain\e-Learning Class Standard\1.00"); }
+            {
+                pswdKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\TopDomain\e-Learning Class Standard\1.00");
+                string fullPswd = (string)pswdKey.GetValue("UninstallPasswd");
+                MessageBox.Show($"密码为：{fullPswd.Substring(6)}", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
             catch
             {
                 MessageBox.Show("无法获取到教室密码！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            string fullPswd = (string)pswdKey.GetValue("UninstallPasswd");
-            MessageBox.Show($"密码为：{fullPswd.Substring(6)}", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void SetPswdButton_Click(object sender, EventArgs e)
