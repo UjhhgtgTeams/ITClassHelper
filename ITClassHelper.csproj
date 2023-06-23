@@ -99,11 +99,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Libs\Shared.cs" />
-    <Compile Include="Libs\WndMgr.cs" />
-    <Compile Include="Libs\HotKey.cs" />
-    <Compile Include="Libs\Network.cs" />
-    <Compile Include="Libs\ProcMgr.cs" />
+    <Compile Include="Common\Text.cs" />
+    <Compile Include="Common\SharedConst.cs" />
+    <Compile Include="Common\Window.cs" />
+    <Compile Include="Common\HotKey.cs" />
+    <Compile Include="Common\Network.cs" />
+    <Compile Include="Common\Process.cs" />
     <Compile Include="FormDeviceManage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -122,7 +123,7 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Libs\NetAttack.cs" />
+    <Compile Include="Common\RoomAtk.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormCastControl.resx">
@@ -146,6 +147,14 @@
     </Compile>
     <None Include="app.config" />
     <None Include="app.manifest" />
+    <None Include="bin\Debug\ITClassHelper.exe.config" />
+    <None Include="bin\Release\ITClassHelper.exe.config" />
+    <None Include="bin\x86\Debug\ITClassHelper.exe.config" />
+    <None Include="bin\x86\Release\.iscp" />
+    <None Include="bin\x86\Release\ITClassHelper.exe.config" />
+    <None Include="bin\x86\Release\TrollScripts.zip" />
+    <None Include="docs\index.md" />
+    <None Include="docs\_config.yml" />
     <None Include="LICENSE" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -158,14 +167,34 @@
     </Compile>
     <None Include="README.md" />
     <None Include="UjhhgtgSign.pfx" />
-    <None Include="Resources\LocalUpdateInfo.csv" />
+    <None Include="Resources\UpdateInfo.csv" />
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitattributes" />
     <Content Include=".gitignore" />
     <None Include="Resources\RemoveCtrl.exe" />
     <None Include="Resources\ComputerKiller.py" />
+    <Content Include="bin\Debug\ComputerKiller.py" />
+    <Content Include="bin\Debug\ITClassHelper.exe" />
+    <Content Include="bin\Debug\ITClassHelper.pdb" />
+    <Content Include="bin\Debug\MythwareKiller.exe" />
+    <Content Include="bin\Debug\MythwareKiller.pdb" />
+    <Content Include="bin\Debug\Newtonsoft.Json.dll" />
+    <Content Include="bin\Debug\Newtonsoft.Json.xml" />
+    <Content Include="bin\Release\ITCHLauncher.exe" />
+    <Content Include="bin\Release\ITCHLauncher.pdb" />
     <Content Include="bin\Release\ITClassHelper.exe" />
+    <Content Include="bin\Release\ITClassHelper.pdb" />
+    <Content Include="bin\x86\Debug\ComputerKiller.py" />
+    <Content Include="bin\x86\Debug\ITClassHelper.exe" />
+    <Content Include="bin\x86\Debug\ITClassHelper.pdb" />
+    <Content Include="bin\x86\Debug\LibStHook.dll" />
+    <Content Include="bin\x86\Release\ComputerKiller.py" />
+    <Content Include="bin\x86\Release\ITCHLauncher.exe" />
+    <Content Include="bin\x86\Release\ITClassHelper.exe" />
+    <Content Include="bin\x86\Release\ITClassHelper.pdb" />
+    <Content Include="bin\x86\Release\LibStHook.dll" />
+    <Content Include="bin\x86\Release\Screenshot.bmp" />
     <Content Include="MythwareKiller.ico" />
     <None Include="Resources\ntsd.exe" />
   </ItemGroup>

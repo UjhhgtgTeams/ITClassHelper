@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace ITClassHelper
 {
-    internal class ProcMgr
+    internal class Process
     {
         public static readonly string ntsdPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\ITClassHelper" + @"\ntsd.exe";
 
@@ -107,7 +107,7 @@ namespace ITClassHelper
 
         public static void Run(string fileName, string arguments, bool noHide = false, bool waitForExit = false)
         {
-            Process process = new Process();
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
             ProcessStartInfo processInfo = new ProcessStartInfo
             {
                 FileName = fileName,
@@ -155,28 +155,28 @@ namespace ITClassHelper
         {
             if (GetProcs(procName).Length > 0)
             {
-                foreach (Process proc in GetProcs(procName))
+                foreach (System.Diagnostics.Process proc in GetProcs(procName))
                     proc.Kill();
             }
             if (GetProcs(procName).Length > 0)
             {
-                foreach (Process proc in GetProcs(procName))
+                foreach (System.Diagnostics.Process proc in GetProcs(procName))
                     NtTerminateProcess(proc.Id);
             }
             if (GetProcs(procName).Length > 0)
             {
-                foreach (Process proc in GetProcs(procName))
+                foreach (System.Diagnostics.Process proc in GetProcs(procName))
                     Run(ntsdPath, $"-c q -p {proc.Id}");
                 new Thread(x =>
                 {
                     Thread.Sleep(1500);
-                    foreach (Process ntsdProc in GetProcs("ntsd"))
+                    foreach (System.Diagnostics.Process ntsdProc in GetProcs("ntsd"))
                         ntsdProc.Kill();
                 }).Start();
             }
             if (GetProcs(procName).Length > 0)
             {
-                foreach (Process proc in GetProcs(procName))
+                foreach (System.Diagnostics.Process proc in GetProcs(procName))
                 {
                     try { EndTask(proc.Handle, true, true); }
                     catch { }
@@ -184,9 +184,9 @@ namespace ITClassHelper
             }
         }
 
-        public static Process[] GetProcs(string procName)
+        public static System.Diagnostics.Process[] GetProcs(string procName)
         {
-            return Process.GetProcessesByName(procName);
+            return System.Diagnostics.Process.GetProcessesByName(procName);
         }
 
         public static void KillChildProcs(int parentProcId)

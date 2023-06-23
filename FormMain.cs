@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualBasic;
 using Microsoft.Win32;
 using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Net;
@@ -9,9 +8,10 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using static ITClassHelper.ProcMgr;
-using static ITClassHelper.WndMgr;
-using static ITClassHelper.Shared;
+using static ITClassHelper.Process;
+using static ITClassHelper.SharedConst;
+using static ITClassHelper.Text;
+using static ITClassHelper.Window;
 
 namespace ITClassHelper
 {
@@ -21,27 +21,27 @@ namespace ITClassHelper
         readonly FormDeviceManage deviceManage = new FormDeviceManage();
         static bool firstTimeHide = true;
 
-        public FormMain()
+        public FormMain(string[] args)
         {
             if (GetProcs("ITClassHelper").Length > 1)
             {
-                foreach (Process programProc in GetProcs("ITClassHelper"))
+                foreach (System.Diagnostics.Process programProc in GetProcs("ITClassHelper"))
                 {
                     int procId = programProc.Id;
-                    if (procId != Process.GetCurrentProcess().Id)
+                    if (procId != System.Diagnostics.Process.GetCurrentProcess().Id)
                     {
                         MessageBox.Show("机房助手已在运行！点击[确认]退出当前进程！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        Process.GetCurrentProcess().Kill();
+                        System.Diagnostics.Process.GetCurrentProcess().Kill();
                     }
                 }
             }
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
-            ProgramAboutLabel.Text = ProgramAboutLabel.Text.Replace("X.Y.Z", ProgramVersion);
+            ProgramAboutLabel.Text = ProgramAboutLabel.Text.Replace("X.Y.Z", programVersion);
             HotKey.RegisterHotKey(Handle, 100, HotKey.KeyModifiers.Alt, Keys.H);
             castControl.Show();
             castControl.Hide();
-            if (ProgramVersion.Contains("-d"))
+            if (programVersion.Contains("-d"))
                 MessageBox.Show("这是一个实验性版本，尚不稳定，请小心操作！", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
@@ -92,32 +92,43 @@ namespace ITClassHelper
             }
             else
             {
-                MessageBox.Show($"本机聊天端口被占用！将无法使用[简易内网聊天]功能！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"本机聊天端口(6666)被占用！将无法使用[简易内网聊天]功能！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 ChatButton.Enabled = false;
             }
 
             File.Delete(cloudUpdateConfigPath);
-            bool checkSuccess = true;
+            bool checkStatus = true;
             using (WebClient wc = new WebClient())
             {
-                try { wc.DownloadFile($@"{programSite}/Resources/LocalUpdateConfig.csv", cloudUpdateConfigPath); }
-                catch (WebException) { UpdateProgramButton.Text = "更新检查失败"; checkSuccess = false; }
+                try { wc.DownloadFile($@"{programSite}/Resources/UpdateConfig.csv", cloudUpdateConfigPath); }
+                catch (WebException) { UpdateProgramButton.Text = "更新检查失败"; checkStatus = false; }
             }
-            if (checkSuccess == true)
+            if (checkStatus == true)
             {
-                using (StreamReader sr = File.OpenText(cloudUpdateConfigPath))
+                using (StreamReader localConfigSr = File.OpenText(localUpdateConfigPath))
                 {
-                    string cloudVersion = sr.ReadToEnd().Split(',')[0];
-                    string localVersion = ProgramVersion.Replace("-d", "");
-                    if (cloudVersion != localVersion)
-                        UpdateProgramButton.Text = $"发现新版本 {cloudVersion}";
-                    else
-                        UpdateProgramButton.Text = "暂无新版本";
+                    using (StreamReader cloudConfigSr = File.OpenText(cloudUpdateConfigPath))
+                    {
+                        string cloudVersion = ConvertTextToList(cloudConfigSr.ReadToEnd(), ',')[0];
+                        string localVersion = ConvertTextToList(localConfigSr.ReadToEnd(), ',')[0];
+                        string cloudStatus = ConvertTextToList(cloudConfigSr.ReadToEnd(), ',')[1];
+                        string localStatus = ConvertTextToList(localConfigSr.ReadToEnd(), ',')[1];
+
+                        if (cloudVersion != localVersion)
+                        {
+                            if (cloudStatus != "stable")
+                                UpdateProgramButton.Text = $"发现实验性新版本 {cloudVersion}";
+                            else
+                                UpdateProgramButton.Text = $"发现新版本 {cloudVersion}";
+                        }
+                        else
+                            UpdateProgramButton.Text = "暂无新版本";
+                    }
                 }
             }
 
             new Thread(BackgroundThread) { IsBackground = true }.Start();
-            new Thread(RecieveMessage) { IsBackground = true }.Start();
+            new Thread(ReceiveMessage) { IsBackground = true }.Start();
         }
 
         private void BackgroundThread()
@@ -125,11 +136,12 @@ namespace ITClassHelper
             while (true)
             {
                 SetRoomPath(false);
-                IntPtr studentWindow = GetStudentWindow();
-                if (studentWindow != IntPtr.Zero)
+                IntPtr castWindow = GetCastWindow();
+                if (castWindow != IntPtr.Zero)
                 {
-                    int[] studentWndInfo = GetWindowInfo(studentWindow);
-                    MoveWindow(studentWindow, WndPos.NoTopMost, studentWndInfo[2], studentWndInfo[3], studentWndInfo[0], studentWndInfo[1], SetWindowPosFlags.SWP_NOMOVE);
+                    int[] castWndInfo = GetWindowInfo(castWindow);
+                    //MoveWindow(castWindow, castWndInfo[2], castWndInfo[3], castWndInfo[0], castWndInfo[1], true);
+                    SetWindowPos(castWindow, WndPos.NoTopMost, castWndInfo[2], castWndInfo[3], castWndInfo[0], castWndInfo[1], (uint)SetWindowPosFlags.SWP_NOSIZE);
                     if (Visible == true)
                         TopMost = true;
                 }
@@ -140,7 +152,7 @@ namespace ITClassHelper
                 }
                 if (MousePosition == new Point(0, 0))
                 {
-                    MoveWindow(studentWindow, WndPos.NoTopMost, castControl.Size.Width, castControl.Size.Height, 1000, 500, SetWindowPosFlags.SWP_NOMOVE);
+                    MoveWindow(castWindow, castControl.Size.Width, castControl.Size.Height, 1000, 500, true);
                     castControl.Show();
                 }
                 if (GetProcs("StudentMain").Length > 0 || GetProcs("REDAgent").Length > 0)
@@ -167,10 +179,7 @@ namespace ITClassHelper
                 NtSuspendProcess(GetProcs("REDAgent")[0].Id);
         }
 
-        private void KillRoomButton_Click(object sender, EventArgs e)
-        {
-            KillRoom();
-        }
+        private void KillRoomButton_Click(object sender, EventArgs e) => KillRoom();
 
         private void KillRoom()
         {
@@ -227,18 +236,18 @@ namespace ITClassHelper
                     wc.DownloadFile($@"{programSite}bin/Release/ITCHLauncher.exe", @".\ITCHLauncher.exe");
                 }
             }
-            Run(@".\ITCHLauncher.exe", "-upd", true);
-            Process.GetCurrentProcess().Kill();
+            Run(@".\ITCHLauncher.exe", "", true);
+            System.Diagnostics.Process.GetCurrentProcess().Kill();
         }
 
         private void SetRoomPathButton_Click(object sender, EventArgs e) => SetRoomPath();
 
-        private void SetRoomPath(bool noHide = true)
+        private void SetRoomPath(bool passive = true)
         {
             bool gotRoomPath = false;
             if (roomPath != null)
             {
-                if (noHide == true) MessageBox.Show("已获取过了教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (passive == false) MessageBox.Show("已获取过了教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 gotRoomPath = true;
             }
             else
@@ -249,21 +258,21 @@ namespace ITClassHelper
                         roomPath = GetProcs("StudentMain")[0].MainModule.FileName;
                     else
                         roomPath = GetProcs("REDAgent")[0].MainModule.FileName;
-                    if (noHide == true) MessageBox.Show("已自动获取到教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (passive == false) MessageBox.Show("已自动获取到教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     gotRoomPath = true;
                 }
                 else
                 {
-                    string defaultRoomPath = @"C:\Program Files\Mythware\e-Learning Class\StudentMain.exe";
-                    if (File.Exists(defaultRoomPath))
+                    string defRoomPath = @"C:\Program Files\Mythware\e-Learning Class\StudentMain.exe";
+                    if (File.Exists(defRoomPath))
                     {
-                        roomPath = defaultRoomPath;
-                        if (noHide == true) MessageBox.Show("已自动获取到教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        roomPath = defRoomPath;
+                        if (passive == false) MessageBox.Show("已自动获取到教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         gotRoomPath = true;
                     }
                     else
                     {
-                        if (noHide == true)
+                        if (passive == false)
                         {
                             MessageBox.Show("无法自动找到教室程序路径！\n按[确定]在下一界面手动选择；\n按[取消]放弃。", "错误", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
                             OpenFileDialog fileDialog = new OpenFileDialog
@@ -288,10 +297,16 @@ namespace ITClassHelper
                     roomType = RoomType.Mythware;
                 else if (roomName == "REDAgent.exe")
                     roomType = RoomType.RedSpider;
+                else
+                    if (passive == false)
+                {
+                    MessageBox.Show("获取到了一个无效的教室路径，教室类型已重置！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    roomType = RoomType.None;
+                }
             }
         }
 
-        private void RecieveMessage()
+        private void ReceiveMessage()
         {
             while (true)
             {
@@ -360,7 +375,7 @@ namespace ITClassHelper
         {
             Network.socket.Close();
             HotKey.UnregisterHotKey(Handle, 100);
-            Process.GetCurrentProcess().Kill();
+            System.Diagnostics.Process.GetCurrentProcess().Kill();
         }
 
         private void DeviceManageButton_Click(object sender, EventArgs e) => deviceManage.Show();

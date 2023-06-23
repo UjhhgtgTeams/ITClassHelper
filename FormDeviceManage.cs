@@ -9,9 +9,9 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using static ITClassHelper.ProcMgr;
-using static ITClassHelper.NetAttack;
-using static ITClassHelper.Shared;
+using static ITClassHelper.Process;
+using static ITClassHelper.RoomAtk;
+using static ITClassHelper.SharedConst;
 
 namespace ITClassHelper
 {

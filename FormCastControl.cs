@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using static ITClassHelper.WndMgr;
+using static ITClassHelper.Window;
 
 namespace ITClassHelper
 {
@@ -20,14 +20,14 @@ namespace ITClassHelper
 
         private void ShowCast()
         {
-            IntPtr studentWindow = GetStudentWindow();
+            IntPtr studentWindow = GetCastWindow();
             MoveWindow(studentWindow, WndPos.NoTopMost, 0, 0, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, SetWindowPosFlags.SWP_NOMOVE);
             Hide();
         }
 
         private void HideCast()
         {
-            IntPtr studentWindow = GetStudentWindow();
+            IntPtr studentWindow = GetCastWindow();
             MoveWindow(studentWindow, WndPos.NoTopMost, Size.Width, Size.Height, 0, 0, SetWindowPosFlags.SWP_NOMOVE);
 
         }

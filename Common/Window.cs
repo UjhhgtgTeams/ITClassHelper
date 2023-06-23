@@ -3,13 +3,16 @@ using System.Runtime.InteropServices;
 
 namespace ITClassHelper
 {
-    internal class WndMgr
+    internal class Window
     {
         [DllImport("user32.dll")]
         public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
         [DllImport("user32.dll")]
-        public static extern bool MoveWindow(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, SetWindowPosFlags uFlags);
+        public static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
+
+        [DllImport("user32.dll")]
+        public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, UInt32 uFlags);
 
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -52,14 +55,16 @@ namespace ITClassHelper
             SWP_NOZORDER = 0x0004,
         }
 
-        public static IntPtr GetStudentWindow() => FindWindow(null, "屏幕演播室窗口");
+        public static IntPtr GetCastWindow() => FindWindow(null, "屏幕演播室窗口");
 
         public static int[] GetWindowInfo(IntPtr hWnd)
         {
             Rect rect = new Rect();
             GetWindowRect(hWnd, ref rect);
-            int width = rect.Right - rect.Left; int height = rect.Bottom - rect.Top;
-            int x = rect.Left; int y = rect.Top;
+            int width = rect.Right - rect.Left;
+            int height = rect.Bottom - rect.Top;
+            int x = rect.Left;
+            int y = rect.Top;
             return new int[] { width, height, x, y };
         }
     }
