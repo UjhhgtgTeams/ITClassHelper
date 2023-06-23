@@ -8,7 +8,7 @@ namespace ITClassHelper
 {
     internal class Network
     {
-        public readonly static Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+        public static readonly Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
         public static bool socketBound = false;
 
         [DllImport("Iphlpapi.dll")]
@@ -20,7 +20,10 @@ namespace ITClassHelper
         public static string GetIPAddress(string hostName = "")
         {
             if (hostName == "")
+            {
                 hostName = Dns.GetHostName();
+            }
+
             string resultAddress = null;
             try
             {
@@ -43,7 +46,9 @@ namespace ITClassHelper
             foreach (IPEndPoint endPoint in endPoints)
             {
                 if (endPoint.Port == port)
+                {
                     return true;
+                }
             }
             return false;
         }
@@ -69,7 +74,7 @@ namespace ITClassHelper
 
         public static string GetHostName(string ip)
         {
-            string hostName = null;
+            string hostName;
             try
             {
                 hostName = Dns.GetHostEntry(ip).HostName;

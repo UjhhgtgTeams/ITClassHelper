@@ -17,9 +17,9 @@ namespace ITClassHelper
 {
     public partial class FormMain : Form
     {
-        readonly FormCastControl castControl = new FormCastControl();
-        readonly FormDeviceManage deviceManage = new FormDeviceManage();
-        static bool firstTimeHide = true;
+        private readonly FormCastControl castControl = new FormCastControl();
+        private readonly FormDeviceManage deviceManage = new FormDeviceManage();
+        private static bool firstTimeHide = true;
 
         public FormMain(string[] args)
         {
@@ -42,7 +42,9 @@ namespace ITClassHelper
             castControl.Show();
             castControl.Hide();
             if (programVersion.Contains("-d"))
+            {
                 MessageBox.Show("这是一个实验性版本，尚不稳定，请小心操作！", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -81,7 +83,10 @@ namespace ITClassHelper
                 try
                 {
                     if (Network.socketBound == false)
+                    {
                         Network.socket.Bind(new IPEndPoint(IPAddress.Parse(Network.GetIPAddress()), 6666));
+                    }
+
                     Network.socketBound = true;
                 }
                 catch (SocketException ex)
@@ -116,13 +121,12 @@ namespace ITClassHelper
 
                         if (cloudVersion != localVersion)
                         {
-                            if (cloudStatus != "stable")
-                                UpdateProgramButton.Text = $"发现实验性新版本 {cloudVersion}";
-                            else
-                                UpdateProgramButton.Text = $"发现新版本 {cloudVersion}";
+                            UpdateProgramButton.Text = cloudStatus != "stable" ? $"发现实验性新版本 {cloudVersion}" : $"发现新版本 {cloudVersion}";
                         }
                         else
+                        {
                             UpdateProgramButton.Text = "暂无新版本";
+                        }
                     }
                 }
             }
@@ -143,12 +147,16 @@ namespace ITClassHelper
                     //MoveWindow(castWindow, castWndInfo[2], castWndInfo[3], castWndInfo[0], castWndInfo[1], true);
                     SetWindowPos(castWindow, WndPos.NoTopMost, castWndInfo[2], castWndInfo[3], castWndInfo[0], castWndInfo[1], (uint)SetWindowPosFlags.SWP_NOSIZE);
                     if (Visible == true)
+                    {
                         TopMost = true;
+                    }
                 }
                 else
                 {
                     if (TopMost == true)
+                    {
                         TopMost = false;
+                    }
                 }
                 if (MousePosition == new Point(0, 0))
                 {
@@ -169,22 +177,35 @@ namespace ITClassHelper
             }
         }
 
-        private void SuspendRoomButton_Click(object sender, EventArgs e) => SuspendRoom();
+        private void SuspendRoomButton_Click(object sender, EventArgs e)
+        {
+            SuspendRoom();
+        }
 
         private void SuspendRoom()
         {
             if (GetProcs("StudentMain").Length > 0)
+            {
                 NtSuspendProcess(GetProcs("StudentMain")[0].Id);
+            }
+
             if (GetProcs("REDAgent").Length > 0)
+            {
                 NtSuspendProcess(GetProcs("REDAgent")[0].Id);
+            }
         }
 
-        private void KillRoomButton_Click(object sender, EventArgs e) => KillRoom();
+        private void KillRoomButton_Click(object sender, EventArgs e)
+        {
+            KillRoom();
+        }
 
         private void KillRoom()
         {
             if (roomType == RoomType.Mythware)
+            {
                 KillProcs("StudentMain");
+            }
             else
             {
                 KillProcs("REDAgent");
@@ -195,21 +216,31 @@ namespace ITClassHelper
             }
         }
 
-        private void ResumeRoomButton_Click(object sender, EventArgs e) => ResumeRoom();
+        private void ResumeRoomButton_Click(object sender, EventArgs e)
+        {
+            ResumeRoom();
+        }
 
         private void ResumeRoom()
         {
             if (roomType == RoomType.Mythware)
+            {
                 if (GetProcs("StudentMain").Length > 0)
+                {
                     NtResumeProcess(GetProcs("StudentMain")[0].Id);
+                }
                 else
                 {
                     if (GetProcs("REDAgent").Length > 0)
+                    {
                         NtResumeProcess(GetProcs("REDAgent")[0].Id);
+                    }
                     else
                     {
                         if (File.Exists(roomPath))
+                        {
                             Run(roomPath, "", true);
+                        }
                         else
                         {
                             try { File.Move(redSpiderBackupPath, roomPath); }
@@ -218,6 +249,7 @@ namespace ITClassHelper
                         }
                     }
                 }
+            }
         }
 
         private void DisableAttackButton_Click(object sender, EventArgs e)
@@ -240,25 +272,35 @@ namespace ITClassHelper
             System.Diagnostics.Process.GetCurrentProcess().Kill();
         }
 
-        private void SetRoomPathButton_Click(object sender, EventArgs e) => SetRoomPath();
+        private void SetRoomPathButton_Click(object sender, EventArgs e)
+        {
+            SetRoomPath();
+        }
 
         private void SetRoomPath(bool passive = true)
         {
             bool gotRoomPath = false;
             if (roomPath != null)
             {
-                if (passive == false) MessageBox.Show("已获取过了教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (passive == false)
+                {
+                    MessageBox.Show("已获取过了教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
                 gotRoomPath = true;
             }
             else
             {
                 if (GetProcs("StudentMain").Length > 0 || GetProcs("REDAgent").Length > 0)
                 {
-                    if (GetProcs("StudentMain").Length > 0)
-                        roomPath = GetProcs("StudentMain")[0].MainModule.FileName;
-                    else
-                        roomPath = GetProcs("REDAgent")[0].MainModule.FileName;
-                    if (passive == false) MessageBox.Show("已自动获取到教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    roomPath = GetProcs("StudentMain").Length > 0
+                        ? GetProcs("StudentMain")[0].MainModule.FileName
+                        : GetProcs("REDAgent")[0].MainModule.FileName;
+                    if (passive == false)
+                    {
+                        MessageBox.Show("已自动获取到教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
                     gotRoomPath = true;
                 }
                 else
@@ -267,7 +309,11 @@ namespace ITClassHelper
                     if (File.Exists(defRoomPath))
                     {
                         roomPath = defRoomPath;
-                        if (passive == false) MessageBox.Show("已自动获取到教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (passive == false)
+                        {
+                            MessageBox.Show("已自动获取到教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+
                         gotRoomPath = true;
                     }
                     else
@@ -294,9 +340,13 @@ namespace ITClassHelper
             {
                 string roomName = roomPath.Substring(roomPath.LastIndexOf(@"\") + 1);
                 if (roomName == "StudentMain.exe")
+                {
                     roomType = RoomType.Mythware;
+                }
                 else if (roomName == "REDAgent.exe")
+                {
                     roomType = RoomType.RedSpider;
+                }
                 else
                     if (passive == false)
                 {
@@ -342,7 +392,10 @@ namespace ITClassHelper
         private void SetPswdButton_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("设置密码完成后将自动重启教室！\n按[确定]继续设置；\n按[取消]放弃设置。", "警告", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
+            {
                 return;
+            }
+
             if (MessageBox.Show("友情提示：可在任何时候使用超级密码 mythware_super_password！\n按[确定]继续设置；\n按[取消]将其复制到剪贴板并放弃设置。", "信息", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.Cancel)
             {
                 Clipboard.SetDataObject("mythware_super_password");
@@ -378,7 +431,10 @@ namespace ITClassHelper
             System.Diagnostics.Process.GetCurrentProcess().Kill();
         }
 
-        private void DeviceManageButton_Click(object sender, EventArgs e) => deviceManage.Show();
+        private void DeviceManageButton_Click(object sender, EventArgs e)
+        {
+            deviceManage.Show();
+        }
 
         private void ChatButton_Click(object sender, EventArgs e)
         {
@@ -398,7 +454,10 @@ namespace ITClassHelper
         private void RemoveKeyboardHookButton_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("去除挂钩时将自动重启教室！\n按[确定]继续去除；\n按[取消]放弃去除。", "警告", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
+            {
                 return;
+            }
+
             SetRoomPath();
             string masterHelperPath = roomPath.Replace(@"StudentMain.exe", "MasterHelper.exe");
             KillProcs("StudentMain");

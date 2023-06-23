@@ -12,7 +12,7 @@ namespace ITClassHelper
         public static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
 
         [DllImport("user32.dll")]
-        public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, UInt32 uFlags);
+        public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
 
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -55,7 +55,10 @@ namespace ITClassHelper
             SWP_NOZORDER = 0x0004,
         }
 
-        public static IntPtr GetCastWindow() => FindWindow(null, "屏幕演播室窗口");
+        public static IntPtr GetCastWindow()
+        {
+            return FindWindow(null, "屏幕演播室窗口");
+        }
 
         public static int[] GetWindowInfo(IntPtr hWnd)
         {
