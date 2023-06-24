@@ -105,7 +105,7 @@ namespace ITClassHelper
             }
         }
 
-        public static void Run(string fileName, string arguments, bool noHide = false, bool waitForExit = false)
+        public static void Run(string fileName, string arguments, bool hide = true, bool waitForExit = false)
         {
             System.Diagnostics.Process process = new System.Diagnostics.Process();
             ProcessStartInfo processInfo = new ProcessStartInfo
@@ -113,12 +113,16 @@ namespace ITClassHelper
                 FileName = fileName,
                 Arguments = arguments
             };
-            if (noHide == false)
+            if (hide == true)
+            {
                 processInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            }
             process.StartInfo = processInfo;
             process.Start();
             if (waitForExit == true)
+            {
                 process.WaitForExit();
+            }
         }
 
         public static string[] GetProcessArgs(int procId)
@@ -153,30 +157,30 @@ namespace ITClassHelper
 
         public static void KillProcs(string procName)
         {
-            if (GetProcs(procName).Length > 0)
+            if (GetProcsByName(procName).Length > 0)
             {
-                foreach (System.Diagnostics.Process proc in GetProcs(procName))
+                foreach (System.Diagnostics.Process proc in GetProcsByName(procName))
                     proc.Kill();
             }
-            if (GetProcs(procName).Length > 0)
+            if (GetProcsByName(procName).Length > 0)
             {
-                foreach (System.Diagnostics.Process proc in GetProcs(procName))
+                foreach (System.Diagnostics.Process proc in GetProcsByName(procName))
                     NtTerminateProcess(proc.Id);
             }
-            if (GetProcs(procName).Length > 0)
+            if (GetProcsByName(procName).Length > 0)
             {
-                foreach (System.Diagnostics.Process proc in GetProcs(procName))
+                foreach (System.Diagnostics.Process proc in GetProcsByName(procName))
                     Run(ntsdPath, $"-c q -p {proc.Id}");
                 new Thread(x =>
                 {
                     Thread.Sleep(1500);
-                    foreach (System.Diagnostics.Process ntsdProc in GetProcs("ntsd"))
+                    foreach (System.Diagnostics.Process ntsdProc in GetProcsByName("ntsd"))
                         ntsdProc.Kill();
                 }).Start();
             }
-            if (GetProcs(procName).Length > 0)
+            if (GetProcsByName(procName).Length > 0)
             {
-                foreach (System.Diagnostics.Process proc in GetProcs(procName))
+                foreach (System.Diagnostics.Process proc in GetProcsByName(procName))
                 {
                     try { EndTask(proc.Handle, true, true); }
                     catch { }
@@ -184,7 +188,7 @@ namespace ITClassHelper
             }
         }
 
-        public static System.Diagnostics.Process[] GetProcs(string procName)
+        public static System.Diagnostics.Process[] GetProcsByName(string procName)
         {
             return System.Diagnostics.Process.GetProcessesByName(procName);
         }
@@ -193,8 +197,10 @@ namespace ITClassHelper
         {
             ManagementObjectSearcher mos = new ManagementObjectSearcher("Select * From Win32_Process Where ParentProcessID = " + parentProcId);
             ManagementObjectCollection moc = mos.Get();
-            foreach (ManagementObject mo in moc)
-                NtTerminateProcess(Convert.ToInt32(mo["ProcessID"]));
+            foreach (ManagementObject mo in moc.Cast<ManagementObject>())
+            {
+                KillProcs(System.Diagnostics.Process.GetProcessById(Convert.ToInt32(mo["ProcessID"])).ProcessName);
+            }
         }
     }
 }

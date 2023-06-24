@@ -33,6 +33,7 @@
             this.MinimizeCastButton = new System.Windows.Forms.Button();
             this.ShowCastButton = new System.Windows.Forms.Button();
             this.HideControllerButton = new System.Windows.Forms.Button();
+            this.SetCastTitleBarButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // FormControllerLabel
@@ -89,7 +90,7 @@
             this.HideControllerButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.HideControllerButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.HideControllerButton.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.HideControllerButton.Location = new System.Drawing.Point(299, 11);
+            this.HideControllerButton.Location = new System.Drawing.Point(399, 11);
             this.HideControllerButton.Name = "HideControllerButton";
             this.HideControllerButton.Size = new System.Drawing.Size(26, 19);
             this.HideControllerButton.TabIndex = 13;
@@ -97,13 +98,27 @@
             this.HideControllerButton.UseVisualStyleBackColor = true;
             this.HideControllerButton.Click += new System.EventHandler(this.HideControllerButton_Click);
             // 
+            // SetCastTitleBarButton
+            // 
+            this.SetCastTitleBarButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.SetCastTitleBarButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.SetCastTitleBarButton.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.SetCastTitleBarButton.Location = new System.Drawing.Point(331, 36);
+            this.SetCastTitleBarButton.Name = "SetCastTitleBarButton";
+            this.SetCastTitleBarButton.Size = new System.Drawing.Size(100, 66);
+            this.SetCastTitleBarButton.TabIndex = 14;
+            this.SetCastTitleBarButton.Text = "显示\r\n标题栏";
+            this.SetCastTitleBarButton.UseVisualStyleBackColor = true;
+            this.SetCastTitleBarButton.Click += new System.EventHandler(this.SetCastTitleBarButton_Click);
+            // 
             // FormCastControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.PeachPuff;
-            this.ClientSize = new System.Drawing.Size(337, 114);
+            this.ClientSize = new System.Drawing.Size(437, 114);
             this.ControlBox = false;
+            this.Controls.Add(this.SetCastTitleBarButton);
             this.Controls.Add(this.HideControllerButton);
             this.Controls.Add(this.ShowCastButton);
             this.Controls.Add(this.MinimizeCastButton);
@@ -130,5 +145,6 @@
         private System.Windows.Forms.Button MinimizeCastButton;
         private System.Windows.Forms.Button ShowCastButton;
         private System.Windows.Forms.Button HideControllerButton;
+        private System.Windows.Forms.Button SetCastTitleBarButton;
     }
 }

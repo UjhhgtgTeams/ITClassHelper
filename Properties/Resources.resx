@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="LocalUpdateInfo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\LocalUpdateInfo.csv;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
-  </data>
   <data name="Ntsd" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ntsd.exe;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="RemoveCtrl" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RemoveCtrl.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="UpdateInfo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UpdateInfo.csv;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
   </data>
 </root>

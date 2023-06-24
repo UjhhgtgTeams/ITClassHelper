@@ -63,16 +63,6 @@ namespace ITClassHelper.Properties {
         /// <summary>
         ///   查找 System.Byte[] 类型的本地化资源。
         /// </summary>
-        internal static byte[] LocalUpdateInfo {
-            get {
-                object obj = ResourceManager.GetObject("LocalUpdateInfo", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Byte[] 类型的本地化资源。
-        /// </summary>
         internal static byte[] Ntsd {
             get {
                 object obj = ResourceManager.GetObject("Ntsd", resourceCulture);
@@ -86,6 +76,16 @@ namespace ITClassHelper.Properties {
         internal static byte[] RemoveCtrl {
             get {
                 object obj = ResourceManager.GetObject("RemoveCtrl", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
+        internal static byte[] UpdateInfo {
+            get {
+                object obj = ResourceManager.GetObject("UpdateInfo", resourceCulture);
                 return ((byte[])(obj));
             }
         }

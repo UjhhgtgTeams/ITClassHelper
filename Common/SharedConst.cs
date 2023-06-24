@@ -6,7 +6,7 @@ namespace ITClassHelper
     {
         public static RoomType roomType = RoomType.None;
         public static string roomPath;
-        public static readonly string programVersion = "3.3.4";
+        public static readonly string programVersion = "3.3.5";
         public static readonly string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\ITClassHelper";
         public static readonly string programSite = @"https://gitee.com/ujhhgtg/ITClassHelper/raw/master/";
         public static readonly string disableAttackFilePath = appDataPath + @"\disableAttack.txt";

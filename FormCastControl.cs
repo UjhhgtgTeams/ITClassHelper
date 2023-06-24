@@ -20,18 +20,36 @@ namespace ITClassHelper
 
         private void ShowCast()
         {
-            IntPtr studentWindow = GetCastWindow();
-            MoveWindow(studentWindow, WndPos.NoTopMost, 0, 0, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, SetWindowPosFlags.SWP_NOMOVE);
+            IntPtr castWindow = GetCastWindow();
+            SetWindowPos(castWindow, WndPos.NoTopMost, 0, 0, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, (uint)SWP.SWP_SHOWWINDOW);
             Hide();
         }
 
         private void HideCast()
         {
-            IntPtr studentWindow = GetCastWindow();
-            MoveWindow(studentWindow, WndPos.NoTopMost, Size.Width, Size.Height, 0, 0, SetWindowPosFlags.SWP_NOMOVE);
+            IntPtr castWindow = GetCastWindow();
+            SetWindowPos(castWindow, WndPos.NoTopMost, Size.Width, Size.Height, 0, 0, (uint)SWP.SWP_SHOWWINDOW);
 
         }
 
         private void MinimizeCastButton_Click(object sender, EventArgs e) => Hide();
+
+        private void SetCastTitleBarButton_Click(object sender, EventArgs e)
+        {
+            IntPtr castWindow = GetCastWindow();
+            if (castWindow != IntPtr.Zero)
+            {
+                if (SetCastTitleBarButton.Text == "显示\n标题栏")
+                {
+                    ShowWindowTitleBar(castWindow);
+                    SetCastTitleBarButton.Text = "隐藏\n标题栏";
+                }
+                else
+                {
+                    HideWindowTitleBar(castWindow);
+                    SetCastTitleBarButton.Text = "显示\n标题栏";
+                }
+            }
+        }
     }
 }

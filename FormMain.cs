@@ -23,9 +23,9 @@ namespace ITClassHelper
 
         public FormMain(string[] args)
         {
-            if (GetProcs("ITClassHelper").Length > 1)
+            if (GetProcsByName("ITClassHelper").Length > 1)
             {
-                foreach (System.Diagnostics.Process programProc in GetProcs("ITClassHelper"))
+                foreach (System.Diagnostics.Process programProc in GetProcsByName("ITClassHelper"))
                 {
                     int procId = programProc.Id;
                     if (procId != System.Diagnostics.Process.GetCurrentProcess().Id)
@@ -66,7 +66,7 @@ namespace ITClassHelper
                 }
             }
 
-            byte[] RescLocalUpdateInfo = Properties.Resources.LocalUpdateInfo;
+            byte[] RescLocalUpdateInfo = Properties.Resources.UpdateInfo;
             using (FileStream localUpdateInfoFsObj = new FileStream(localUpdateConfigPath, FileMode.Create))
             {
                 localUpdateInfoFsObj.Write(RescLocalUpdateInfo, 0, RescLocalUpdateInfo.Length);
@@ -139,13 +139,14 @@ namespace ITClassHelper
         {
             while (true)
             {
-                SetRoomPath(false);
+                SetRoomPath(true);
                 IntPtr castWindow = GetCastWindow();
                 if (castWindow != IntPtr.Zero)
                 {
                     int[] castWndInfo = GetWindowInfo(castWindow);
                     //MoveWindow(castWindow, castWndInfo[2], castWndInfo[3], castWndInfo[0], castWndInfo[1], true);
-                    SetWindowPos(castWindow, WndPos.NoTopMost, castWndInfo[2], castWndInfo[3], castWndInfo[0], castWndInfo[1], (uint)SetWindowPosFlags.SWP_NOSIZE);
+                    SetWindowPos(castWindow, WndPos.NoTopMost, castWndInfo[2], castWndInfo[3], castWndInfo[0], castWndInfo[1], (uint)SWP.SWP_SHOWWINDOW);
+                    RemoveHooks();
                     if (Visible == true)
                     {
                         TopMost = true;
@@ -160,10 +161,12 @@ namespace ITClassHelper
                 }
                 if (MousePosition == new Point(0, 0))
                 {
-                    MoveWindow(castWindow, castControl.Size.Width, castControl.Size.Height, 1000, 500, true);
+                    //MoveWindow(castWindow, castControl.Size.Width, castControl.Size.Height, 1000, 500, true);
+                    SetWindowPos(castWindow, WndPos.NoTopMost, castControl.Size.Width, castControl.Size.Height, 1000, 500, (uint)SWP.SWP_SHOWWINDOW);
+
                     castControl.Show();
                 }
-                if (GetProcs("StudentMain").Length > 0 || GetProcs("REDAgent").Length > 0)
+                if (GetProcsByName("StudentMain").Length > 0 || GetProcsByName("REDAgent").Length > 0)
                 {
                     RoomStatusLabel.Text = "正在运行";
                     RoomStatusLabel.ForeColor = Color.Red;
@@ -184,14 +187,14 @@ namespace ITClassHelper
 
         private void SuspendRoom()
         {
-            if (GetProcs("StudentMain").Length > 0)
+            if (GetProcsByName("StudentMain").Length > 0)
             {
-                NtSuspendProcess(GetProcs("StudentMain")[0].Id);
+                NtSuspendProcess(GetProcsByName("StudentMain")[0].Id);
             }
 
-            if (GetProcs("REDAgent").Length > 0)
+            if (GetProcsByName("REDAgent").Length > 0)
             {
-                NtSuspendProcess(GetProcs("REDAgent")[0].Id);
+                NtSuspendProcess(GetProcsByName("REDAgent")[0].Id);
             }
         }
 
@@ -225,15 +228,15 @@ namespace ITClassHelper
         {
             if (roomType == RoomType.Mythware)
             {
-                if (GetProcs("StudentMain").Length > 0)
+                if (GetProcsByName("StudentMain").Length > 0)
                 {
-                    NtResumeProcess(GetProcs("StudentMain")[0].Id);
+                    NtResumeProcess(GetProcsByName("StudentMain")[0].Id);
                 }
                 else
                 {
-                    if (GetProcs("REDAgent").Length > 0)
+                    if (GetProcsByName("REDAgent").Length > 0)
                     {
-                        NtResumeProcess(GetProcs("REDAgent")[0].Id);
+                        NtResumeProcess(GetProcsByName("REDAgent")[0].Id);
                     }
                     else
                     {
@@ -274,7 +277,7 @@ namespace ITClassHelper
 
         private void SetRoomPathButton_Click(object sender, EventArgs e)
         {
-            SetRoomPath();
+            SetRoomPath(false);
         }
 
         private void SetRoomPath(bool passive = true)
@@ -291,11 +294,11 @@ namespace ITClassHelper
             }
             else
             {
-                if (GetProcs("StudentMain").Length > 0 || GetProcs("REDAgent").Length > 0)
+                if (GetProcsByName("StudentMain").Length > 0 || GetProcsByName("REDAgent").Length > 0)
                 {
-                    roomPath = GetProcs("StudentMain").Length > 0
-                        ? GetProcs("StudentMain")[0].MainModule.FileName
-                        : GetProcs("REDAgent")[0].MainModule.FileName;
+                    roomPath = GetProcsByName("StudentMain").Length > 0
+                        ? GetProcsByName("StudentMain")[0].MainModule.FileName
+                        : GetProcsByName("REDAgent")[0].MainModule.FileName;
                     if (passive == false)
                     {
                         MessageBox.Show("已自动获取到教室程序路径！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -449,21 +452,6 @@ namespace ITClassHelper
                 return;
             }
             MessageBox.Show("发送消息成功！", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        private void RemoveKeyboardHookButton_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("去除挂钩时将自动重启教室！\n按[确定]继续去除；\n按[取消]放弃去除。", "警告", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
-            {
-                return;
-            }
-
-            SetRoomPath();
-            string masterHelperPath = roomPath.Replace(@"StudentMain.exe", "MasterHelper.exe");
-            KillProcs("StudentMain");
-            KillProcs("MasterHelper");
-            File.Delete(masterHelperPath);
-            File.Create(masterHelperPath);
         }
 
         private void ProgramSettingsCheckBox_CheckedChanged(object sender, EventArgs e)
